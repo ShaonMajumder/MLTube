@@ -1,9 +1,8 @@
 Refactoring Folders
-
-docs
-features
-io
-downloadedable_resources
+  docs
+  features
+  io
+  downloadedable_resources
 
 ### Install
 composer install

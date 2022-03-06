@@ -14,7 +14,7 @@ class CreateSubscriptionsTable extends Migration
     public function up()
     {
         Schema::create('subscriptions', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->uuid('id')->primary();
             $table->uuid('user_id');
             $table->uuid('channel_id');
             $table->timestamps();

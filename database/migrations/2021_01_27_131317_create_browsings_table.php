@@ -14,7 +14,7 @@ class CreateBrowsingsTable extends Migration
     public function up()
     {
         Schema::create('browsings', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->uuid('id')->primary();
             $table->uuid('user_id');
             $table->uuid('page_id');
             $table->timestamps();

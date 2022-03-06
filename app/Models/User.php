@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Faker\Provider\Uuid;
 use Illuminate\Support\Str;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

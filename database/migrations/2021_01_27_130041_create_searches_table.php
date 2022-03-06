@@ -14,7 +14,7 @@ class CreateSearchesTable extends Migration
     public function up()
     {
         Schema::create('searches', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->uuid('id')->primary();
             $table->uuid('user_id');
             $table->uuid('page_id')->nullable();
             $table->string('query');

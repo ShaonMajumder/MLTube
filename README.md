@@ -39,7 +39,7 @@ max_file_uploads = 20
 """
 
 Restart server --
->_ sudo services apache2 restart
+>_ sudo service apache2 restart
 
 # RUN
 php artisan serve --host=0.0.0.0

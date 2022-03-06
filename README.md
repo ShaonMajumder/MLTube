@@ -5,10 +5,21 @@ features
 io
 downloadedable_resources
 
+### Install
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan storage:link
+generate db
+php artisan migrate:fresh --seed
+npm install
+npm run dev
+php artisan serve --host=0.0.0.0
+php artisan queue:work --sleep=0 --timeout 60000
+
 ### 	Package Requirements
-
 - Php requirement : 7
-
+- Laravel Framework 8.68.1
 - Existing Spatie/MediaLibrary: "^7.19"
 
   ### Software Requirements

@@ -13,6 +13,35 @@ generate db
 php artisan migrate:fresh --seed
 npm install
 npm run dev
+Linux :: sudo apt  install ffmpeg
+/ For Windows :: download ffmpeg and link
+
+Change apache2 config --
+>_ code /etc/php/7.4/cli/php.ini
+
+
+"""
+; Whether to allow HTTP file uploads.
+; http://php.net/file-uploads
+file_uploads = On
+
+; Temporary directory for HTTP uploaded files (will use system default if not
+; specified).
+; http://php.net/upload-tmp-dir
+upload_tmp_dir = /tmp/
+
+; Maximum allowed size for uploaded files.
+; http://php.net/upload-max-filesize
+upload_max_filesize = 1024M
+
+; Maximum number of files that can be uploaded via a single request
+max_file_uploads = 20
+"""
+
+Restart server --
+>_ sudo services apache2 restart
+
+# RUN
 php artisan serve --host=0.0.0.0
 php artisan queue:work --sleep=0 --timeout 60000
 

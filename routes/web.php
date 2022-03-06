@@ -75,14 +75,16 @@ Route::middleware(['verified'])->group( function(){
     Route::middleware(['auth'])->group( function(){
 
         Route::put('videos/{video}/update', [VideoController::class, 'update'])->name('videos.update');
+        Route::post('videos/{video}/object_tags', [UploadVideoController::class, 'get_ml_tags']);
 
         Route::get('channels/{channel}/videos', [UploadVideoController::class, 'index'])->name('channel.upload');    
         Route::post('channels/{channel}/videos', [UploadVideoController::class, 'store']);
+        Route::resource('channels/{channel}/subscriptions',SubscriptionController::class)->only(['store','destroy']);
+        
         Route::post('comments/{video}', [CommentController::class, 'store']);
         Route::post('votes/{entityId}/{type}', [VoteController::class, 'vote' ]);
-        Route::resource('channels/{channel}/subscriptions',SubscriptionController::class)->only(['store','destroy']);
 
-        Route::post('videos/{video}/object_tags', [UploadVideoController::class, 'get_ml_tags']);
+        
     });
     
 });

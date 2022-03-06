@@ -1,0 +1,29 @@
+https://laravel.com/docs/8.x/verification
+https://laracasts.com/discuss/channels/laravel/how-can-i-solve-connection-could-not-be-established-with-host-smtpgmailcom
+https://stackoverflow.com/questions/60701936/error-invalid-login-application-specific-password-required
+https://support.google.com/accounts/answer/185833?hl=en
+
+Email is sent
+
+But redirect to logged dashboard
+
+using 
+use Illuminate\Foundation\Auth\User as Authenticatable;
+//use Illuminate\Foundation\Auth\User as AuthenticatableEm;
+
+class User extends Authenticatable implements MustVerifyEmail
+{
+    //auth()->user()->id
+    //$user->hasVerifiedEmail()
+	if dont work as, it is out of public function
+
+/email.verfiy not found when home controller is inside middleware('verified')
+
+Alternative Approach : use another new application to set email verification
+
+[
+https://stackoverflow.com/questions/58031871/laravel-user-model-multiple-extends-required
+https://www.google.com/search?q=how+to+place+your+Authenticatable+codes+and+MustVerifyEmail&oq=how+to+place+your+Authenticatable+codes+and+MustVerifyEmail&aqs=chrome..69i57.10793j0j7&sourceid=chrome&ie=UTF-8
+https://www.google.com/search?q=how+to+keep+Authenticatable+hold+multples+extends&oq=how+to+keep+Authenticatable+hold+multples+extends&aqs=chrome..69i57.34620j0j4&sourceid=chrome&ie=UTF-8
+https://laracasts.com/discuss/channels/laravel/prevent-login-before-email-verification
+]

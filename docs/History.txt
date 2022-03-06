@@ -1,0 +1,14 @@
+Pages ---
+home
+search
+videos.show
+channel.upload
+
+Activities ---
+edit-> Account,Channel,Video
+Video Upload
+View Video
+Subscribe/Unsubscribe
+Comment
+Reply
+Vote->videos,comments,replies

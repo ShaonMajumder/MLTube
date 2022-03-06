@@ -1,0 +1,41 @@
+Suggested : Create seperate views table if we need to know all the users watched a specific video.
+
+On Going Features:
+Email Verfication > 
+	Done:
+		Verification link sent
+	UnDone:
+		New Laravel app for testing email verification and understanding
+		Call shuvo vai if failed
+
+Upload More Videos after uploading A file
+
+
+	
+
+Current Features:
+Q-Worker
+Image upload
+Thumbnail Conversion
+Video Uploading
+Video Uploading Progress
+Video Conversion m3u8
+Video Conversion Progress
+Video thumbnail
+Realtime status for video uploading progress
+Realtime status for video conversion progress
+Video Page > player, views
+Votes > on Vides, on Comment, on replies [ Polymorphic system relationship]
+Comment System
+Replies System
+Search
+Profile Channel
+Profile Channel Update Info Title and Description
+Avatar
+
+Future Features:
+AI Getting video Tags automatically
+Empty Channel Avator : Channel Avatar when no profile pic is uploaded , inspired from comment.vue
+Replies mention to comment further expansion : Add reply button for each reply , triggers to parent comment and a mention to specific user as youtbe does
+Playlist
+Load Comments only when scrolling

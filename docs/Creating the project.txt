@@ -1,0 +1,66 @@
+laravel new Banglatube
+Enabling mbstring
+php.ini :
+extension=php_mbstring.dll
+Enabling fileinfo
+extension=php_fileinfo.dll
+
+composer global require cretueusebiu/valet-windows
+Enabling curl
+php.ini :
+extension=curl
+
+
+------valet------
+https://blog.hashvel.com/posts/how-to-install-laravel-valet-on-windows-os/
+is a xammpp server looks like to me
+
+valet install
+if has error run in cmd in administrator permission
+
+Creating https certificate ->
+valet secure banglatube
+if error restart pc
+try valet install then retype
+
+hosts file: 127.0.0.1 banglatube.test
+
+apacche dont start port 80 is occupied
+valet stop 
+start appache
+then
+valet start
+
+make:auth is not defined
+composer require laravel/ui
+php artisan ui vue --auth
+php artisan migrate
+
+valet server -> stop net connection if stopped
+
+Connectors\Connector.php:70       PDOException::("could not find driver") ->
+php.ini:
+extension=pdo_mysql 
+
+go visit to this folder
+http://localhost/BanglaTube/Customization/Banglatube/public/
+
+but 404 not found - valet->
+valet park
+valet link banglatube
+
+php artisan app:name banglatube ->
+composer require andrey-helldar/laravel-app
+try agian,
+php artisan app:name banglatube
+
+php artisan migrate:fresh
+
+php artisan cache:clear
+php artisan route:list
+-> fix the error
+
+check a port which app is occupied->
+https://veerasundar.com/blog/2009/10/how-to-check-which-application-is-using-which-port/
+
+

@@ -1,0 +1,26 @@
+# search request is posting even if it is empty
+
+#Image directory can not be accessed
+Solution: Q-Worker Failed. use sudo
+
+#Can not access url of the image > may be accesss to gp linux ?
+Solution: .env > APP_URL=http://103.57.123.22
+
+# ML API , matplotlib homedir not found need to fix
+
+=======
+Remaining 
+1. unlink(/var/www/html/Banglatube/Working/Banglatube/storage/app/public/5/conversions/18880233_1468570423204583_563678353941699971_o-thumb.jpg): Permission denied
+analysis: 
+$channel->clearMediaCollection('images'); uses unlink method, which deletes file
+www-data is running php
+and gp-linux is our logged user
+
+
+
+
+
+
+
+
+

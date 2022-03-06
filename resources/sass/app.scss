@@ -1,0 +1,45 @@
+//Font Awesome
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/brands';
+
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+.btn-info{
+	color: #fff;
+}
+
+
+.channel-avatar{
+	width: 100px;
+	height: 100px;
+	position: relative;
+	cursor: pointer;
+	border: 1px solid rgba(0, 0, 0, 0.125);
+
+	.channel-avatar-overlay{
+		display: none;
+	}
+
+	&:hover{
+	 	.channel-avatar-overlay{
+			position: absolute;
+			height: 100%;
+			width: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			background-color: rgba(0, 0, 0, 0.4);
+		}
+	}
+	
+}
+

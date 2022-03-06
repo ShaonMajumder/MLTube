@@ -1,0 +1,9 @@
+ML Tags
+	send axios record to controller to send api request to object_detection
+channel-upload.js
+	from browser network xhr found post request are going, when video is uploading [1st request]
+	in upload.blade.php video.percantage
+	channel-upload.js data.percentage === 100 >
+		 upload() > axios.post(`/channels/${this.channel.id}/videos`	
+	in web.php search for	channels/{channel}/videos [post request]
+

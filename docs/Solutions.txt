@@ -1,0 +1,5 @@
+
+https://stackoverflow.com/questions/36430816/bootstrap-4-card-deck-with-number-of-columns-based-on-viewport
+https://laravel.com/docs/8.x/pagination
+https://getbootstrap.com/docs/4.4/components/card/
+img size img card top - https://stackoverflow.com/questions/37287153/how-to-get-images-in-bootstraps-card-to-be-the-same-height-width

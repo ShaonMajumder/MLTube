@@ -1,0 +1,13 @@
+Two videos dropping toggether actually uploads the video
+
+Polymorphic votes
+
+Reusable Votes Component
+
+
+
+next_page_url:null > Load replies button doesn't dissappear https://www.udemy.com/course/build-a-youtube-clone/learn/lecture/15013402#overview
+first comment doesn't disapper second comment does
+
+
+adding comment to existing replies dont appear when refresh

@@ -1,0 +1,108 @@
+Laravel 7 is not 
+composer create-project --prefer-dist laravel/laravel:^7 Banglatube
+
+in routes/web.php - Auth::routes(['register' => true]);
+In order to use the Auth::routes() method, please install the laravel/ui package.
+->
+cd Banglatube
+composer require laravel/ui
+
+Problem 1
+    - laravel/ui[v3.1.0, ..., 3.x-dev] require illuminate/console ^8.0 -> found illuminate/console[v8.0.0, ..., 8.x-dev] but it conflicts with another require.
+->
+composer require laravel/ui "^2"
+
+php artisan ui vue --auth
+
+
+
+
+ php artisan app:name Banglatube ->
+  There are no commands defined in the "app" namespace.
+
+composer require andrey-helldar/laravel-app
+php artisan app:name Banglatube
+
+php artisan migrate:fresh
+
+php artisan cache:clear
+php artisan route:list
+
+
+composer create-project --prefer-dist laravel/laravel:^7 Banglatube
+cd Banglatube
+composer require laravel/ui "^2"
+php artisan ui vue --auth
+composer require andrey-helldar/laravel-app
+php artisan app:name Banglatube
+php artisan migrate:fresh
+php artisan cache:clear
+php artisan route:list
+
+
+Laravel 8:
+composer create-project --prefer-dist laravel/laravel:^8 Banglatube
+cd Banglatube
+composer require laravel/ui
+php artisan ui vue --auth
+
+.env
+>>
+APP_NAME=Banglatube
+APP_URL=http://banglatube.test
+DB_DATABASE=banglatube
+DB_USERNAME=root
+DB_PASSWORD=
+
+php artisan migrate:fresh
+php artisan cache:clear
+php artisan route:list
+npm install && npm run dev
+
+
+Go to file : conf/extra/httpd-vhosts.conf
+add - 
+<VirtualHost banglatube.test:80>
+    DocumentRoot "E:\Shaon\BanglaTube\Working\Banglatube\public"
+    <Directory "E:\Shaon\BanglaTube\Working\Banglatube\public">
+        Options Indexes FollowSymLinks
+        AllowOverride all
+        Require all granted
+    </Directory>
+</VirtualHost>
+
+
+App\Models\Channel::all();
+App\Models\Channel::create();
+
+
+https://stackoverflow.com/questions/63807930/target-class-controller-does-not-exist-laravel-8
+https://laracasts.com/discuss/channels/laravel/target-class-does-not-exist-laravel-8
+https://laravel.com/docs/8.x/controllers
+
+
+web.php -
+php artisan make:controller ChannelController --resource
+use App\Http\Controllers\ChannelController;
+Route::resource('channels',ChannelController::class);
+
+npm run watch
+
+https://laravel.com/docs/5.8/frontend
+
+add exif extension in php.ini
+composer require "spatie/laravel-medialibrary"
+php artisan vendor:publish
+select number of  Provider: Spatie\MediaLibrary\MediaLibraryServiceProvider
+delete views>vendor
+php artisan migrate
+
+
+https://paystack.com/
+https://www.sslcommerz.com/
+https://www.portwallet.com/en_US/index.html
+https://www.ipgpay.com/features/
+https://corporate.payu.com/
+https://www.2checkout.com/
+https://www.authorize.net/
+https://paymotion.com/

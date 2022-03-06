@@ -1,0 +1,33 @@
+Request URL: http://banglatube.test/channels/33f10e0d-9b51-44da-aca7-74bc83835eea/videos
+Request Method: POST
+Status Code: 201 Created
+Remote Address: 127.0.0.1:80
+Referrer Policy: strict-origin-when-cross-origin
+
+
+Request URL: http://banglatube.test/videos/c66ecba8-e6a0-4e26-b219-b99861959b32
+Request Method: GET
+Status Code: 200 OK
+Remote Address: 127.0.0.1:80
+Referrer Policy: strict-origin-when-cross-origin
+
+
+Request URL: http://banglatube.test/storage/thumbnails/c66ecba8-e6a0-4e26-b219-b99861959b32.png
+Request Method: GET
+Status Code: 200 OK
+Remote Address: 127.0.0.1:80
+Referrer Policy: strict-origin-when-cross-origin
+
+
+Request URL: http://banglatube.test/videos/c66ecba8-e6a0-4e26-b219-b99861959b32
+Request Method: GET
+Status Code: 200 OK
+Remote Address: 127.0.0.1:80
+Referrer Policy: strict-origin-when-cross-origin
+
+
+Request URL: http://banglatube.test/videos/c66ecba8-e6a0-4e26-b219-b99861959b32
+Request Method: GET
+Status Code: 200 OK
+Remote Address: 127.0.0.1:80
+Referrer Policy: strict-origin-when-cross-origin

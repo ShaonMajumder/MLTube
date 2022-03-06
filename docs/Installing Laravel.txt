@@ -1,0 +1,58 @@
+https://laravel.com/docs/4.2
+First, download the Laravel installer using Composer.
+	composer global require "laravel/installer=~1.1"
+Now your laravel command is fixed
+
+
+laravel new banglatube
+Crafting application...
+
+In RequestException.php line 113:
+
+  Server error: `GET http://cabinet.laravel.com/latest.zip` resulted in a `52
+  2 Origin Connection Time-out` response:
+  <html>
+  <head><title>522 Origin Connection Time-out</title></head>
+  <body bgcolor="white">
+  <center><h1>522 Origin Conne (truncated...)
+
+
+new [--dev] [--force] [--] [<name>]
+
+-> 
+https://stackoverflow.com/questions/64686037/why-do-i-get-a-laravel-error-while-creating-a-new-project
+composer global remove laravel/installer 
+composer global require laravel/installer
+
+ The Laravel installer requires PHP 7.3.0 or greater
+->
+https://medium.com/oceanize-geeks/how-to-upgrade-lower-version-to-latest-php-version-in-xampp-on-windows-f7be9a70bbb0
+1. https://windows.php.net/download/
+PHP 7.3 (7.3.25) VC15 x64 Thread Safe (2020-Nov-24 15:49:44)
+2. rename previous php folder and extract to xampp folder as php folder
+3. open httpd-xampp.conf loadfile and loadmodule doesn't need to be changed as previous version was already as v7
+
+
+[Composer\Exception\NoSslException]                                           
+  The openssl extension is required for SSL/TLS protection but is not available. If you can not enable the openssl ex
+->
+
+
+setup your php to enable openssl
+->
+https://generacodice.com/en/articolo/76198/PHP-Startup:-Unable-to-load-dynamic-library,-Windows,-Apache-2.2,-php-5.2.11
+https://faq.miniorange.com/knowledgebase/enable-php-openssl-extension/
+https://stackoverflow.com/questions/35249620/the-openssl-extension-is-required-for-ssl-tls-protection
+Go to php.ini file
+add to php.ini file :
+	extension_dir = "C:\xampp\php\ext"
+	extension=php_openssl.dll
+restart xampp
+
+installation include no php.ini file
+-> rename php.ini-production to php.ini in C:/xampp/php
+
+phpmyadmin do not start, mysqli ext not found
+-> add to php.ini file :
+	extension_dir = "C:\xampp\php\ext"
+	extension=mysqli

@@ -1,0 +1,224 @@
+https://spatie.be/docs/laravel-medialibrary/v7/introduction
+channel->addMediaFromRequest('image')->toMediaCollection('images');
+
+php artisan tinker
+App\Models\Channel::first()->load('media');
+
+resize image to reduce image - shrink
+
+
+php.ini extensions
+extension_dir = "C:\xampp\php\ext"
+extension=mysqli
+extension=php_openssl.dll
+extension=php_mbstring.dll
+extension=php_fileinfo.dll
+extension=curl
+extension=pdo_mysql
+extension=exif
+extension=gd2
+
+to solve the url problem and linking storage -
+php artisan storage:link
+to link the image with storage to get the storage public image
+
+
+https://github.com/spatie/laravel-medialibrary/issues/1312
+
+
+ php artisan make:request Channels/UpdateChannelRequest
+
+
+php artisan make:model Subscription -m
+
+Model created successfully.
+Created Migration: 2020_12_13_040013_create_subscriptions_table
+[ <delete this and Delete models/subscription.php to regenerate ]
+
+
+php artisan make:controller SubscriptonController --resource
+
+npm run watch
+npm list -g
+npm install --global cross-env
+npm install
+npm audit fix
+
+
+ Base table or view already exists
+ php artisan migrate:fresh
+
+php artisan make:factory Subscription
+php artisan make:factory Channel
+
+https://laravel.com/docs/8.x/database-testing
+
+ php artisan migrate:fresh
+ php artisan db:seed
+
+Took 40 minutes to generate 20,000 records
+
+can not login after seeding laravel
+- https://stackoverflow.com/questions/58378567/laravel-cant-seem-to-login-with-seeded-users
+bcrypt("12345678") - bcrypt() function in UserFactory helped fixing the login issue after seeding
+
+Took 20 minutes to generate 20,000 records
+
+
+npm install numeral
+
+npm audit fix
+
+npm audit fix --force    -> applying after commiting < Can have a problem for that in future, if any package broke for compitability issue
+
+ php artisan make:controller UploadVideoController
+
+
+
+php artisan make:model Video  -m
+
+php artisan tinker
+ 
+git commit --amend
+
+composer require pbmedia/laravel-ffmpeg
+
+setup q-walker
+php artisan make:job Videos/ConvertForStreaming
+
+.env > QUEUE_CONNECTION=database
+php artisan queue:table
+php artisan queue:failed-table
+  A CreateFailedJobsTable class already exists. check at migrations folder
+
+php artisan migrate:fresh --seed
+php artisan queue:work --sleep=0 --timeout 60000
+
+downloaded & added ffmpeg in paths
+
+php artisan make:request Videos/UpdateVideoRequest
+
+php artisan make:model Vote -m
+
+php artisan migrate:rollback
+
+
+$v= \App\Models\Video::first();
+$u = \App\Models\User::first();
+ 
+$v -> votes()->create(['type'=>'up','user_id'=>$u['id'] ]);
+
+
+button @click solved the subscribe-button.vue problem
+
+php artisan make:request Videos/UpdateVideoRequest
+
+php artisan make:controller VoteController
+
+php artisan make:model Comment -m -c
+
+php artisan make:factory Comment
+
+php artisan make:factory Video
+
+app.js:39663 [Vue warn]: Unknown custom element: <comments> - did you register the component correctly? For recursive components, make sure to provide the "name" option.
+
+(found in <Root>)
+Then,
+npm run watch
+then refreshing, and further clearing browser and artisan cache can help
+
+
+npm add vue-avatar
+
+\App\Models\Comment::factory(50)->create([ 'comment_id' => '580ee055-148e-43b6-bda0-f1009e37cd35' ])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------------- search page -----------------
+1: change the code of webpack.mix.js as below
+
+mix.js('resources/js/app.js', 'public/js')
+    .sass('resources/sass/app.scss', 'public/css')
+    .options({
+        postCss: [
+            require('postcss-import'),
+            require('tailwindcss'),
+        ]
+    });
+2: install Font Awesome (↓ in case of free version)
+
+npm install --save @fortawesome/fontawesome-free
+3: create a new file [ resources\sass\app.scss ] and add the code as below. ( resources/css/app.css won't be used.)
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/brands';
+4: build them.
+
+npm install && npm run dev
+
+
+
+
+21-1-2021
+composer require league/glide
+
+
+
+
+php artisan make:provider ComposerServiceProvider
+
+in config/app.php :
+'providers' => [
+    App\Providers\AppServiceProvider::class
+]
+
+in AppServiceProvider.php :
+
+
+namespace App\Providers;
+
+use Illuminate\Support\ServiceProvider;
+
+use Illuminate\Support\Facades\View;
+use App\Models\Channel;
+
+use Illuminate\Support\Facades\Auth;
+
+
+    public function boot(){
+        view()->composer('layouts.app', function ($view) {
+            if (Auth::check()) {
+                $channel = Channel::where('user_id', '=', auth()->user()->id )->first();
+                $view->with('channel',$channel);
+            }
+            
+        });
+    }
+
+
+
+
+php artisan make:model History -m
+
+

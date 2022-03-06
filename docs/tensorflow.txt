@@ -1,0 +1,152 @@
+How to get the duration of video using cv2 - https://stackoverflow.com/questions/49048111/how-to-get-the-duration-of-video-using-cv2
+OpenCV/Python: read specific frame using VideoCapture   https://stackoverflow.com/questions/33650974/opencv-python-read-specific-frame-using-videocapture
+x64: vc_redist.x64.exe - https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads
+Install python 3.7 - https://www.python.org/downloads/release/python-370/
+python -m pip install --upgrade pip
+
+
+
+pip3 install numpy==1.16.1 opencv-python tensorflow==1.13.1 keras==2.2.4 
+pip3 install imageai --upgrade
+
+import time
+from imageai.Detection import ObjectDetection
+import os
+
+models_file = "resources/yolo.h5"
+execution_path = os.getcwd()
+
+detector = ObjectDetection()
+detector.setModelTypeAsYOLOv3()
+detector.setModelPath( os.path.join(execution_path , models_file))
+detector.loadModel()
+
+
+start_time = time.time()
+
+detections = detector.detectObjectsFromImage(input_image=os.path.join(execution_path , "image2.jpg"), output_image_path=os.path.join(execution_path , "image2new.jpg"), minimum_percentage_probability=30)
+
+for eachObject in detections:
+    print(eachObject["name"] , " : ", eachObject["percentage_probability"], " : ", eachObject["box_points"] )
+    print("--------------------------------")
+
+print("--- %s seconds ---" % (time.time() - start_time))
+
+---
+If sources are broken
+E: Package 'python3-pip' has no installation candidate
+E: Unable to correct problems, you have held broken packages.
+search ubuntu <version> sources list, copy from internet
+
+sudo nano /etc/apt/sources.list and paste it here
+
+sudo apt update
+sudo apt upgrade
+--
+python3 --version > 3.8
+
+sudo apt install python3.7
+or https://linuxize.com/post/how-to-install-python-3-7-on-ubuntu-18-04/
+
+python3 --version
+sudo update-alternatives --install /usr/bin/python3.8 python /usr/bin/python3.7 1
+python3 --version
+
+if any problem then, 
+sudo apt-get install --reinstall python3
+sudo ln -sf /usr/bin/python3.7 /usr/bin/python3
+python3 --version
+
+sudo apt install python3-pip
+sudo pip3 install numpy==1.16.1 opencv-python tensorflow==1.13.1 keras==2.2.4
+sudo pip3 install imageai --upgrade
+sudo apt install wget
+sudo wget https://github.com/OlafenwaMoses/ImageAI/releases/download/1.0/yolo.h5
+sudo wget https://raw.githubusercontent.com/OlafenwaMoses/ImageAI/master/data-images/image2.jpg
+
+sudo mkdir resources
+sudo mv yolo.h5 resources/yolo.h5
+sudo nano main.py
+>
+import time
+from imageai.Detection import ObjectDetection
+import os
+
+models_file = "resources/yolo.h5"
+execution_path = os.getcwd()
+
+detector = ObjectDetection()
+detector.setModelTypeAsYOLOv3()
+detector.setModelPath( os.path.join(execution_path , models_file))
+detector.loadModel()
+
+
+start_time = time.time()
+
+detections = detector.detectObjectsFromImage(input_image=os.path.join(execution_path , "image2.jpg"), output_image_path=os.path.join(execution_path , "image2new.jpg"), minimum_percentage_probability=30)
+
+for eachObject in detections:
+    print(eachObject["name"] , " : ", eachObject["percentage_probability"], " : ", eachObject["box_points"] )
+    print("--------------------------------")
+
+print("--- %s seconds ---" % (time.time() - start_time))
+
+
+pip install 'h5py<3.0.0'
+If problem face then lower h5py version
+pip install 'h5py<3.0.0'
+sudo python main.py
+
+
+update for getting dic:
+import time
+from imageai.Detection import ObjectDetection
+import os
+
+models_file = "resources/yolo.h5"
+execution_path = os.getcwd()
+
+detector = ObjectDetection()
+detector.setModelTypeAsYOLOv3()
+detector.setModelPath( os.path.join(execution_path , models_file))
+detector.loadModel()
+
+
+start_time = time.time()
+
+detections = detector.detectObjectsFromImage(input_image=os.path.join(execution_path , "image2.jpg"), output_image_path=os.path.join(execution_path , "image2new.jpg"), minimum_percentage_probability=30)
+
+objectPercentDic = {}
+
+for eachObject in detections:
+    if eachObject["name"] in objectPercentDic:
+        if( objectPercentDic[ eachObject["name"] ] < eachObject["percentage_probability"] ):
+            objectPercentDic[ eachObject["name"] ] = eachObject["percentage_probability"]
+    else:
+        objectPercentDic[ eachObject["name"] ] = eachObject["percentage_probability"]
+    
+    print(eachObject["name"] , " : ", eachObject["percentage_probability"], " : ", eachObject["box_points"] )
+    print("--------------------------------")
+
+print("--- %s seconds ---" % (time.time() - start_time))
+print(objectPercentDic)
+
+
+
+
+import cv2
+vidcap = cv2.VideoCapture('video.mp4')
+success,image = vidcap.read()
+count = 0
+while success:
+  cv2.imwrite("frame%d.jpg" % count, image)     # save frame as JPEG file      
+  success,image = vidcap.read()
+  print('Read a new frame: ', success)
+  count += 1
+
+
+git config user.name "Shaon Majumder"
+git config user.email "smazoomder@gmail.com"
+
+
+https://github.com/OlafenwaMoses/ImageAI/releases/tag/1.0

@@ -1,0 +1,12 @@
+if outside viewers see, should we update views?
+
+if visit banglatube.test , home page is served
+
+For nickname in user panel, fast_name and last_name give in homepage
+
+Done:
+UnAuthorized Page - /, home, search
+Search Page ->  with query:
+                    pagination with channel and videos
+                without query:
+                    redirect to home

@@ -45,6 +45,10 @@ Restart server --
 php artisan serve --host=0.0.0.0
 php artisan queue:work --sleep=0 --timeout 60000
 
+# RE-RUN
+delete storage/app folder
+php artisan migrate:fresh --seed
+
 ### 	Package Requirements
 - Php requirement : 7
 - Laravel Framework 8.68.1

@@ -31,7 +31,7 @@ class LoginController extends Controller
             }
             
             if($this->multiple_login){
-
+                // request()->bearerToken()
             }else{
                 $user->tokens()->where('tokenable_id', $user->id)->delete();
             }

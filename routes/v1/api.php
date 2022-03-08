@@ -4,7 +4,7 @@
 use App\Http\Controllers\Api\V1\Auth\LoginController;
 use App\Http\Controllers\Api\V1\Auth\RegisterController;
 use App\Http\Controllers\Api\V1\ApiController;
-
+use App\Http\Controllers\Api\V1\CommentController;
 use App\Http\Controllers\Api\V1\VideoController;
 use Illuminate\Support\Facades\Route;
 
@@ -56,7 +56,16 @@ Route::middleware(["auth:sanctum"])->group(function () {
 
     Route::post('/search-parcel',[ApiController::class, "searchParcel"]);
 
+    
+    
+
+    Route::get('comments/{comment}/replies', [CommentController::class, 'show']);
+
     Route::prefix('video')->group(function(){
-        Route::post('/update/{video}', [VideoController::class, 'update']);
+        Route::get('/{video}', [VideoController::class, 'show']);
+        Route::get('/{video}/comments', [CommentController::class, 'index']);
+        Route::post('/{video}/update', [VideoController::class, 'update']);
+        Route::post('/{video}/views/update', [VideoController::class, 'updateViews']);
+        
     });
 });

@@ -39,6 +39,13 @@ class VideoController extends Controller
         return response()->json([]);
     }
 
+    /**
+     * Edit Video Information
+     *
+     * @param Request $request
+     * @param Video $video
+     * @return void
+     */
     public function update(Request $request,  Video $video){
         $video->update($request->only( ['title','description'] ));
         $this->apiSuccess();

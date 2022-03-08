@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Http\Controllers\Api\V1;
-
+use App\Http\Controllers\Controller;
 use App\Http\Components\Message;
-use App\Http\Requests\Videos\UpdateVideoRequest;
+use App\Http\Requests\Api\V1\Videos\UpdateVideoRequest;
 use App\Models\History;
 use App\Models\Video;
 use Illuminate\Http\Request;
@@ -39,7 +39,7 @@ class VideoController extends Controller
         return response()->json([]);
     }
 
-    public function update(UpdateVideoRequest $request,  Video $video){
+    public function update(Request $request,  Video $video){
         $video->update($request->only( ['title','description'] ));
         $this->apiSuccess();
         return $this->apiOutput(Response::HTTP_OK, 'Video Information Updated !');

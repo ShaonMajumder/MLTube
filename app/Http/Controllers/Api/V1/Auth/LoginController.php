@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 class LoginController extends Controller
 {
     use Message;
+    protected $multiple_login = true;
     
     public function login(Request $request){
         try {
@@ -29,7 +30,12 @@ class LoginController extends Controller
                 return $this->apiOutput(Response::HTTP_FORBIDDEN, "Password is Not Match");
             }
             
-            $user->tokens()->where('tokenable_id', $user->id)->delete();
+            if($this->multiple_login){
+
+            }else{
+                $user->tokens()->where('tokenable_id', $user->id)->delete();
+            }
+            
             $this->access_token = $user->createToken( $request->device_name ?? ($request->ip() ?? "Unknown") )->plainTextToken;
             $this->data['profile'] = $user;
             $this->apiSuccess();

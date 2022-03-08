@@ -57,7 +57,6 @@ Route::middleware(["auth:sanctum"])->group(function () {
     Route::post('/search-parcel',[ApiController::class, "searchParcel"]);
 
     Route::prefix('video')->group(function(){
-        Route::post('/update',[VideoController::class, "update"]);
-        
+        Route::post('/update/{video}', [VideoController::class, 'update']);
     });
 });

@@ -1,9 +1,11 @@
 <?php
 
 
-use App\Http\Controllers\Api\V1\LoginController;
+use App\Http\Controllers\Api\V1\Auth\LoginController;
+use App\Http\Controllers\Api\V1\Auth\RegisterController;
 use App\Http\Controllers\Api\V1\ApiController;
-use App\Http\Controllers\Api\V1\RegisterController;
+
+use App\Http\Controllers\Api\V1\VideoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -53,4 +55,9 @@ Route::middleware(["auth:sanctum"])->group(function () {
     Route::post('/get-parcel-last-history',[ApiController::class, "getParcelLastHistory"]);
 
     Route::post('/search-parcel',[ApiController::class, "searchParcel"]);
+
+    Route::prefix('video')->group(function(){
+        Route::post('/update',[VideoController::class, "update"]);
+        
+    });
 });

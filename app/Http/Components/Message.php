@@ -24,10 +24,18 @@ trait Message{
      * @return API Response
      */
     protected function apiOutput($status_code = 200, $message = null){
+        if(!empty($this->access_token)){
+            $this->data = array_merge(
+                [
+                    "access_token" => $this->access_token,
+                    "token_type"  => "Bearer"
+                ],
+                $this->data
+            );
+        }
+        
         $return_arr = [
             "status"        => $this->status,
-            "access_token"     => $this->access_token,
-            "token_type"    => "Bearer",
             "message"       => !empty($message) ? $message : $this->message,
             "data"          => $this->data,
         ];

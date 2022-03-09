@@ -51,9 +51,11 @@ class DetectObjects implements ShouldQueue
         //return asset( Storage::url($path) );
         //https://stackoverflow.com/questions/41020068/running-python-script-in-laravel
         // abs file path - https://laravel.com/docs/8.x/filesystem
-        $script_name = "main.py";
+        $script_name = env('ML_SCRIPT_NAME');
+        
         // $ml_path = "D:/Projects/object_detection";
-        $ml_path = "/home/shaon/Projects/Object-Detection-YoloV4";
+        $ml_path = env('ML_PATH');
+        
         
         
         $output = shell_exec("python3 $ml_path/$script_name --input=\"$abs_path\" --input_type=video");

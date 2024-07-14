@@ -16,6 +16,7 @@ services:
     volumes:
       - ./public_html:/var/www/public_html
       - ./docker/app/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+      - ./.env:/var/www/public_html/.env
     networks:
       - app-network
 
@@ -34,7 +35,7 @@ services:
     networks:
       - app-network
 
-  db:
+  mysql:
     image: mysql:5.7
     container_name: mysql
     restart: unless-stopped

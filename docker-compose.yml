@@ -15,8 +15,9 @@ services:
     working_dir: /var/www/public_html
     volumes:
       - ./public_html:/var/www/public_html
-      - ./docker/app/php/local.ini:/usr/local/etc/php/conf.d/local.ini
       - ./.env:/var/www/public_html/.env
+      - ./Object-Detection-YoloV4:/var/www/Object-Detection-YoloV4
+      - ./docker/app/php/local.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
       - app-network
 

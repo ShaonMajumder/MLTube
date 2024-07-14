@@ -10,6 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class DetectObjects implements ShouldQueue
 {
@@ -35,7 +36,9 @@ class DetectObjects implements ShouldQueue
     public function handle()
     {       
         $tags = $this->get_ml_tags();
-        $this->save_tags($tags);
+        $video_id = $this->video->id;
+        Video::where('id', $video_id)
+            ->update(['ml_tags' => $tags]);
     }
 
     public function get_ml_tags($video_path = null){
@@ -51,14 +54,12 @@ class DetectObjects implements ShouldQueue
         //return asset( Storage::url($path) );
         //https://stackoverflow.com/questions/41020068/running-python-script-in-laravel
         // abs file path - https://laravel.com/docs/8.x/filesystem
-        $script_name = env('ML_SCRIPT_NAME');
+        $script_path = env('ML_SCRIPT_PATH');
         
         // $ml_path = "D:/Projects/object_detection";
-        $ml_path = env('ML_PATH');
-        
-        
-        
-        $output = shell_exec("python3 $ml_path/$script_name --input=\"$abs_path\" --input_type=video");
+        Log::info("Abs Path: ".$abs_path);
+    
+        $output = shell_exec("python3 $script_path --input=\"$abs_path\" --input_type=video");
         return $output;
 
         
@@ -75,11 +76,6 @@ class DetectObjects implements ShouldQueue
         return $process->getOutput();
         */
 
-    }
- 
-    public function save_tags($tags){
-        $video_id = $this->video->id;
-        Video::where('id', $video_id)->update(['ml_tags' => $tags]);
     }
     
 }

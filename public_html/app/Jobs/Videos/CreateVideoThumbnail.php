@@ -3,7 +3,6 @@
 namespace App\Jobs\Videos;
 
 use FFMpeg;
-//Pbmeida\LaravelFFMpeg\FFmpeg;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Video;
 use Illuminate\Bus\Queueable;
@@ -12,7 +11,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Spatie\Image\GlideConversion;
 
 
 class CreateVideoThumbnail implements ShouldQueue

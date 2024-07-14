@@ -1,9 +1,6 @@
 # Use the official PHP image as a base image
 FROM php:7.3-fpm
-
-# Set working directory
-WORKDIR /var/www_temp
-
+WORKDIR /var/www/public_html/
 # Install dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -17,38 +14,40 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git \
     curl \
-    libonig-dev
+    libonig-dev \
+    ffmpeg \
+    python3 \
+    python3-pip
+
+# Install Node.js and npm
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
+RUN apt-get install -y nodejs
+    
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
-
-# Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copy the application files to the temporary directory
-COPY public_html/ /var/www_temp/
+WORKDIR /var/www/Object-Detection-YoloV4
+COPY Object-Detection-YoloV4/requirements.txt /var/www/Object-Detection-YoloV4/requirements.txt
+RUN pip3 install -r requirements.txt
 
-# Install PHP dependencies
-RUN composer install
-
-COPY .env /var/www_temp/.env
-
-# Generate application key
-RUN php artisan key:generate
-
-# Copy the built application to the final directory, including hidden files
 WORKDIR /var/www/public_html
-RUN cp -a /var/www_temp/. /var/www/public_html/
-RUN rm -r /var/www_temp/
-
-# Ensure .env file is present in the final directory
-COPY .env /var/www/public_html/.env
-
-# Set ownership and permissions
-RUN chown -R www-data:www-data /var/www/public_html
+COPY public_html/ /var/www/public_html/
+COPY Object-Detection-YoloV4/ /var/www/Object-Detection-YoloV4/
+RUN chmod -R 777 /var/www/Object-Detection-YoloV4/io
+# RUN pip3 install -r /var/www/Object-Detection-YoloV4/requirements.txt
+WORKDIR /var/www/public_html/
+RUN composer install
+RUN npm install && npm run dev
+RUN php artisan storage:link
+# RUN php artisan key:generate
+# RUN chown -R www-data:www-data /var/www/public_html
+RUN chown -R www-data:www-data /var/www/public_html/storage/
+RUN chown -R www-data:www-data /var/www/Object-Detection-YoloV4/
 RUN chmod -R 777 /var/www/public_html/storage/
-
+USER www-data
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
 CMD ["php-fpm"]

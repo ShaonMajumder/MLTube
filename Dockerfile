@@ -20,13 +20,10 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-WORKDIR /var/www/public_html
 COPY public_html/ /var/www/public_html/
 COPY .env /var/www/public_html/.env
 RUN chown -R www-data:www-data /var/www/public_html
 RUN chmod -R 777 /var/www/public_html/storage/
-# WORKDIR /var/www/public_html
-RUN composer install
 USER www-data
 
 # Expose port 9000 and start php-fpm server

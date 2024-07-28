@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git \
     curl \
+    wget \
     libonig-dev \
     ffmpeg \
     python3 \
@@ -29,16 +30,21 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# WORKDIR /var/www/Object-Detection-YoloV4/resources
+# RUN chown -R www-data:www-data /var/www/Object-Detection-YoloV4/resources
+# RUN chmod -R 777 /var/www/Object-Detection-YoloV4/resources
+
 WORKDIR /var/www/Object-Detection-YoloV4
 COPY Object-Detection-YoloV4/requirements.txt /var/www/Object-Detection-YoloV4/requirements.txt
 RUN pip3 install -r requirements.txt
 
-WORKDIR /var/www/public_html
-COPY public_html/ /var/www/public_html/
-COPY Object-Detection-YoloV4/ /var/www/Object-Detection-YoloV4/
-RUN chmod -R 777 /var/www/Object-Detection-YoloV4/io
+# RUN chmod -R 777 /var/www/Object-Detection-YoloV4/io
+
+
 # RUN pip3 install -r /var/www/Object-Detection-YoloV4/requirements.txt
 WORKDIR /var/www/public_html/
+COPY public_html/ /var/www/public_html/
+COPY Object-Detection-YoloV4/ /var/www/Object-Detection-YoloV4/
 RUN composer install
 RUN npm install && npm run dev
 RUN php artisan storage:link
@@ -50,4 +56,9 @@ RUN chmod -R 777 /var/www/public_html/storage/
 USER www-data
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
-CMD ["php-fpm"]
+CMD ["sh", "-c", "\
+        mkdir -p /var/www/Object-Detection-YoloV4/resources && \
+        if [ ! -f /var/www/Object-Detection-YoloV4/resources/coco.names ]; then curl -o /var/www/Object-Detection-YoloV4/resources/coco.names https://raw.githubusercontent.com/pjreddie/darknet/master/data/coco.names; else echo 'coco.names already exists'; fi && \
+        if [ ! -f /var/www/Object-Detection-YoloV4/resources/yolov4.cfg ]; then curl -o /var/www/Object-Detection-YoloV4/resources/yolov4.cfg https://raw.githubusercontent.com/AlexeyAB/darknet/master/cfg/yolov4.cfg; else echo 'yolov4.cfg already exists'; fi && \
+        if [ ! -f /var/www/Object-Detection-YoloV4/resources/yolov4.weights ]; then wget -O /var/www/Object-Detection-YoloV4/resources/yolov4.weights https://github.com/AlexeyAB/darknet/releases/download/yolov4/yolov4.weights; else echo 'yolov4.weights already exists'; fi && \
+        php-fpm"]

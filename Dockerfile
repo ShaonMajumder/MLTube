@@ -39,7 +39,6 @@ WORKDIR /var/www/public_html/
 COPY public_html/ /var/www/public_html/
 COPY Object-Detection-YoloV4/ /var/www/Object-Detection-YoloV4/
 
-#it will work
 RUN chown -R www-data:www-data /var/www/public_html
 RUN chown -R www-data:www-data /var/www/public_html/storage/
 RUN chmod -R 777 /var/www/public_html/storage/
@@ -47,8 +46,6 @@ RUN chown -R www-data:www-data /var/www/Object-Detection-YoloV4/
 
 RUN composer install
 RUN php artisan storage:link
-# RUN php artisan key:generate
-
 RUN npm install && npm run dev
 
 USER www-data
@@ -61,10 +58,3 @@ CMD ["sh", "-c", "\
         if [ ! -f /var/www/Object-Detection-YoloV4/resources/yolov4.cfg ]; then curl -o /var/www/Object-Detection-YoloV4/resources/yolov4.cfg https://raw.githubusercontent.com/AlexeyAB/darknet/master/cfg/yolov4.cfg; else echo 'yolov4.cfg already exists'; fi && \
         if [ ! -f /var/www/Object-Detection-YoloV4/resources/yolov4.weights ]; then wget -O /var/www/Object-Detection-YoloV4/resources/yolov4.weights https://github.com/AlexeyAB/darknet/releases/download/yolov4/yolov4.weights; else echo 'yolov4.weights already exists'; fi && \
         php-fpm"]
-
-# WORKDIR /var/www/Object-Detection-YoloV4/resources
-# RUN chown -R www-data:www-data /var/www/Object-Detection-YoloV4/resources
-# RUN chmod -R 777 /var/www/Object-Detection-YoloV4/resources
-
-
-# RUN chmod -R 777 /var/www/Object-Detection-YoloV4/io

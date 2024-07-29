@@ -38,19 +38,22 @@ RUN pip3 install -r requirements.txt
 WORKDIR /var/www/public_html/
 COPY public_html/ /var/www/public_html/
 COPY Object-Detection-YoloV4/ /var/www/Object-Detection-YoloV4/
-RUN composer install
-RUN npm install && npm run dev
-RUN php artisan storage:link
-# RUN php artisan key:generate
-# RUN chown -R www-data:www-data /var/www/public_html
-RUN chown -R www-data:www-data /var/www/public_html/storage/
-RUN chown -R www-data:www-data /var/www/Object-Detection-YoloV4/
-RUN chmod -R 777 /var/www/public_html/storage/
 
-RUN php artisan migrate
-RUN php artisan db:seed
+#it will work
+RUN chown -R www-data:www-data /var/www/public_html
+RUN chown -R www-data:www-data /var/www/public_html/storage/
+RUN chmod -R 777 /var/www/public_html/storage/
+RUN chown -R www-data:www-data /var/www/Object-Detection-YoloV4/
+
+RUN npm install && npm run dev
 
 USER www-data
+
+RUN composer install
+RUN php artisan storage:link
+# RUN php artisan key:generate
+
+
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
 CMD ["sh", "-c", "\
@@ -63,5 +66,6 @@ CMD ["sh", "-c", "\
 # WORKDIR /var/www/Object-Detection-YoloV4/resources
 # RUN chown -R www-data:www-data /var/www/Object-Detection-YoloV4/resources
 # RUN chmod -R 777 /var/www/Object-Detection-YoloV4/resources
+
 
 # RUN chmod -R 777 /var/www/Object-Detection-YoloV4/io

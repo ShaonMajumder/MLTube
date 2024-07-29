@@ -45,14 +45,13 @@ RUN chown -R www-data:www-data /var/www/public_html/storage/
 RUN chmod -R 777 /var/www/public_html/storage/
 RUN chown -R www-data:www-data /var/www/Object-Detection-YoloV4/
 
-RUN npm install && npm run dev
-
-USER www-data
-
 RUN composer install
 RUN php artisan storage:link
 # RUN php artisan key:generate
 
+RUN npm install && npm run dev
+
+USER www-data
 
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000

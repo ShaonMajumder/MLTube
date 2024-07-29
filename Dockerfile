@@ -46,6 +46,10 @@ RUN php artisan storage:link
 RUN chown -R www-data:www-data /var/www/public_html/storage/
 RUN chown -R www-data:www-data /var/www/Object-Detection-YoloV4/
 RUN chmod -R 777 /var/www/public_html/storage/
+
+RUN php artisan migrate
+RUN php artisan db:seed
+
 USER www-data
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
@@ -59,6 +63,5 @@ CMD ["sh", "-c", "\
 # WORKDIR /var/www/Object-Detection-YoloV4/resources
 # RUN chown -R www-data:www-data /var/www/Object-Detection-YoloV4/resources
 # RUN chmod -R 777 /var/www/Object-Detection-YoloV4/resources
-
 
 # RUN chmod -R 777 /var/www/Object-Detection-YoloV4/io

@@ -1,6 +1,22 @@
 #!/bin/sh
 
+# THIS SCRIPT WORKS WHEN CONTAINER is UP or UP COMMAND IS RUN
 #installation post work, executed from outside the directory
+
+# Function to handle cleanup on termination - Stopping Script
+cleanup() {
+    echo "Container is stopping... Running cleanup tasks..."
+    # Add your cleanup commands here
+    # For example: stopping services, saving state, etc.
+    echo "Cleanup complete."
+    exit 0
+}
+
+# Trap SIGTERM and SIGINT signals and run the cleanup function
+trap 'cleanup' SIGTERM SIGINT
+
+
+
 
 
 # Function to check if MySQL is ready
@@ -33,7 +49,7 @@ echo "PHP CONTAINER USER $(whoami)"
 echo "PHP CONTAINER Current working directory: $(pwd)"
 
 
-
+echo "\nEnsuring all composer libraries are loaded..."
 if [ ! -f ${WORKING_DIR}/vendor/autoload.php ]; then
     echo "autoload.php not found. Setting permissions and running composer install..."
     # chown -R $(whoami):$(whoami) $(pwd)
@@ -44,7 +60,7 @@ else
 fi
 
 
-
+echo "\nEnsuring all database tables exists..."
 # Wait for the MySQL container to be up 
 # altough heallthcheck ensure mysql is running before php container starts, even if that is off, wait_for_mysql function can manauallly search if mysql is running.
 wait_for_mysql
@@ -61,6 +77,7 @@ else
 fi
 
 
+echo "\nEnsuring files for Object Detection..."
 # Check and set ownership of /var/www/Object-Detection-YoloV4/
 check_and_set_ownership "${Object_DETECTION_FOLDER}"
 # Create the resources directory if it doesn't exist
@@ -87,9 +104,21 @@ else
     echo 'yolov4.weights already exists'
 fi
 
-echo ${pwd}
-echo "Setting permission for QUEUE worker"
-check_and_set_ownership "$(WORKING_DIR)"
+
+echo "\nSetting permission for QUEUE worker..."
+check_and_set_ownership "${WORKING_DIR}"
+
+echo "\nEnsuring storage directory link exists for file uploads..."
+if [ ! -L "${WORKING_DIR}/public/storage" ]; then
+    echo "Storage link not found. Setting up storage link..."
+    check_and_set_ownership "${WORKING_DIR}"
+    php artisan storage:link
+else
+    echo "Storage link already exists."
+fi
+
+
+echo "\n"
 
 # Start PHP-FPM in the background
 php-fpm &

@@ -12,14 +12,21 @@ services:
     environment:
       SERVICE_NAME: app
       SERVICE_TAGS: dev
-    working_dir: /var/www/public_html
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      Object_DETECTION_FOLDER: ${Object_DETECTION_FOLDER}
+      WORKING_DIR: ${WORKING_DIR}
+    working_dir: ${WORKING_DIR}
     volumes:
       - ./.env:/var/www/public_html/.env:rw
-      # - ./public_html:/var/www/public_html
+      - ./public_html:/var/www/public_html:rw
       - ./Object-Detection-YoloV4:/var/www/Object-Detection-YoloV4
       - ./docker/app/php/local.ini:/usr/local/etc/php/conf.d/local.ini:rw
       - ./entrypoint.sh:/usr/local/bin/entrypoint.sh:rw
     entrypoint: /usr/local/bin/entrypoint.sh
+    depends_on:
+      mysql:
+        condition: service_healthy
     networks:
       - app-network
 
@@ -53,6 +60,12 @@ services:
     volumes:
       - dbdata:/var/lib/mysql
       - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "--host=${DB_HOST}", "--password=${DB_PASSWORD}", "--user=${DB_USERNAME}"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 5s
     networks:
       - app-network
 

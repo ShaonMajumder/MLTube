@@ -51,8 +51,9 @@ RUN chmod -R 777 /var/www/public_html/storage/
 RUN chown -R www-data:www-data /var/www/Object-Detection-YoloV4/
 
 
-
+# currently not working because mounted volume get ownership of hosted system.
 RUN php artisan storage:link
+#---- currently not working because mounted volume get ownership of hosted system.
 RUN npm install
 RUN npm run dev
 

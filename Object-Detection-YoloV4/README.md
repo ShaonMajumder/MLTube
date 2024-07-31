@@ -13,3 +13,5 @@ python3 __main__.py --input=io/2.mp4 --input_type=video
 [yolov4.cfg](https://github.com/hhk7734/tensorflow-yolov4/blob/master/config/yolov4.cfg)
 
 [coco.names](https://github.com/hhk7734/tensorflow-yolov4/blob/master/test/dataset/coco.names)
+
+If not properlly download then, detection will not be proper.

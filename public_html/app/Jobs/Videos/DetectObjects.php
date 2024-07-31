@@ -42,24 +42,42 @@ class DetectObjects implements ShouldQueue
     }
 
     public function get_ml_tags($video_path = null){
-        if($video_path != null){
-            $path = $video_path;
-            $video_id = Video::where('path', $video_path)->first()->id;
-        }else{
-            $video_id = $this->video->id;//request()->vid_id;
-            $path = Video::where('id', $video_id)->first()->path;
+        // if($video_path != null){
+        //     $path = $video_path;
+        //     $video_id = Video::where('path', $video_path)->first()->id;
+        // }else{
+        //     $video_id = $this->video->id;//request()->vid_id;
+        //     $path = Video::where('id', $video_id)->first()->path;
+        // }
+
+        if ($video_path !== null) {
+            $video = Video::where('path', $video_path)->first();
+        } else {
+            $video_id = $this->video->id;
+            $video = Video::find($video_id);
+        }
+
+        if (!$video) {
+            throw new \Exception("Video not found");
         }
         
-        $abs_path = Storage::path($path) ;
-        //return asset( Storage::url($path) );
-        //https://stackoverflow.com/questions/41020068/running-python-script-in-laravel
-        // abs file path - https://laravel.com/docs/8.x/filesystem
+        $path = $video->path;
+        $abs_path = Storage::path($path);
         $script_path = env('ML_SCRIPT_PATH');
-        
-        // $ml_path = "D:/Projects/object_detection";
-        Log::info("Abs Path: ".$abs_path);
-    
-        $output = shell_exec("python3 $script_path --input=\"$abs_path\" --input_type=video");
+
+        if (!file_exists($script_path)) {
+            throw new \Exception("Script path not found");
+        }
+
+        $command = escapeshellcmd("python3 $script_path --input=\"$abs_path\" --input_type=video");
+        $output = shell_exec($command);
+        // $output = shell_exec("python3 $script_path --input=\"$abs_path\" --input_type=video");
+
+        if ($output === null) {
+            throw new \Exception("Error executing the script");
+        }
+
+        Log::info("ML tags: ".$output);
         return $output;
 
         

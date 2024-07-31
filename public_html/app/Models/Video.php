@@ -4,6 +4,7 @@ namespace App\Models;
 
 class Video extends Model
 {
+    protected $guarded = ['id'];
     public function channel(){
         return $this->belongsTo(Channel::class);
     }

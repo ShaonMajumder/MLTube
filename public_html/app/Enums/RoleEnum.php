@@ -4,11 +4,11 @@ namespace App\Enums;
 
 use BenSampo\Enum\Enum;
 
-class UserTypeEnum extends Enum
+class RoleEnum extends Enum
 {
-    // Define user types
     const ADMIN = 'admin';
-    const SYSTEM_ADMIN = 'systemadmin';
+    const SYSTEM = 'system';
     const VIEWER = 'viewer';
+    const CHANNEL_OWNER = 'channel-owner';
 }
 

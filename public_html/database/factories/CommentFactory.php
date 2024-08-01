@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Comment;
+use App\Models\User;
 use App\Models\Video;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -27,11 +28,11 @@ class CommentFactory extends Factory
             'user_id' => function(){
                 //return factory(User::class)->create()->id; why it worked in Channel factory, not here
                 //return factory('App\Models\User')->create()->id; not worked
-                return \App\Models\User::factory()->create()->id;                
+                return User::factory()->create()->id;                
             },
             'video_id' => function(){
                 //return factory(Video::class)->create()->id;
-                return \App\Models\Video::factory()->create()->id;
+                return Video::factory()->create()->id;
             },
             'comment_id' => null
         ];

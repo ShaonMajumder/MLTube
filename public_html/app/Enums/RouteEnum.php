@@ -13,10 +13,9 @@ class RouteEnum
     const CHANNEL_SUBSCRIPTIONS_STORE = 'channel.subscriptions.store';
     const CHANNEL_SUBSCRIPTIONS_DESTROY = 'channel.subscriptions.destroy';
 
-    const VIDEOS_SHOW = 'videos.show';
-
     const VIDEOS_UPDATE = 'videos.update';
     // const VIDEOS_GET_OBJECT_TAGS = 'videos.object_tags';
+    
     const COMMENTS_STORE = 'comments.store';
     const VOTES = 'votes.vote';
 }

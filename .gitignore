@@ -1,4 +1,7 @@
 /public_html/composer.lock
 # /Object-Detection-YoloV4
+
 /public_html/storage/medialibrary/temp/
 /public_html/storage/logs/
+/public_html/storage/app/
+/public_html/storage/framework/

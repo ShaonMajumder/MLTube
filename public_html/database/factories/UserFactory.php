@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 //use Faker\Generator as Faker; don't work
 
-use App\Enums\UserTypeEnum;
+use App\Enums\RoleEnum;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -30,7 +30,7 @@ class UserFactory extends Factory
             'email' => $this->faker->unique()->safeEmail,
             //'email' => $faker->unique()->safeEmail, don't work
             'email_verified_at' => now(),
-            'account_type' => UserTypeEnum::VIEWER,
+            'account_type' => RoleEnum::VIEWER,
             'password' => bcrypt('123456'), // password
             'remember_token' => Str::random(10),
         ];

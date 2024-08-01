@@ -36,7 +36,8 @@
                         <hr>
 
                         <div>
-                            @dd($video)
+                            {{ 'Tags : '.$tags }}
+                            
                             @if($video->editable())
                                 <textarea name="description" cols="3" rows="3" class="form-control">{{ $video->description }}</textarea>
 

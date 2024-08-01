@@ -13,9 +13,12 @@ class VideoController extends Controller
         if(request()->wantsJson()){
             return $video;
         }
+
+        $data = json_decode($video->ml_tags, true);
+        $tags = implode(', ', array_keys($data));
         
         //dd($video->comments->first()->replies);
-        return view('video', compact('video'));
+        return view('video', compact('video', 'tags'));
     }
 
     public function updateViews(Video $video,History $history){

@@ -71,6 +71,7 @@ echo "the text-$STATUS_OUTPUT"
 if echo "$STATUS_OUTPUT" | grep -q "Migration table not found"; then
     echo "Migration table not found. Running migrations and seeders."
     php artisan migrate
+    php artisan laratrust:setup
     php artisan db:seed
 else
     echo "Migration table found. Skipping migrations."

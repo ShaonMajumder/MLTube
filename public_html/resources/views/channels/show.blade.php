@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
                     {{ $channel->name }}
-                    <a href="{{ route('channel.video.upload', $channel->id) }}">Upload Videos</a>
+                    <a href="{{ route('channels.video.upload', $channel->id) }}">Upload Videos</a>
                 </div>
 
                 <div class="card-body">
@@ -35,7 +35,7 @@
                                     </div>
                                 @endif
                                 
-                                <avatar-user :image="'{{ $channel->image() }}'" :href="'{{ route('channels.show', auth()->user()->channel()->first()->id ) }}'" :username="'{{ Auth::user()->name }}'" :size=100 :rounded=true ></avatar-user>
+                                <avatar-user :image="'{{ $channel->image() }}'" :href="'{{ route(\App\Enums\RouteEnum::CHANNELS_SHOW, auth()->user()->channel()->first()->id ) }}'" :username="'{{ Auth::user()->name }}'" :size=100 :rounded=true ></avatar-user>
                             
                             </div>
                         </div>

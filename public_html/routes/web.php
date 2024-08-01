@@ -65,12 +65,7 @@ Route::middleware(['auth'])->group( function(){
 Route::resource('channels',ChannelController::class);    
 Route::resource('channels', ChannelController::class)->names([
     'show' => RouteEnum::CHANNELS_SHOW,
-    'update' => RouteEnum::CHANNELS_UPDATE,
-    // 'index' => RouteEnum::CHANNELS_INDEX,
-    // 'create' => 'channels.create',
-    // 'store' => 'channels.store',
-    // 'edit' => 'channels.edit',
-    // 'destroy' => 'channels.destroy',
+    'update' => RouteEnum::CHANNELS_UPDATE
 ]);
     
 Route::get('videos/{video}', [VideoController::class, 'show'])->name('videos.show');
@@ -81,17 +76,21 @@ Route::get('comments/{comment}/replies', [CommentController::class, 'show']);
 
 Route::middleware(['verified'])->group( function(){
     Route::middleware(['auth'])->group( function(){
-        Route::put('videos/{video}/update', [VideoController::class, 'update'])->name('videos.update');
+        Route::put('videos/{video}/update', [VideoController::class, 'update'])->name(RouteEnum::VIDEOS_UPDATE);
         // Route::post('videos/{video}/object_tags', [UploadVideoController::class, 'get_ml_tags'])->name(RouteEnum::VIDEOS_GET_OBJECT_TAGS);
 
         Route::prefix('channels')->group(function(){
-            Route::get('/{channel}/videos', [UploadVideoController::class, 'index'])->name(RouteEnum::CHANNEL_UPLOAD);
-            Route::post('/{channel}/videos/upload', [UploadVideoController::class, 'store'])->name(RouteEnum::CHANNEL_UPLOAD);
-            Route::resource('/{channel}/subscriptions',SubscriptionController::class)->only(['store','destroy']);
+            Route::get('/{channel}/videos', [UploadVideoController::class, 'index'])->name(RouteEnum::CHANNEL_VIDEOS_UPLOAD);
+            Route::post('/{channel}/videos/upload', [UploadVideoController::class, 'store']);
+
+            Route::resource('/{channel}/subscriptions',SubscriptionController::class)->only(['store','destroy'])->names([
+                'store' => RouteEnum::CHANNEL_SUBSCRIPTIONS_STORE,
+                'destroy' => RouteEnum::CHANNEL_SUBSCRIPTIONS_DESTROY,
+            ]);
         });
         
-        Route::post('comments/{video}', [CommentController::class, 'store']);
-        Route::post('votes/{entityId}/{type}', [VoteController::class, 'vote' ]);
+        Route::post('comments/{video}', [CommentController::class, 'store'])->name(RouteEnum::COMMENTS_STORE);
+        Route::post('votes/{entityId}/{type}', [VoteController::class, 'vote' ])->name(RouteEnum::VOTES);
     });
     
 });

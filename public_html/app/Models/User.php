@@ -8,9 +8,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Laratrust\Traits\LaratrustUserTrait;
+use Laratrust\Contracts\LaratrustUserInterface;
+use Laratrust\Traits\LaratrustPermissionTrait;
+use Laratrust\Traits\LaratrustRoleTrait;
+
 
 class User extends Authenticatable implements MustVerifyEmail
+// LaratrustUserInterface
 {
+    use LaratrustUserTrait;
+    // use LaratrustRoleTrait;
+    // use LaratrustPermissionTrait;
     use HasFactory, Notifiable, HasApiTokens;
 
     public $incrementing = false;

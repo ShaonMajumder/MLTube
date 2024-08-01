@@ -29,7 +29,7 @@
                                             {{ $channel->name }}
                                         </td>
                                         <td>
-                                            <a href="{{ route('channels.show', $channel->id) }}" class="btn btn-sm btn-info">View Channel</a>
+                                            <a href="{{ route(\App\Enums\RouteEnum::CHANNELS_SHOW, $channel->id) }}" class="btn btn-sm btn-info">View Channel</a>
                                         </td>
                                     </tr>
                                 @endforeach

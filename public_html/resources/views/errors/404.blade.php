@@ -62,7 +62,7 @@
                             <li class="nav-item dropdown">
                                 <div class="row">
                                     <div class="px-1" style="width: 3rem;">
-                                        <avatar-user :image="'{{ $channel->image() }}'" :href="'{{ route('channels.show', auth()->user()->channel()->first()->id ) }}'" :username="'{{ Auth::user()->name }}'" :size=35 :rounded=true ></avatar-user>
+                                        <avatar-user :image="''" :href="'{{ route(\App\Enums\RouteEnum::CHANNELS_SHOW, auth()->user()->channel()->first()->id ) }}'" :username="'{{ Auth::user()->name }}'" :size=35 :rounded=true ></avatar-user>
                                     </div>
                                     <div class="px-1">
                                         
@@ -72,7 +72,7 @@
     
                                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                             @auth
-                                                <a class="dropdown-item" href="{{ route('channels.show', auth()->user()->channel()->first()->id ) }}">
+                                                <a class="dropdown-item" href="{{ route(\App\Enums\RouteEnum::CHANNELS_SHOW, auth()->user()->channel()->first()->id ) }}">
                                                     My Channel
                                                 </a>    
                                             @endauth

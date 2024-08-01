@@ -21,8 +21,8 @@ The platform employs **Containerization and Virtualization** techniques to ensur
 
 ## Technology Stack
 
-- **Docker**: Used for containerizing applications, ensuring consistency across different environments.
-- **RabbitMQ**: Employed as a message broker to handle asynchronous tasks and inter-service communication.
+- **Docker**: (**Virtualization**) Used for containerizing applications, ensuring consistency across different environments.
+- **RabbitMQ**: (**Queue Management**) Employed as a message broker to handle asynchronous tasks and inter-service communication.
 
 ## Techniques
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\RouteEnum;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
@@ -61,9 +62,16 @@ Route::middleware(['auth'])->group( function(){
     })->name('verification.notice');
 });
 
-
-//banglatube
 Route::resource('channels',ChannelController::class);    
+Route::resource('channels', ChannelController::class)->names([
+    'show' => RouteEnum::CHANNELS_SHOW,
+    'update' => RouteEnum::CHANNELS_UPDATE,
+    // 'index' => RouteEnum::CHANNELS_INDEX,
+    // 'create' => 'channels.create',
+    // 'store' => 'channels.store',
+    // 'edit' => 'channels.edit',
+    // 'destroy' => 'channels.destroy',
+]);
     
 Route::get('videos/{video}', [VideoController::class, 'show'])->name('videos.show');
 Route::put('videos/{video}', [VideoController::class, 'updateViews']);
@@ -74,11 +82,11 @@ Route::get('comments/{comment}/replies', [CommentController::class, 'show']);
 Route::middleware(['verified'])->group( function(){
     Route::middleware(['auth'])->group( function(){
         Route::put('videos/{video}/update', [VideoController::class, 'update'])->name('videos.update');
-        Route::post('videos/{video}/object_tags', [UploadVideoController::class, 'get_ml_tags']);
+        // Route::post('videos/{video}/object_tags', [UploadVideoController::class, 'get_ml_tags'])->name(RouteEnum::VIDEOS_GET_OBJECT_TAGS);
 
         Route::prefix('channels')->group(function(){
-            Route::get('/{channel}/videos', [UploadVideoController::class, 'index'])->name('channel.upload');    
-            Route::post('/{channel}/videos/upload', [UploadVideoController::class, 'store']);
+            Route::get('/{channel}/videos', [UploadVideoController::class, 'index'])->name(RouteEnum::CHANNEL_UPLOAD);
+            Route::post('/{channel}/videos/upload', [UploadVideoController::class, 'store'])->name(RouteEnum::CHANNEL_UPLOAD);
             Route::resource('/{channel}/subscriptions',SubscriptionController::class)->only(['store','destroy']);
         });
         

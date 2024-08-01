@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
                     {{ $channel->name }}
-                    <a href="{{ route('channel.upload', $channel->id) }}">Upload Videos</a>
+                    <a href="{{ route('channel.video.upload', $channel->id) }}">Upload Videos</a>
                 </div>
 
                 <div class="card-body">

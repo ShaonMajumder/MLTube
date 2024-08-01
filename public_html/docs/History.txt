@@ -2,7 +2,7 @@ Pages ---
 home
 search
 videos.show
-channel.upload
+channel.video.upload
 
 Activities ---
 edit-> Account,Channel,Video

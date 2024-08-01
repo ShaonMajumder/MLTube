@@ -54,28 +54,12 @@ class UploadVideoController extends Controller
         }
         
         $abs_path = Storage::path($path) ;
-        //return asset( Storage::url($path) );
-        //https://stackoverflow.com/questions/41020068/running-python-script-in-laravel
-        // abs file path - https://laravel.com/docs/8.x/filesystem
+        
         $script_name = "API_split10_video_dic.py";
         $ml_path = "D:/Projects/object_detection";
         $output = shell_exec("python $ml_path/$script_name --in_video=\"$abs_path\"");
         Video::where('id', $video_id)->update(['ml_tags' => $output]);
         return $output;
-
-        
-        
-        /*
-        $process = new Process(["python", "D:/Projects/object_detection/$script_name","--in_video=\"$abs_path\""]);
-        $process->run();
-
-        // executes after the command finishes
-        if (!$process->isSuccessful()) {
-            throw new ProcessFailedException($process);
-        }
-
-        return $process->getOutput();
-        */
 
     }
 }

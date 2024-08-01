@@ -21,7 +21,7 @@ class CreateVideosTable extends Migration
             $table->integer('percentage')->nullable();
             $table->string('title')->nullable();
             $table->text('description')->nullable();
-            $table->text('ml_tags')->nullable();
+            $table->json('ml_tags')->nullable();
             $table->string('path');
             $table->timestamps();
         });

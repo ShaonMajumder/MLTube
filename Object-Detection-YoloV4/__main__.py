@@ -101,7 +101,17 @@ if args.input and args.input_type:
     elif args.input_type == "image":
         outputInfo = imageArray(input,'io/ouput.jpg')
 
-    json_object = json.dumps(outputInfo, indent = 0, separators=(',', ':'))
+    highest_confidence = {}
+
+    # Iterate through each frame
+    for frame in outputInfo:
+        for tag, detections in frame.items():
+            for confidence, _ in detections:
+                confidence_value = float(confidence)
+                if tag not in highest_confidence or confidence_value > highest_confidence[tag]:
+                    highest_confidence[tag] = confidence_value
+    json_object = json.dumps(highest_confidence)
+    # json_object = json.dumps(outputInfo, indent = 0, separators=(',', ':'))
     json_object = json_object.replace('\n', '')
     print(json_object)
 else:

@@ -10,6 +10,9 @@ use App\Models\Channel;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\Browsing;
+use App\Models\User;
+use App\Observers\ChannelObserver;
+use App\Observers\UserObserver;
 use Illuminate\Pagination\Paginator;
 
 
@@ -40,6 +43,9 @@ class AppServiceProvider extends ServiceProvider
                 $view->with('channel',$channel);
             }
         });
+
+        User::observe(UserObserver::class);
+        Channel::observe(ChannelObserver::class);
     }
     
 }

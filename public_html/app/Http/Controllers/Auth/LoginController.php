@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\EntityEnum;
+use App\Enums\UserEnum;
+use App\Helpers\ErrorMessages;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -36,5 +41,33 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    /**
+     * Override the attemptLogin method to include additional checks.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return bool
+     */
+    protected function attemptLogin($request)
+    {
+        $credentials = $this->credentials($request);
+
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+            if ($user->status === UserEnum::STATUS['INACTIVE'] || $user->status === UserEnum::STATUS['SUSPENDED']) {
+                Auth::logout();
+
+                $errorMessage = ErrorMessages::getErrorMessage( EntityEnum::USER, $user->status);
+
+                throw ValidationException::withMessages([
+                    $this->username() => [$errorMessage],
+                ]);
+            }
+            
+            return true;
+        }
+
+        return false;
     }
 }

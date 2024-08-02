@@ -53,22 +53,5 @@ class RolesPermissionsSeeder extends Seeder
                 }
             }
         }
-
-        $allUsers = User::all();
-        foreach ($allUsers as $user) {
-            if(!$user->hasRole(RoleEnum::VIEWER)){
-               $user->attachRole(RoleEnum::VIEWER);
-            }
-        }
-
-        // $superAdminUser = User::where('email', 'superadmin@admin.tmweb.local')->first();
-        // if(!$superAdminUser->hasRole(RoleEnum::SUPER_ADMIN)){
-        //     $superAdminUser->attachRole(RoleEnum::SUPER_ADMIN);
-        // }
-
-        // $gameAdminUser = User::where('email', 'gameadmin@admin.tmweb.local')->first();
-        // if(!$gameAdminUser->hasRole(RoleEnum::GAME_ADMIN)){
-        //     $gameAdminUser->attachRole(RoleEnum::GAME_ADMIN);
-        // }
     }
 }

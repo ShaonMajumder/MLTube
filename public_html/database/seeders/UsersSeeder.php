@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 
 use App\Enums\RoleEnum;
+use App\Enums\UserEnum;
 use App\Models\Channel;
 use App\Models\Comment;
 use App\Models\Subscription;

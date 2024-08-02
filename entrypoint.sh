@@ -16,8 +16,15 @@ cleanup() {
 trap 'cleanup' SIGTERM SIGINT
 
 
+settingUpLaravelFilePermissions() {
+    chmod 644 /var/www/public_html/.env
+    find /var/www/public_html -type f -exec chmod 644 {} \;  
+    find /var/www/public_html -type d -exec chmod 755 {} \;
+    chown -R www-data:www-data /var/www/public_html/storage /var/www/public_html/bootstrap/cache
+    chmod -R 775 /var/www/public_html/storage /var/www/public_html/bootstrap/cache
+}
 
-
+settingUpLaravelFilePermissions
 
 # Function to check if MySQL is ready
 wait_for_mysql() {

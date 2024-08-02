@@ -14,8 +14,11 @@ class VideoController extends Controller
             return $video;
         }
 
-        $data = json_decode($video->ml_tags, true);
-        $tags = implode(', ', array_keys($data));
+        $tags = null;
+        if($video->ml_tags){
+            $data = json_decode($video->ml_tags, true);
+            $tags = implode(', ', array_keys($data));
+        }
         
         //dd($video->comments->first()->replies);
         return view('video', compact('video', 'tags'));

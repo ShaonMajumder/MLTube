@@ -8,14 +8,14 @@ class RouteEnum
 {
     const CHANNELS_SHOW = 'channels.show';
 
-    const CHANNELS_UPDATE = 'channels.update';
-    const CHANNEL_VIDEOS_UPLOAD = 'channels.video.upload';
-    const CHANNEL_SUBSCRIPTIONS_STORE = 'channel.subscriptions.store';
-    const CHANNEL_SUBSCRIPTIONS_DESTROY = 'channel.subscriptions.destroy';
+    const CHANNELS_UPDATE = CommonEnum::CHANNELS_UPDATE;
+    const CHANNEL_VIDEOS_UPLOAD = CommonEnum::CHANNEL_VIDEOS_UPLOAD;
+    const CHANNEL_SUBSCRIPTIONS_STORE = CommonEnum::CHANNEL_SUBSCRIPTIONS_STORE;
+    const CHANNEL_SUBSCRIPTIONS_DESTROY = CommonEnum::CHANNEL_SUBSCRIPTIONS_DESTROY;
 
-    const VIDEOS_UPDATE = 'videos.update';
-    // const VIDEOS_GET_OBJECT_TAGS = 'videos.object_tags';
+    const VIDEOS_UPDATE = CommonEnum::VIDEOS_UPDATE;
+    // const VIDEOS_GET_OBJECT_TAGS = CommonEnum::VIDEOS_GET_OBJECT_TAGS;
     
-    const COMMENTS_STORE = 'comments.store';
-    const VOTES = 'votes.vote';
+    const COMMENTS_STORE = CommonEnum::COMMENTS_STORE;
+    const VOTES = CommonEnum::VOTES;
 }

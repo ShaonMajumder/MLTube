@@ -1,5 +1,7 @@
 <?php
 
+use App\Providers\MacroServiceProvider;
+
 return [
 
     /*
@@ -177,7 +179,7 @@ return [
         //other
         
         Laratrust\LaratrustServiceProvider::class,
-
+        App\Providers\MacroServiceProvider::class
     ],
 
     /*

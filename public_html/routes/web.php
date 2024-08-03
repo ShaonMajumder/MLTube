@@ -13,10 +13,6 @@ use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UploadVideoController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\VoteController;
-use App\Traits\MiddlewareTrait; 
-use Illuminate\Routing\PendingResourceRegistration;
-use Illuminate\Routing\Route as IlluminateRoute;
-use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -88,58 +84,7 @@ Route::middleware(['verified'])->group( function(){
             Route::get('/{channel}/videos', [UploadVideoController::class, 'index'])->name(RouteEnum::CHANNEL_VIDEOS_UPLOAD)->middleware(['permission:' . PermissionEnum::CHANNEL_VIDEOS_UPLOAD]);
             Route::post('/{channel}/videos/upload', [UploadVideoController::class, 'store'])->middleware(['permission:' . PermissionEnum::CHANNEL_VIDEOS_UPLOAD]);
 
-            // Route::macro('applyResourceMiddleware', function (array $permissions) {
-            //     /** @var PendingResourceRegistration $resource */
-            //     $resource = $this;
-    
-            //     foreach ($permissions as $action => $permission) {
-            //         // Construct the route name for the specific action
-            //         $routeName = $resource->getName() . '.' . $action;
-    
-            //         // Access all routes and apply middleware to the matching route
-            //         Route::getRoutes()->filter(function ($route) use ($routeName) {
-            //             return $route->getName() === $routeName;
-            //         })->each(function ($route) use ($permission) {
-            //             $existingMiddleware = $route->middleware();
-            //             $route->middleware(array_merge($existingMiddleware, [$permission]));
-            //         });
-            //     }
-    
-            //     return $this;
-            // });
-            // PendingResourceRegistration::macro('applyResourceMiddleware', function ($resourceName, $controller, array $permissions) {
-            //     foreach ($permissions as $action => $permission) {
-            //         Route::resource($resourceName, $controller)
-            //             ->only([$action])
-            //             ->middleware([$permission]);
-            //     }
-            // });
-
-            PendingResourceRegistration::macro('applyResourceMiddleware', function (array $permissions) {
-                // Register the resource routes
-                $this->register();
-    
-                // Apply middleware to the registered routes
-                foreach ($permissions as $action => $permission) {
-                    $routeName = $this->name . '.' . $action;
-    
-                    foreach (Route::getRoutes() as $route) {
-                        $routeName = Str::of($routeName)->replace(['/', '{', '}'], ['.', '', '']);
-                        // if($routeName == $route->getName()){
-                        //     echo gettype($routeName) . ' == ' . gettype($route->getName()) . '<br>';
-                        //     echo $routeName . ' == ' . $route->getName() . '<br>';
-                        // }
-                        if ($route instanceof IlluminateRoute && $routeName == $route->getName()) {
-                            $existingMiddleware = $route->middleware();
-                            $route->middleware(array_merge($existingMiddleware, [$permission]));
-                        }
-                    }
-                }
-    
-                return $this;
-            });
-
-
+            
             Route::resource('{channel}/subscriptions', SubscriptionController::class)
                 ->only(['store', 'destroy'])
                 ->names([
@@ -150,33 +95,6 @@ Route::middleware(['verified'])->group( function(){
                     'store' => 'permission:'.PermissionEnum::CHANNEL_SUBSCRIPTIONS_STORE,
                     'destroy' => 'permission:'.PermissionEnum::CHANNEL_SUBSCRIPTIONS_DESTROY
                 ]);
-
-            // dd(Route::getRoutes()->getRoutesByName());
-            
-
-
-            // MiddlewareTrait::middlewares('/{channel}/subscriptions', \App\Http\Controllers\SubscriptionController::class,[
-            //     'store' => 'permission:'.PermissionEnum::CHANNEL_SUBSCRIPTIONS_STORE,
-            //     'destroy' => 'permission:'.PermissionEnum::CHANNEL_SUBSCRIPTIONS_DESTROY
-            // ]);
-
-            // $dd = Route::resource('/{channel}/subscriptions',SubscriptionController::class);
-            // dd($dd);
-            
-            // Route::applyResourceMiddleware([
-            //     'store' => 'permission:'.PermissionEnum::CHANNEL_SUBSCRIPTIONS_STORE,
-            //     // 'destroy' => 'permission:'.PermissionEnum::CHANNEL_SUBSCRIPTIONS_DESTROY
-            // ]);
-            
-            // Route::prefix('/{channel}/subscriptions')->group(function () {
-            //     Route::post('/', [SubscriptionController::class, 'store'])
-            //         ->name(RouteEnum::CHANNEL_SUBSCRIPTIONS_STORE)
-            //         ->middleware('permission:' . PermissionEnum::CHANNEL_SUBSCRIPTIONS_STORE);
-
-            //     Route::delete('/', [SubscriptionController::class, 'destroy'])
-            //         ->name(RouteEnum::CHANNEL_SUBSCRIPTIONS_DESTROY)
-            //         ->middleware('permission:' . PermissionEnum::CHANNEL_SUBSCRIPTIONS_DESTROY);
-            // });
         });
         
         Route::post('comments/{video}', [CommentController::class, 'store'])->name(RouteEnum::COMMENTS_STORE)->middleware(['permission:' . PermissionEnum::COMMENTS_STORE]);

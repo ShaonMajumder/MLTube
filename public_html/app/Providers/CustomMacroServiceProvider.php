@@ -7,9 +7,11 @@ use Illuminate\Support\Facades\Route;
 
 use Illuminate\Routing\PendingResourceRegistration;
 use Illuminate\Routing\Route as IlluminateRoute;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
-class MacroServiceProvider extends ServiceProvider
+
+class CustomMacroServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -18,7 +20,7 @@ class MacroServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        
     }
 
     /**
@@ -28,7 +30,9 @@ class MacroServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Log::info('mapResourcePermissions macro registered.');
         PendingResourceRegistration::macro('mapResourcePermissions', function (array $permissions) {
+            Log::info('mapResourcePermissions macro registered. 2');
             // Register the resource routes
             $this->register();
 

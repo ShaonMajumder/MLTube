@@ -13,6 +13,7 @@ use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UploadVideoController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\VoteController;
+use Illuminate\Routing\PendingResourceRegistration;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,29 @@ use App\Http\Controllers\VoteController;
 |
 */
 
+// PendingResourceRegistration::macro('mapResourcePermissions', function (array $permissions) {
+//     // Register the resource routes
+//     $this->register();
+
+//     // Apply middleware to the registered routes
+//     foreach ($permissions as $action => $permission) {
+//         $resourceName = $this->name . '.' . $action;
+
+//         foreach (Route::getRoutes() as $route) {
+//             $resourceName = Str::of($resourceName)->replace(['/', '{', '}'], ['.', '', '']);
+//             // if($resourceName == $route->getName()){
+//             //     echo gettype($resourceName) . ' == ' . gettype($route->getName()) . '<br>';
+//             //     echo $resourceName . ' == ' . $route->getName() . '<br>';
+//             // }
+//             if ($route instanceof IlluminateRoute && $resourceName == $route->getName()) {
+//                 $existingMiddleware = $route->middleware();
+//                 $route->middleware(array_merge($existingMiddleware, [$permission]));
+//             }
+//         }
+//     }
+
+//     return $this;
+// });
 
 
 Route::get('{slug?}', [HomeController::class, 'index'])->where('slug', '(home|/)')->name('home');
@@ -91,7 +115,7 @@ Route::middleware(['verified'])->group( function(){
                     'store' => RouteEnum::CHANNEL_SUBSCRIPTIONS_STORE,
                     'destroy' => RouteEnum::CHANNEL_SUBSCRIPTIONS_DESTROY
                 ])
-                ->applyResourceMiddleware([
+                ->mapResourcePermissions([
                     'store' => 'permission:'.PermissionEnum::CHANNEL_SUBSCRIPTIONS_STORE,
                     'destroy' => 'permission:'.PermissionEnum::CHANNEL_SUBSCRIPTIONS_DESTROY
                 ]);

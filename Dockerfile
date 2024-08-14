@@ -43,7 +43,9 @@ COPY Object-Detection-YoloV4/ /var/www/Object-Detection-YoloV4/
 
 # currently not working because mounted volume get ownership of hosted system.
 RUN chown -R www-data:www-data /var/www/public_html
+USER www-data
 RUN composer install
+USER root
 #---- currently not working because mounted volume get ownership of hosted system.
 
 RUN chown -R www-data:www-data /var/www/public_html/storage/

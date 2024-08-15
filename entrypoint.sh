@@ -4,6 +4,8 @@
 #installation post work, executed from outside the directory
 
 # Function to handle cleanup on termination - Stopping Script
+local current_user_global=$(whoami)
+
 cleanup() {
     echo "Container is stopping... Running cleanup tasks..."
     # Add your cleanup commands here
@@ -12,19 +14,13 @@ cleanup() {
     exit 0
 }
 
-# Trap SIGTERM and SIGINT signals and run the cleanup function
-trap 'cleanup' SIGTERM SIGINT
-
-
 settingUpLaravelFilePermissions() {
     chmod 644 /var/www/public_html/.env
     find /var/www/public_html -type f -exec chmod 644 {} \;  
     find /var/www/public_html -type d -exec chmod 755 {} \;
-    chown -R www-data:www-data /var/www/public_html/storage /var/www/public_html/bootstrap/cache
-    chmod -R 775 /var/www/public_html/storage /var/www/public_html/bootstrap/cache
+    chown -R www-data:www-data /var/www/public_html/storage/ /var/www/public_html/bootstrap/cache/
+    chmod -R 775 /var/www/public_html/storage/ /var/www/public_html/bootstrap/cache/
 }
-
-settingUpLaravelFilePermissions
 
 # Function to check if MySQL is ready
 wait_for_mysql() {
@@ -52,15 +48,28 @@ check_and_set_ownership() {
     fi
 }
 
+# Trap SIGTERM and SIGINT signals and run the cleanup function
+trap 'cleanup' SIGTERM SIGINT
+settingUpLaravelFilePermissions
+
 echo "PHP CONTAINER USER $(whoami)"
 echo "PHP CONTAINER Current working directory: $(pwd)"
-
 
 echo "\nEnsuring all composer libraries are loaded..."
 if [ ! -f ${WORKING_DIR}/vendor/autoload.php ]; then
     echo "autoload.php not found. Setting permissions and running composer install..."
     # chown -R $(whoami):$(whoami) $(pwd)
-    check_and_set_ownership "$(pwd)"
+    mkdir -p storage/framework/sessions/
+    mkdir -p storage/framework/views/
+    mkdir -p storage/framework/cache/data/
+    mkdir -p ../.composer
+    # check_and_set_ownership "/var/www/"
+    chown $(whoami):$(whoami) "/var/www/"
+    mkdir -p /var/www/.composer/cache/repo/
+    mkdir -p ~/.composer/cache
+    mkdir -p vendor/
+    check_and_set_ownership "${WORKING_DIR}/vendor/"
+    check_and_set_ownership "/var/www/.composer/cache/repo/"
     composer update
 else
     echo "vendor file found."
@@ -87,7 +96,7 @@ fi
 
 echo "\nEnsuring files for Object Detection..."
 # Check and set ownership of /var/www/Object-Detection-YoloV4/
-check_and_set_ownership "${Object_DETECTION_FOLDER}"
+check_and_set_ownership "${Object_DETECTION_FOLDER}/io"
 # Create the resources directory if it doesn't exist
 mkdir -p /var/www/Object-Detection-YoloV4/resources
 

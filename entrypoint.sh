@@ -4,7 +4,6 @@
 #installation post work, executed from outside the directory
 
 # Function to handle cleanup on termination - Stopping Script
-local current_user_global=$(whoami)
 
 cleanup() {
     echo "Container is stopping... Running cleanup tasks..."

@@ -57,19 +57,27 @@ echo "PHP CONTAINER Current working directory: $(pwd)"
 echo "\nEnsuring all composer libraries are loaded..."
 if [ ! -f ${WORKING_DIR}/vendor/autoload.php ]; then
     echo "autoload.php not found. Setting permissions and running composer install..."
-    # chown -R $(whoami):$(whoami) $(pwd)
+    # check_and_set_ownership "${WORKING_DIR}"
+
+
     mkdir -p storage/framework/sessions/
     mkdir -p storage/framework/views/
     mkdir -p storage/framework/cache/data/
-    mkdir -p ../.composer
-    # check_and_set_ownership "/var/www/"
-    chown $(whoami):$(whoami) "/var/www/"
-    mkdir -p /var/www/.composer/cache/repo/
-    mkdir -p ~/.composer/cache
+
     mkdir -p vendor/
     check_and_set_ownership "${WORKING_DIR}/vendor/"
-    check_and_set_ownership "/var/www/.composer/cache/repo/"
+    # check_and_set_ownership "/var/www/"
+    # mkdir -p /var/www/.composer
+    # mkdir -p /var/www/.composer/cache
+    # mkdir -p /var/www/.composer/cache/repo/
     composer update
+
+
+
+    # chown $(whoami):$(whoami) "/var/www/"
+    # mkdir -p ~/.composer/cache
+    # check_and_set_ownership "${WORKING_DIR}/storage/"
+    # check_and_set_ownership "/var/www/.composer/cache/repo/"
 else
     echo "vendor file found."
 fi
@@ -86,7 +94,7 @@ echo "the text-$STATUS_OUTPUT"
 if echo "$STATUS_OUTPUT" | grep -q "Migration table not found"; then
     echo "Migration table not found. Running migrations and seeders."
     php artisan migrate
-    php artisan laratrust:setup
+    # php artisan laratrust:setup
     php artisan db:seed
 else
     echo "Migration table found. Skipping migrations."
@@ -122,12 +130,13 @@ fi
 
 
 echo "\nSetting permission for QUEUE worker..."
-check_and_set_ownership "${WORKING_DIR}"
+check_and_set_ownership "${WORKING_DIR}/storage/"
 
 echo "\nEnsuring storage directory link exists for file uploads..."
 if [ ! -L "${WORKING_DIR}/public/storage" ]; then
     echo "Storage link not found. Setting up storage link..."
-    check_and_set_ownership "${WORKING_DIR}"
+    # check_and_set_ownership "${WORKING_DIR}"
+    check_and_set_ownership "${WORKING_DIR}/storage/"
     php artisan storage:link
 else
     echo "Storage link already exists."

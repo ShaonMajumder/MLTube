@@ -76,6 +76,7 @@ if [ ! -f ${WORKING_DIR}/vendor/autoload.php ]; then
 
     # chown $(whoami):$(whoami) "/var/www/"
     # mkdir -p ~/.composer/cache
+    
     # check_and_set_ownership "${WORKING_DIR}/storage/"
     # check_and_set_ownership "/var/www/.composer/cache/repo/"
 else

@@ -1,7 +1,6 @@
 # Use the official PHP image as a base image
 FROM php:7.3-fpm
 WORKDIR /var/www/public_html/
-# Install dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
     libpng-dev \
@@ -22,11 +21,9 @@ RUN apt-get update && apt-get install -y \
 
 RUN apt-get update && apt-get install -y netcat
 
-# Install Node.js and npm
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
 RUN apt-get install -y nodejs
     
-
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
@@ -35,6 +32,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/public_html/
 COPY public_html/ /var/www/public_html/
 # currently not working because mounted volume get ownership of hosted system.
+# these lines need to run in entrypoint.sh again
 # RUN chown -R www-data:www-data /var/www/public_html
 
 RUN mkdir -p storage/framework/sessions/
@@ -46,12 +44,10 @@ RUN chown -R www-data:www-data vendor/
 USER www-data
 RUN composer install
 USER root
-#---- currently not working because mounted volume get ownership of hosted system.
 
 RUN chown -R www-data:www-data /var/www/public_html/storage/
 RUN chmod -R 755 /var/www/public_html/storage/
 
-# currently not working because mounted volume get ownership of hosted system.
 RUN php artisan storage:link
 #---- currently not working because mounted volume get ownership of hosted system.
 RUN npm install

@@ -4,6 +4,10 @@
 
 **Natok** is an Over-The-Top (OTT) platform designed to provide seamless streaming experiences. The platform integrates a variety of features including streaming, object detection, push notifications, and more.
 
+Security is HIGH - as systems have access over only the files which is really necessary.
+EASY to Deploy - All secnarios are revised.
+EASY to Develop - as directories are mounted with the docker container, rest of the sources is owned by host syestems.
+
 ## Architecture
 
 The Natok platform is built using a **Microservice** architecture, allowing different components to function independently and communicate with each other via APIs.

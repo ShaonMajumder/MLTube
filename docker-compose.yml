@@ -21,6 +21,8 @@ services:
       - ./.env:/var/www/public_html/.env:rw
       - ./public_html:/var/www/public_html:rw
       - ./.composer:/var/www/.composer
+      - ./.npm:/var/www/.npm
+      - ./.config:/var/www/.config
       - ./Object-Detection-YoloV4:/var/www/Object-Detection-YoloV4
       - ./docker/app/php/local.ini:/usr/local/etc/php/conf.d/local.ini:rw
       - ./entrypoint.sh:/usr/local/bin/entrypoint.sh:rw

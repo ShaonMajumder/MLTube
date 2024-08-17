@@ -58,13 +58,26 @@ echo "\nEnsuring all composer libraries are loaded..."
 if [ ! -f ${WORKING_DIR}/vendor/autoload.php ]; then
     echo "autoload.php not found. Setting permissions and running composer install..."
     check_and_set_ownership "/var/www/.composer/cache/repo/https---repo.packagist.org/"
-    check_and_set_ownership "/var/www/.composer/cache/files/"   
+    check_and_set_ownership "/var/www/.composer/cache/files/"
     check_and_set_ownership "${WORKING_DIR}/vendor/"
     check_and_set_ownership "${WORKING_DIR}/composer.lock"
     composer update    
 else
     echo "vendor file found."
 fi
+
+if [ ! -f "/var/www/.npm" ]; then
+    echo ".npm directory not found. Setting permissions and running npm install..."
+    check_and_set_ownership "/var/www/.npm"
+    check_and_set_ownership "/var/www/.npm/_locks"
+    check_and_set_ownership "/var/www/.config"
+    check_and_set_ownership "node_modules/"
+else
+    echo ".npm directory found."
+fi
+check_and_set_ownership "/var/www/.config" 
+check_and_set_ownership "node_modules/" 
+
 
 
 echo "\nEnsuring all database tables exists..."
@@ -79,6 +92,7 @@ if echo "$STATUS_OUTPUT" | grep -q "Migration table not found"; then
     echo "Migration table not found. Running migrations and seeders."
     php artisan migrate
     # php artisan laratrust:setup
+    # php artisan vendor:publish --tag="laratrust"
     php artisan db:seed
 else
     echo "Migration table found. Skipping migrations."

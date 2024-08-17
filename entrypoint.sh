@@ -1,9 +1,18 @@
 #!/bin/sh
+set -e
 
 # THIS SCRIPT WORKS WHEN CONTAINER is UP or UP COMMAND IS RUN
 #installation post work, executed from outside the directory
 
 # Function to handle cleanup on termination - Stopping Script
+
+
+
+# Check if the vendor directory exists on the host system, if not, create it
+if [ ! -d "/var/www/public_html/vendor" ]; then
+  echo "Creating vendor directory..."
+  mkdir -p /var/www/public_html/vendor
+fi
 
 cleanup() {
     echo "Container is stopping... Running cleanup tasks..."

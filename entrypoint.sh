@@ -60,6 +60,7 @@ if [ ! -f ${WORKING_DIR}/vendor/autoload.php ]; then
     check_and_set_ownership "/var/www/.composer/cache/repo/https---repo.packagist.org/"
     check_and_set_ownership "/var/www/.composer/cache/files/"   
     check_and_set_ownership "${WORKING_DIR}/vendor/"
+    check_and_set_ownership "${WORKING_DIR}/composer.lock"
     composer update    
 else
     echo "vendor file found."

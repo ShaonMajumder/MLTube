@@ -86,8 +86,8 @@ fi
 
 
 echo "\nEnsuring files for Object Detection..."
-# Check and set ownership of /var/www/Object-Detection-YoloV4/
 check_and_set_ownership "${Object_DETECTION_FOLDER}/io"
+check_and_set_ownership "${Object_DETECTION_FOLDER}/resources"
 # Create the resources directory if it doesn't exist
 mkdir -p /var/www/Object-Detection-YoloV4/resources
 

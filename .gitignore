@@ -4,6 +4,6 @@
 /public_html/storage/medialibrary/temp/
 /public_html/storage/app/
 /public_html/storage/logs/
-/public_html/storage/framework/sessions/
-/public_html/storage/framework/views/
-/public_html/storage/framework/cache/data/
+# /public_html/storage/framework/sessions/
+# /public_html/storage/framework/views/
+# /public_html/storage/framework/cache/data/

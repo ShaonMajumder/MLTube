@@ -1,19 +1,10 @@
 #!/bin/sh
-set -e
+# set -e
 
 # THIS SCRIPT WORKS WHEN CONTAINER is UP or UP COMMAND IS RUN
 #installation post work, executed from outside the directory
 
 # Function to handle cleanup on termination - Stopping Script
-
-
-
-# Check if the vendor directory exists on the host system, if not, create it
-if [ ! -d "/var/www/public_html/vendor" ]; then
-  echo "Creating vendor directory..."
-  mkdir -p /var/www/public_html/vendor
-fi
-
 cleanup() {
     echo "Container is stopping... Running cleanup tasks..."
     # Add your cleanup commands here
@@ -69,11 +60,10 @@ if [ ! -f ${WORKING_DIR}/vendor/autoload.php ]; then
     # check_and_set_ownership "${WORKING_DIR}"
 
 
-    mkdir -p storage/framework/sessions/
-    mkdir -p storage/framework/views/
-    mkdir -p storage/framework/cache/data/
+    # mkdir -p storage/framework/sessions/
+    # mkdir -p storage/framework/views/
+    # mkdir -p storage/framework/cache/data/
 
-    mkdir -p vendor/
     check_and_set_ownership "${WORKING_DIR}/vendor/"
     # check_and_set_ownership "/var/www/"
     # mkdir -p /var/www/.composer

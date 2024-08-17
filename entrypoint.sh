@@ -57,6 +57,7 @@ echo "PHP CONTAINER Current working directory: $(pwd)"
 echo "\nEnsuring all composer libraries are loaded..."
 if [ ! -f ${WORKING_DIR}/vendor/autoload.php ]; then
     echo "autoload.php not found. Setting permissions and running composer install..."
+    check_and_set_ownership "${WORKING_DIR}/"
     check_and_set_ownership "${WORKING_DIR}/vendor/"
     # check_and_set_ownership "/var/www/"
     # mkdir -p /var/www/.composer

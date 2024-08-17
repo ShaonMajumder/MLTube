@@ -57,17 +57,9 @@ echo "PHP CONTAINER Current working directory: $(pwd)"
 echo "\nEnsuring all composer libraries are loaded..."
 if [ ! -f ${WORKING_DIR}/vendor/autoload.php ]; then
     echo "autoload.php not found. Setting permissions and running composer install..."
-    check_and_set_ownership "${WORKING_DIR}/"
+    check_and_set_ownership "/var/www/.composer/cache/repo/https---repo.packagist.org/"
+    check_and_set_ownership "/var/www/.composer/cache/files/"   
     check_and_set_ownership "${WORKING_DIR}/vendor/"
-    # check_and_set_ownership "/var/www/"
-    # mkdir -p /var/www/.composer
-    # mkdir -p /var/www/.composer/cache
-    # mkdir -p /var/www/.composer/cache/repo/
-
-    # chown $(whoami):$(whoami) "/var/www/"
-    # mkdir -p ~/.composer/cache
-    # check_and_set_ownership "/var/www/.composer/cache/repo/"
-
     composer update    
 else
     echo "vendor file found."

@@ -8,4 +8,8 @@
 /public_html/storage/framework/sessions/
 /public_html/storage/framework/views/
 /public_html/storage/framework/cache/data/
+
+.composer/cache/files/*
+.composer/cache/repo/https---repo.packagist.org/*
+
 /public_html/vendor/

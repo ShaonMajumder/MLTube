@@ -75,8 +75,6 @@ if [ ! -f "/var/www/.npm" ]; then
 else
     echo ".npm directory found."
 fi
-check_and_set_ownership "/var/www/.config" 
-check_and_set_ownership "node_modules/" 
 
 
 

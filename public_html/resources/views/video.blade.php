@@ -80,7 +80,7 @@
             <div class="row justify-content-center">
                 <div class="card-group col-sm-12 row row-cols-1 row-cols-lg-1">
 
-                    @foreach ($videos as $video)
+                    @foreach ($related_videos as $video)
                         <div class="col mb-4">
                             <a href="{{ route('videos.show', $video->id) }}">
                                 <div class="card">

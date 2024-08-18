@@ -11,7 +11,7 @@
             </small>
         
             <div class="d-flex">
-                <votes :default_votes="comment.votes" :entity_id="comment.id" :entity_owner="comment.user.id"></votes>
+                <votes :default_votes="comment.votes" :entity_id="comment.id" :entity_type="`comment`" :entity_owner="comment.user.id"></votes>
                 <button @click="addingReply = !addingReply" class="btn btn-sm ml-2" :class="{ 'btn-default': !addingReply, 'btn-danger': addingReply }">
                     {{ addingReply ? 'Cancel' : 'Add Reply' }}
                 </button>

@@ -67,11 +67,15 @@
                 required: true,
                 default: () => []
             },
-            entity_owner: {
+            entity_id: {
                 required: true,
                 default: ''
             },
-            entity_id: {
+            entity_type: {
+                required: true,
+                default: ''
+            },
+            entity_owner: {
                 required: true,
                 default: ''
             }
@@ -121,23 +125,25 @@
 
                 if (type === 'down' && this.downvoted) return
 
-                axios.post(`/votes/${this.entity_id}/${type}`)
-                    .then(({ data }) => {
-                        if (this.upvoted || this.downvoted) {
-                            this.votes = this.votes.map(v => {
-                                if (v.user_id === __auth().id) {
-                                    return data
-                                }
+                axios.post(`/votes/${type}`, {
+                    entity_id: `${this.entity_id}`,
+                    entity_type: `${this.entity_type}`
+                }).then(({ data }) => {
+                    if (this.upvoted || this.downvoted) {
+                        this.votes = this.votes.map(v => {
+                            if (v.user_id === __auth().id) {
+                                return data
+                            }
 
-                                return v
-                            })
-                        } else {
-                            this.votes = [
-                                ...this.votes,
-                                data
-                            ]
-                        }
-                    })
+                            return v
+                        })
+                    } else {
+                        this.votes = [
+                            ...this.votes,
+                            data
+                        ]
+                    }
+                })
             }
         }
     }

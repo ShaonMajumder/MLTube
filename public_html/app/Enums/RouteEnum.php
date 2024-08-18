@@ -6,6 +6,8 @@ use BenSampo\Enum\Enum;
 
 class RouteEnum
 {
+    const ROLE_PERMISSION = CommonEnum::ROLE_PERMISSION;
+
     const CHANNELS_SHOW = 'channels.show';
 
     const CHANNELS_UPDATE = CommonEnum::CHANNELS_UPDATE;

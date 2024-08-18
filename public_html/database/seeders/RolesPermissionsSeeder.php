@@ -24,7 +24,7 @@ class RolesPermissionsSeeder extends Seeder
             ),
             RoleEnum::ADMIN => array_merge(
                 [],
-                // another array
+                PermissionEnum::ROLE_MANAGEMENT_PERMISSIONS
             ),
             RoleEnum::CHANNEL_OWNER => array_merge(
                 [],

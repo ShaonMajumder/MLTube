@@ -66,6 +66,8 @@ else
     echo "vendor file found."
 fi
 
+check_and_set_ownership "bootstrap/cache"
+
 if [ ! -f "/var/www/.npm" ]; then
     echo ".npm directory not found. Setting permissions and running npm install..."
     check_and_set_ownership "/var/www/.npm"
@@ -100,6 +102,7 @@ fi
 echo "\nEnsuring files for Object Detection..."
 check_and_set_ownership "${Object_DETECTION_FOLDER}/io"
 check_and_set_ownership "${Object_DETECTION_FOLDER}/resources"
+
 # Create the resources directory if it doesn't exist
 mkdir -p /var/www/Object-Detection-YoloV4/resources
 

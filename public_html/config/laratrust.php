@@ -1,5 +1,9 @@
 <?php
 
+use App\Enums\CommonEnum;
+use App\Enums\PermissionEnum;
+use App\Enums\RouteEnum;
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -46,7 +50,7 @@ return [
         | NOTE: Currently the database check does not use cache.
         |
         */
-        'enabled' => env('LARATRUST_ENABLE_CACHE', env('APP_ENV') === 'production'),
+        'enabled' => env('LARATRUST_ENABLE_CACHE', true),
 
         /*
         |--------------------------------------------------------------------------
@@ -242,16 +246,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Laratrust Permissions as Gates
-    |--------------------------------------------------------------------------
-    |
-    | Determines if you can check if a user has a permission using the "can" method.
-    |
-    */
-    'permissions_as_gates' => false,
-
-    /*
-    |--------------------------------------------------------------------------
     | Laratrust Panel
     |--------------------------------------------------------------------------
     |
@@ -272,17 +266,6 @@ return [
 
         /*
         |--------------------------------------------------------------------------
-        | Laratrust Panel Domain
-        |--------------------------------------------------------------------------
-        |
-        | This is the Domain Laratrust panel for roles and permissions
-        | will be accessible from.
-        |
-        */
-        'domain' => env('LARATRUST_PANEL_DOMAIN', env('LARATRUST_PANEL_DOMAIN', (app()->runningInConsole() === false) ? request()->getHost() : 'localhost')),
-        
-        /*
-        |--------------------------------------------------------------------------
         | Laratrust Panel Path
         |--------------------------------------------------------------------------
         |
@@ -290,7 +273,7 @@ return [
         | will be accessible from.
         |
         */
-        'path' => 'laratrust',
+        'path' => RouteEnum::ROLE_PERMISSION,
 
         /*
         |--------------------------------------------------------------------------
@@ -310,7 +293,10 @@ return [
         | These middleware will get attached onto each Laratrust panel route.
         |
         */
-        'middleware' => ['web'],
+        'middleware' => [
+            'web',
+            'permission:'.PermissionEnum::ROLE_PERMISSION.'|secondpanel.'.PermissionEnum::ROLE_PERMISSION,
+        ],
 
         /*
         |--------------------------------------------------------------------------
@@ -321,16 +307,6 @@ return [
         |
         */
         'assign_permissions_to_user' => true,
-
-        /*
-        |--------------------------------------------------------------------------
-        | Enable permissions creation
-        |--------------------------------------------------------------------------
-        |
-        | Enable/Disable the possibility to create permissions from the panel.
-        |
-        */
-        'create_permissions' => true,
 
         /*
         |--------------------------------------------------------------------------

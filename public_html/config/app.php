@@ -177,7 +177,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         //other
         
-        Laratrust\LaratrustServiceProvider::class,
+        // Laratrust\LaratrustServiceProvider::class,
+        \App\Providers\LaratrustServiceProvider::class,
     ],
 
     /*

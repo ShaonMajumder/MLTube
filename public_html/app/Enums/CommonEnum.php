@@ -19,6 +19,8 @@ class CommonEnum extends Enum
     const MANAGE_ROLE = 'roles';
     const MANAGE_ROLE_ASSIGNMENT = 'roles-assignment';
     
+    const CHANNELS_SHOW = 'channels.show';
+    
     const CHANNELS_UPDATE = 'channels.update';
     const CHANNEL_VIDEOS_UPLOAD = 'channels.video.upload';
     const VIDEOS_UPDATE = 'videos.update';

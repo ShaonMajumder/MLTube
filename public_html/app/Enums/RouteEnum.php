@@ -8,7 +8,7 @@ class RouteEnum
 {
     const ROLE_PERMISSION = CommonEnum::ROLE_PERMISSION;
 
-    const CHANNELS_SHOW = 'channels.show';
+    const CHANNELS_SHOW = CommonEnum::CHANNELS_SHOW;
 
     const CHANNELS_UPDATE = CommonEnum::CHANNELS_UPDATE;
     const CHANNEL_VIDEOS_UPLOAD = CommonEnum::CHANNEL_VIDEOS_UPLOAD;

@@ -8,10 +8,97 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito');
 
 // Variables
-@import 'variables';
+// @import 'variables';
+// @import "mixins";
+// Light Theme
+
+
+// $light-theme: (
+//   "blue": #3490dc,
+//   "indigo": #6574cd,
+//   "purple": #9561e2,
+//   "pink": #f66d9b,
+//   "red": #e3342f,
+//   "orange": #f6993f,
+//   "yellow": #ffed4a,
+//   "green": #38c172,
+//   "teal": #4dc0b5,
+//   "cyan": #6cb2eb,
+//   "body-bg": #f8fafc,
+//   "text-color": #212529
+// );
+
+// $dark-theme: (
+//   "blue": #e3342f,
+//   "indigo": #e3342f,
+//   "purple": #e3342f,
+//   "pink": #e3342f,
+//   "red": #e3342f,
+//   "orange": #e3342f,
+//   "yellow": #e3342f,
+//   "green": #e3342f,
+//   "teal": #e3342f,
+//   "cyan": #e3342f,
+//   "body-bg": #343a40,
+//   "text-color": #f8f9fa
+// );
+
+// // Declare global variables
+// // $blue: null;
+// // $indigo: null;
+// // $purple: null;
+// // $pink: null;
+// // $red: null;
+// // $orange: null;
+// // $yellow: null;
+// // $green: null;
+// // $teal: null;
+// // $cyan: null;
+// // $body-bg:null;
+// // $text-color:null;
+
+// @mixin theme-colors($theme) {
+// 	$blue: map-get($theme, "blue") !global;
+// 	$indigo: map-get($theme, "indigo") !global;
+// 	$purple: map-get($theme, "purple") !global;
+// 	$pink: map-get($theme, "pink") !global;
+// 	$red: map-get($theme, "red") !global;
+// 	$orange: map-get($theme, "orange") !global;
+// 	$yellow: map-get($theme, "yellow") !global;
+// 	$green: map-get($theme, "green") !global;
+// 	$teal: map-get($theme, "teal") !global;
+// 	$cyan: map-get($theme, "cyan") !global;
+//   $body-bg: map-get($theme, "body-bg") !global;
+//   $text-color: map-get($theme, "text-color") !global;
+
+//   // Override Bootstrap's variables with your theme colors
+//   $primary: $blue;
+//   $secondary: $indigo;
+//   $success: $green;
+//   $info: $cyan;
+//   $warning: $yellow;
+//   $danger: $red;
+//   $light: $body-bg;
+//   $dark: $text-color;
+
+//   $body-bg: $body-bg;
+//   $body-color: $text-color;
+
+// @include theme-colors($light-theme);
+// // Apply the theme and then import Bootstrap
+// body[data-theme="light"] *{
+// 	@include theme-colors($light-theme);
+// }
+
+// body[data-theme="dark"] *{
+// 	@include theme-colors($dark-theme);
+// }
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+// theme
+// @import "../node_modules/bootstrap/scss/bootstrap";
 
 .btn-info{
 	color: #fff;
@@ -43,3 +130,65 @@
 	
 }
 
+// :root {
+// 	--primary-color: #ffffff;
+// 	--background-color: #ffffff;
+// 	--text-color: #000000;
+// 	--button-bg-color: #007bff;
+// 	--button-text-color: #ffffff;
+// }
+  
+// Light theme styles
+.light-theme {
+	--primary: #3490dc;
+	--secondary: #6574cd;
+	--success: #38c172;
+	--info: #6cb2eb;
+	--warning: #ffed4a;
+	--danger: #e3342f;
+	--body-bg: #f8fafc;
+	--text-color: #212529;
+}
+
+// Dark theme styles
+.dark-theme {
+	--primary: #1a202c;
+	--secondary: #BFC0C0;
+	--success: #388659;
+	--info: #3F4C87;
+	--warning: #dd6b20;
+	--danger: #e53e3e;
+	--body-bg: #1B1716;
+	--text-color: #f7fafc;
+}
+
+
+body {
+	background-color: var(--body-bg);
+	color: var(--text-color);
+  }
+  
+  .btn-primary {
+	background-color: var(--primary);
+	border-color: var(--primary);
+  }
+  
+  .btn-secondary {
+	background-color: var(--secondary);
+	border-color: var(--secondary);
+  }
+
+  .btn-success {
+	background-color: var(--success);
+	border-color: var(--success);
+  }
+
+  .btn-info {
+	background-color: var(--info);
+	border-color: var(--info);
+  }
+
+  .btn-default {
+	background-color: var(--secondary);
+	border-color: var(--secondary);
+  }

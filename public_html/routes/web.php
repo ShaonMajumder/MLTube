@@ -10,6 +10,7 @@ use App\Http\Controllers\ChannelController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\UploadVideoController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\VoteController;
@@ -101,3 +102,5 @@ Route::middleware(['verified'])->group( function(){
     });
     
 });
+
+Route::post('/update-theme', [ThemeController::class, 'update'])->name('theme.update');

@@ -178,7 +178,7 @@ return [
         //other
         
         // Laratrust\LaratrustServiceProvider::class,
-        \App\Providers\LaratrustServiceProvider::class,
+        App\Providers\LaratrustServiceProvider::class
     ],
 
     /*

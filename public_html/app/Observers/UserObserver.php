@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Enums\RoleEnum;
 use App\Enums\UserEnum;
+use App\Models\Settings;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 
@@ -63,6 +64,8 @@ class UserObserver
         if($user->hasRole(RoleEnum::VIEWER)){
             $user->detachRole(RoleEnum::VIEWER);
         }
+
+        Settings::where('user_id', $user->id)->delete();
     }
 
     /**

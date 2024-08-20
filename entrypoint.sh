@@ -74,6 +74,8 @@ if [ ! -f "/var/www/.npm" ]; then
     check_and_set_ownership "/var/www/.npm/_locks"
     check_and_set_ownership "/var/www/.config"
     check_and_set_ownership "node_modules/"
+    npm install
+    npm run dev
 else
     echo ".npm directory found."
 fi
@@ -93,6 +95,7 @@ if echo "$STATUS_OUTPUT" | grep -q "Migration table not found"; then
     php artisan migrate
     # php artisan laratrust:setup
     # php artisan vendor:publish --tag="laratrust"
+    # php artisan vendor:publish --tag=laratrust-assets --force
     php artisan db:seed
 else
     echo "Migration table found. Skipping migrations."

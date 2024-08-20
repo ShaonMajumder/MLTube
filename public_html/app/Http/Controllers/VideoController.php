@@ -61,6 +61,6 @@ class VideoController extends Controller
                             $query->orWhere(DB::raw("JSON_EXTRACT(ml_tags, '$.\"$tag\"')"), '!=', 'null');
                         }
                     })
-                    ->get();
+                    ->simplePaginate(4);
     }
 }

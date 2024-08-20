@@ -1,0 +1,69 @@
+/* input */
+/* ---input */
+
+/* public/css/sidebar-light.css */
+    body.light-theme .sidebar {
+        background-color: #fff;
+        color: #333;
+        min-width: 250px;
+        max-width: 250px;
+        height: 100vh;
+        padding: 20px;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    body.light-theme .sidebar .nav-link {
+        color: #333;
+        font-size: 16px;
+        font-weight: 500;
+        padding: 10px 15px;
+        transition: color 0.3s ease, background-color 0.3s ease;
+    }
+
+    body.light-theme .sidebar .nav-link:hover {
+        background-color: #f8f9fa;
+        color: #000;
+    }
+
+    body.light-theme .sidebar .nav-link.active {
+        background-color: #f8f9fa;
+        color: #000;
+    }
+
+    body.light-theme .sidebar .nav-link i {
+        margin-right: 10px;
+    }
+    /* public/css/sidebar-light.css */
+
+
+    /* video player */
+
+    /* Light Theme */
+    body.light-theme .card {
+        background-color: #ffffff;
+        color: #333333;
+    }
+
+    /* body.light-theme .vjs-default-skin {
+        background-color: #f8f9fa;
+        color: #333333;
+    } */
+
+    body.light-theme .vjs-control-bar {
+        background-color: #ffffff;
+    }
+
+    body.light-theme .vjs-control-bar .vjs-play-control:hover,
+    body.light-theme .vjs-control-bar .vjs-volume-control:hover,
+    body.light-theme .vjs-control-bar .vjs-fullscreen-control:hover {
+        color: #007bff;
+    }
+
+    body.light-theme .text-muted {
+        color: #6c757d;
+    }
+    /* --- video player */
+
+
+    /* comments section */
+    

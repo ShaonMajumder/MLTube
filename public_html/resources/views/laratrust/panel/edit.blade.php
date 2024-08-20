@@ -1,23 +1,17 @@
-@extends('layouts.sidebardark.master')
+@extends('laratrust::panel.layout')
+
 @section('title', $model ? "Edit {$type}" : "New {$type}")
-@section('styles')
-
-@endsection
-
-@section('breadcrumb-title', $model ? "Edit {$type}" : "New {$type}")
-@section('breadcrumb-items')
-<li class="breadcrumb-item">{{$model ? "Edit {$type}" : "New {$type}"}}</li>
-@endsection
 
 @section('content')
-<!-- Container-fluid starts-->
-<div class="flex flex-col">
+  <div>
+  </div>
+  <div class="flex flex-col">
     <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-32">
       <form
         x-data="laratrustForm()"
         x-init="{!! $model ? '' : '$watch(\'displayName\', value => onChangeDisplayName(value))'!!}"
         method="POST"
-        action="{{$model ? route("laratrust.{$type}s.update", $model->id) : route("laratrust.{$type}s.store")}}"
+        action="{{$model ? route("laratrust.{$type}s.update", $model->getKey()) : route("laratrust.{$type}s.store")}}"
         class="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200 p-8"
       >
         @csrf
@@ -65,19 +59,10 @@
             @foreach ($permissions as $permission)
               <label class="inline-flex items-center mr-6 my-2 text-sm" style="flex: 1 0 20%;">
                 <input
-                  @if( isset($model) &&
-                       $model instanceof \App\Models\Role &&
-                       $model->name == $reservedRole && 
-                       in_array($permission->name, $reservedPermissionsForReservedRole)
-                  )
-                    disabled
-                    style="color:gray"
-                  @endif
-                  
                   type="checkbox"
                   class="form-checkbox h-4 w-4"
                   name="permissions[]"
-                  value="{{$permission->id}}"
+                  value="{{$permission->getKey()}}"
                   {!! $permission->assigned ? 'checked' : '' !!}
                 >
                 <span class="ml-2">{{$permission->display_name ?? $permission->name}}</span>
@@ -116,14 +101,4 @@
       }
     }
   </script>
-<!-- Container-fluid Ends-->
-@endsection
-@section('scripts')
-<link href="{{ asset(mix('laratrust.css', 'vendor/laratrust')) }}" rel="stylesheet">
-<style>
-    svg {
-        display: initial;
-    }
-</style>
-<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
 @endsection

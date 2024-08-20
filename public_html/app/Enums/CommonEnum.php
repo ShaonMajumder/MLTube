@@ -30,4 +30,8 @@ class CommonEnum extends Enum
     const CHANNEL_SUBSCRIPTIONS_DESTROY = 'channel.subscriptions.destroy';
     const COMMENTS_STORE = 'comments.store';
     const VOTES = 'votes.vote';
+
+
+    // cache
+    const THEME = 'theme';
 }

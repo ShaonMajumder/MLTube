@@ -12,4 +12,9 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css');
+    .sass('resources/sass/app.scss', 'public/css') // points to app.css
+    .styles([
+        'resources/css/app.css',
+        'resources/css/theme-dark.css',
+        'resources/css/theme-light.css',
+    ], 'public/css/theme.css');  // points to theme.css

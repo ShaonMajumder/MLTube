@@ -7,13 +7,120 @@ $font-size-base: 0.9rem;
 $line-height-base: 1.6;
 
 // Colors
-$blue: #3490dc;
-$indigo: #6574cd;
-$purple: #9561e2;
-$pink: #f66d9b;
-$red: #e3342f;
-$orange: #f6993f;
-$yellow: #ffed4a;
-$green: #38c172;
-$teal: #4dc0b5;
-$cyan: #6cb2eb;
+// $blue: #3490dc;
+// $indigo: #6574cd;
+// $purple: #9561e2;
+// $pink: #f66d9b;
+// $red: #e3342f;
+// $orange: #f6993f;
+// $yellow: #ffed4a;
+// $green: #38c172;
+// $teal: #4dc0b5;
+// $cyan: #6cb2eb;
+
+// $blue: #e3342f;
+// $indigo: #e3342f;
+// $purple: #e3342f;
+// $pink: #e3342f;
+// $red: #e3342f;
+// $orange: #e3342f;
+// $yellow: #e3342f;
+// $green: #e3342f;
+// $teal: #e3342f;
+// $cyan: #e3342f;
+
+// public_html/resources/sass/_variables.scss
+
+// // Light Theme Colors
+// $light-theme: (
+//   "blue": #3490dc,
+//   "indigo": #6574cd,
+//   "purple": #9561e2,
+//   "pink": #f66d9b,
+//   "red": #e3342f,
+//   "orange": #f6993f,
+//   "yellow": #ffed4a,
+//   "green": #38c172,
+//   "teal": #4dc0b5,
+//   "cyan": #6cb2eb
+// );
+
+// // Dark Theme Colors
+// $dark-theme: (
+//   "blue": #b91c1c,
+//   "indigo": #b91c1c,
+//   "purple": #b91c1c,
+//   "pink": #be185d,
+//   "red": #b91c1c,
+//   "orange": #ea580c,
+//   "yellow": #b91c1c,
+//   "green": #b91c1c,
+//   "teal": #b91c1c,
+//   "cyan": #b91c1c
+// );
+
+
+// @mixin apply-theme {
+// 	// Extract theme colors
+// 	// $blue: map-get($theme, "blue");
+// 	// $indigo: map-get($theme, "indigo");
+// 	// $purple: map-get($theme, "purple");
+// 	// $pink: map-get($theme, "pink");
+// 	// $red: map-get($theme, "red");
+// 	// $orange: map-get($theme, "orange");
+// 	// $yellow: map-get($theme, "yellow");
+// 	// $green: map-get($theme, "green");
+// 	// $teal: map-get($theme, "teal");
+// 	// $cyan: map-get($theme, "cyan");
+
+
+//   // Colors
+  // $blue: #e3342f;
+  // $indigo: #e3342f;
+  // $purple: #e3342f;
+  // $pink: #e3342f;
+  // $red: #e3342f;
+  // $orange: #e3342f;
+  // $yellow: #e3342f;
+  // $green: #e3342f;
+  // $teal: #e3342f;
+  // $cyan: #e3342f;
+
+// public_html/resources/sass/_variables.scss
+
+$light-theme: (
+  "blue": #3490dc,
+  "indigo": #6574cd,
+  "purple": #9561e2,
+  "pink": #f66d9b,
+  "red": #e3342f,
+  "orange": #f6993f,
+  "yellow": #ffed4a,
+  "green": #38c172,
+  "teal": #4dc0b5,
+  "cyan": #6cb2eb
+);
+
+$dark-theme: (
+  "blue": #e3342f,
+  "indigo": #e3342f,
+  "purple": #e3342f,
+  "pink": #e3342f,
+  "red": #e3342f,
+  "orange": #e3342f,
+  "yellow": #e3342f,
+  "green": #e3342f,
+  "teal": #e3342f,
+  "cyan": #e3342f
+);
+
+// $blue: map-get($dark-theme, "blue");
+// $indigo: map-get($dark-theme, "indigo");
+// $purple: map-get($dark-theme, "purple");
+// $pink: map-get($dark-theme, "pink");
+// $red: map-get($dark-theme, "red");
+// $orange: map-get($dark-theme, "orange");
+// $yellow: map-get($dark-theme, "yellow");
+// $green: map-get($dark-theme, "green");
+// $teal: map-get($dark-theme, "teal");
+// $cyan: map-get($dark-theme, "cyan");

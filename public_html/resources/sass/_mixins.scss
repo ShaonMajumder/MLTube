@@ -1,0 +1,32 @@
+// public_html/resources/sass/_mixins.scss
+
+@mixin theme-colors($theme) {
+  // Extract theme colors
+  $blue: map-get($theme, "blue");
+  $indigo: map-get($theme, "indigo");
+  $purple: map-get($theme, "purple");
+  $pink: map-get($theme, "pink");
+  $red: map-get($theme, "red");
+  $orange: map-get($theme, "orange");
+  $yellow: map-get($theme, "yellow");
+  $green: map-get($theme, "green");
+  $teal: map-get($theme, "teal");
+  $cyan: map-get($theme, "cyan");
+
+  // Apply these colors to elements
+  body {
+    background-color: map-get($theme, "body-bg");
+    color: map-get($theme, "text-color");
+  }
+
+  .btn-primary {
+    background-color: $blue;
+    border-color: $blue;
+    &:hover {
+      background-color: darken($blue, 10%);
+      border-color: darken($blue, 10%);
+    }
+  }
+
+  // Add more styles for other components
+}

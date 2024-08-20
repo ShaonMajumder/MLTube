@@ -1,17 +1,11 @@
-@extends('layouts.sidebardark.master')
-@section('title', 'New Role')
-@section('styles')
+@extends('laratrust::panel.layout')
 
-@endsection
-
-@section('breadcrumb-title', 'New Role')
-@section('breadcrumb-items')
-<li class="breadcrumb-item">New Role</li>
-@endsection
+@section('title', "Role details")
 
 @section('content')
-<!-- Container-fluid starts-->
-<div class="flex flex-col">
+  <div>
+  </div>
+  <div class="flex flex-col">
     <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-32">
       <div
         class="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200 p-8"
@@ -47,14 +41,4 @@
       </form>
     </div>
   </div>
-<!-- Container-fluid Ends-->
-@endsection
-@section('scripts')
-<link href="{{ asset(mix('laratrust.css', 'vendor/laratrust')) }}" rel="stylesheet">
-<style>
-  svg {
-      display: initial;
-  }
-</style>
-<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
 @endsection

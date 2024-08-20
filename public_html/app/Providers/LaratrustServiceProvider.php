@@ -38,6 +38,8 @@ class LaratrustServiceProvider extends OriginalLaratrustServiceProvider
         //     ];
         // });
 
+        $this->registerRoutes();
+        $this->registerResources();
         $this->configure();
         $this->offerPublishing();
         $this->registerLaratrust();

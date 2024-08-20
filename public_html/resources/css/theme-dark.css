@@ -1,0 +1,117 @@
+    /* input */
+    body.dark-theme input[type="text"], 
+    body.dark-theme textarea {
+        background-color: #121212;
+        border-color: #818080;
+        color: #fff !important;
+    }
+
+    body.dark-theme input[type="text"]::placeholder {
+        color: #888888; /* Placeholder text color */
+        opacity: 1; /* Ensure placeholder text is fully visible */
+    }
+
+
+
+    body.dark-theme input[type="text"]:focus,
+    body.dark-theme  textarea:focus {
+        outline: none; /* Remove default outline */
+        background-color: #000; /* Black background on focus */
+        border-color: #007bff; /* Change border color on focus */
+        box-shadow: inset 0 0 0 1px #007bff; /* Highlight textarea on focus */
+    }
+    /* ---input */
+
+    /* public/css/sidebar-dark.css */
+    body.dark-theme .sidebar {
+        background-color: #0F0F0F;
+        color: #fff;
+        min-width: 250px;
+        max-width: 250px;
+        height: 100vh;
+        padding: 20px;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+    }
+
+    body.dark-theme .sidebar .nav {
+        padding-left: 0;
+    }
+
+    body.dark-theme .sidebar .nav-item {
+        margin-bottom: 10px;
+    }
+
+    body.dark-theme .sidebar .nav-link {
+        color: #b3b3b3;
+        font-size: 16px;
+        padding: 12px 20px;
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+
+    body.dark-theme .sidebar .nav-link:hover,
+    body.dark-theme .sidebar .nav-link.active {
+        color: #ffffff;
+        background-color: #333333;
+    }
+
+    body.dark-theme .sidebar .nav-link i {
+        margin-right: 15px;
+        font-size: 18px;
+    }
+
+    body.dark-theme .sidebar .nav-link span {
+        display: inline-block;
+    }
+
+    /* Additional Optional Styling */
+    body.dark-theme .sidebar .nav-link.active i {
+        color: #007bff;
+    }
+
+    body.dark-theme .sidebar .nav-link:hover i,
+    body.dark-theme .sidebar .nav-link.active i {
+        color: #ffffff;
+    }
+    /* public/css/sidebar-dark.css */
+
+
+    
+
+    /* video player */
+
+    /* Dark Theme */
+    body.dark-theme .card {
+        background-color: #333333;
+        color: #ffffff;
+    }
+
+    /* body.dark-theme .vjs-default-skin {
+        background-color: #1a1a1a;
+        color: #ffffff;
+    } */
+
+    body.dark-theme .vjs-control-bar {
+        background-color: #333333;
+    }
+
+    body.dark-theme .vjs-control-bar .vjs-play-control:hover,
+    body.dark-theme .vjs-control-bar .vjs-volume-control:hover,
+    body.dark-theme .vjs-control-bar .vjs-fullscreen-control:hover {
+        color: #00bfff;
+    }
+
+    body.dark-theme .text-muted {
+        color: #6c757d;
+    }
+
+    
+    /* --- video player */
+
+
+    /* comments section */
+    
+
+    /* navbar section */

@@ -12,33 +12,33 @@ use Laratrust\Http\Controllers\RolesAssignmentController as OrginalController;
 
 class RolesAssignmentController extends OrginalController
 {
-    public function index(Request $request)
-    {
-        // $dashboardType = app('dashboard_suffix');
+    // public function index(Request $request)
+    // {
+    //     // $dashboardType = app('dashboard_suffix');
 
-        $modelsKeys = array_keys(Config::get('laratrust.user_models'));
-        $modelKey = $request->get('model') ?? $modelsKeys[0] ?? null;
-        $userModel = Config::get('laratrust.user_models')[$modelKey] ?? null;
+    //     $modelsKeys = array_keys(Config::get('laratrust.user_models'));
+    //     $modelKey = $request->get('model') ?? $modelsKeys[0] ?? null;
+    //     $userModel = Config::get('laratrust.user_models')[$modelKey] ?? null;
 
-        if(isTMAdmin()){
-            $userModel = $userModel::query()->where('type', User::TYPE['tm_admin']);
-        } elseif(isGamingAdmin()){
-            $userModel = $userModel::query()->where('type', User::TYPE['gaming_admin']);
-        } else {
-            $userModel = $userModel::query();
-        }
+    //     if(isTMAdmin()){
+    //         $userModel = $userModel::query()->where('type', User::TYPE['tm_admin']);
+    //     } elseif(isGamingAdmin()){
+    //         $userModel = $userModel::query()->where('type', User::TYPE['gaming_admin']);
+    //     } else {
+    //         $userModel = $userModel::query();
+    //     }
 
-        if (!$userModel) {
-            abort(404);
-        }
+    //     if (!$userModel) {
+    //         abort(404);
+    //     }
 
-        return View::make('laratrust::panel.roles-assignment.index', [
-            'models' => $modelsKeys,
-            'modelKey' => $modelKey,
-            'users' => $userModel->withCount(['roles', 'permissions'])
-                ->paginate(10),
-        ]);
-    }
+    //     return View::make('laratrust::panel.roles-assignment.index', [
+    //         'models' => $modelsKeys,
+    //         'modelKey' => $modelKey,
+    //         'users' => $userModel->withCount(['roles', 'permissions'])
+    //             ->paginate(10),
+    //     ]);
+    // }
 
     public function edit(Request $request, $modelId)
     {
@@ -54,14 +54,15 @@ class RolesAssignmentController extends OrginalController
             ->with(['roles:id,name', 'permissions:id,name'])
             ->findOrFail($modelId);
 
-        $dashboardType = app('dashboard_suffix');
-        if(isTMAdmin()){
-            $roles = $this->rolesModel::where('name', 'not like', $dashboardType.'.%');
-        } elseif(isGamingAdmin()){
-            $roles = $this->rolesModel::where('name', 'like', $dashboardType.'.%');
-        } else {
-            $roles = $this->rolesModel;
-        }
+        // $dashboardType = app('dashboard_suffix');
+        // if(isTMAdmin()){
+        //     $roles = $this->rolesModel::where('name', 'not like', $dashboardType.'.%');
+        // } elseif(isGamingAdmin()){
+        //     $roles = $this->rolesModel::where('name', 'like', $dashboardType.'.%');
+        // } else {
+        //     $roles = $this->rolesModel;
+        // }
+        $roles = $this->rolesModel::query();
 
         $roles = $roles->orderBy('name')->get(['id', 'name', 'display_name'])
             ->map(function ($role) use ($user) {

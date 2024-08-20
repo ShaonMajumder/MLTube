@@ -1,116 +1,101 @@
-<style >
-/*search bar */
-.box {
-  width: 80%;
-  height: 58px;
-  background-color: #fff;
-  margin: 20px auto;
-  box-shadow: 0 2px 33px rgba(0,0,0,.77)
-}
-
-.search-bar {
-  width: 55%;
-  margin: 0px auto;
-  line-height: 56px;
-  position: relative
-}
-
-.search-bar input[type="text"] {
-  width: 89%;
-  height: 33px;
-  padding: 0 10px;
-  color: #000;
-  border: 1px solid #BEBEBE;
-  border-radius: 2px 0 0 2px;
-  z-index: 2
-}
-
-.search-bar input:focus {
-  border: 1.1px solid #1c62b9;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.4);
-}
-
-.search-bar button {
-  position: absolute;
-  width: 11%;
-  height: 33px;
-  border: 1px solid #BEBEBE;
-  border-left: 0;
-  top: 13px;
-  right: 0;
-  border-radius: 0px 2px 2px 0;
-  cursor: pointer;
-  font-size: 14px;
-  text-align: center;
-  background-color: #f0f0f0;
-  z-index: 1
-}
-
-.search-bar button i {
-  opacity: .5;
-  position: absolute;
-  top: 25%;
-  right: 25%;
-  transition: all .07s ease-in-out
-}
-
-.search-bar button:hover i {
-  opacity: .95
-}
-
-.search-bar button:hover {
-  background-color: #E4E4E4;
-  box-shadow: 0 1px 1px rgba(0,0,0,.15),
-    inset 0 0 2px rgba(0,0,0,.05);
-  transition: all .07s ease-in-out
-}
-
-/* ==-====-===-==== */
-
-.search-bar h2 {
-  color: #fff;
-  text-transform: uppercase;
-  text-align: center;
-  font-weight: bolder;
-  font-size: 30px;
-  text-shadow: 0 0 20px black;
-  cursor: none;
-  margin-top: 22px
-}
-</style>
-
 <template>
-
-  <div class="search-bar">
-    <form action="/search">
-      <input type="text" name="q"  placeholder="Search" v-model="localValue" />
-      <button type="submit"><i class="fas fa-search"></i></button>
-    </form>
+  <div class="search-bar-container">
+    <div class="search-bar">
+      <form action="/search">
+        <input type="text" name="q" placeholder="Search..." v-model="localValue" />
+        <button type="submit"><i class="fas fa-search"></i></button>
+      </form>
+    </div>
   </div>
 </template>
-
-
-
-
 
 <script>
 export default {
   name: "search",
   props: {
-    query: String // 1. Receives the value as a prop
+    query: String // Receives the value as a prop
   },
   data() {
     return {
-      localValue: ""
+      localValue: this.query || "" // Initialize with the prop value or empty
     };
   },
-  created() {
-    this.localValue = this.query; // 2. Copy the value in a local value variable
-
-    // Set a watcher to emit the changes to the parent component
-    this.$watch("localValue", value => {
-      this.$emit("input", value);
-    });
+  watch: {
+    localValue(value) {
+      this.$emit("input", value); // Emit the changes to the parent component
+    }
   }
 };
 </script>
+
+<style scoped>
+.search-bar-container {
+  max-width: 600px; /* Set a maximum width */
+  margin: 20px 0; /* Margin to space out from other elements */
+  padding: 0 15px; /* Padding to keep the search bar inside the container */
+}
+
+.search-bar {
+  display: flex; /* Flexbox to align the input and button */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  overflow: hidden; /* Hide overflow to keep rounded corners */
+}
+
+.search-bar form {
+  display: flex; /* Ensure input and button are aligned horizontally */
+  width: 100%; /* Full width of the parent container */
+  margin: 0; /* Remove default margin */
+}
+
+.search-bar input[type="text"] {
+  flex: 1; /* Take up remaining space */
+  height: 40px; /* Increased height */
+  padding: 0 15px; /* Adequate padding */
+  color: #333; /* Dark text color */
+  border: none; /* Remove internal border */
+  border-radius: 8px 0 0 8px; /* Rounded corners on the left */
+  font-size: 16px; /* Font size */
+  box-shadow: inset 0 0 0 1px #ced4da; /* Internal border */
+  transition: border-color 0.2s ease, box-shadow 0.2s ease; /* Smooth transitions */
+}
+
+.search-bar input:focus {
+  outline: none; /* Remove default outline */
+  border-color: #007bff; /* Change border color on focus */
+  box-shadow: inset 0 0 0 2px #007bff; /* Highlight input on focus */
+}
+
+.search-bar button {
+  width: 60px; /* Fixed width */
+  height: 40px; /* Match input height */
+  border: none; /* Remove internal border */
+  border-radius: 0 8px 8px 0; /* Rounded corners on the right */
+  background-color: #007bff; /* Primary color background */
+  color: #fff; /* White text color */
+  cursor: pointer;
+  font-size: 16px; /* Font size */
+  transition: background-color 0.2s ease, box-shadow 0.2s ease; /* Smooth transitions */
+}
+
+body.dark-theme .search-bar button {
+  background-color: #302E32;
+}
+/* Button hover state */
+.search-bar button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow effect */
+}
+
+/* Icon styling inside the button */
+.search-bar button i {
+  font-size: 18px; /* Icon size */
+  opacity: 0.8; /* Slightly less transparent */
+  transition: opacity 0.2s ease; /* Smooth transition for opacity */
+}
+
+/* Icon hover state */
+.search-bar button:hover i {
+  opacity: 1; /* Fully opaque on hover */
+}
+</style>

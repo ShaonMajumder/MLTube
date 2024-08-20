@@ -1,4 +1,8 @@
 @extends('layouts.app')
+@section('breadcrumb')
+    <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Dashboard</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Gaming Dashboard</li>
+@endsection
 @include('search_snippet')
 @section('content')
 <div class="container">

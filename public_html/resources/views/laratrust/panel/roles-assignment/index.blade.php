@@ -1,30 +1,9 @@
-@extends('layouts.sidebardark.master')
-@section('title', 'Roles Assignment')
-@section('styles')
-<link rel="stylesheet" type="text/css" href="{{asset('assets/css/datatables.css')}}">
-@endsection
+@extends('laratrust::panel.layout')
 
-@section('breadcrumb-title', 'Roles Assignment')
-@section('breadcrumb-items')
-<li class="breadcrumb-item">Roles Assignment</li>
-@endsection
+@section('title', 'Roles Assignment')
 
 @section('content')
-    <div class="col-sm-12">
-        @if(session('laratrust-success'))
-            <div class="alert alert-success outline alert-dismissible fade show" role="alert">{!! session('laratrust-success') !!}
-                <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close" data-bs-original-title="" title=""></button>
-            </div>
-        @endif
-
-        @if(session('laratrust-error'))
-            <div class="alert alert-danger outline alert-dismissible fade show" role="alert">{!! session('laratrust-error') !!}
-                <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close" data-bs-original-title="" title=""></button>
-            </div>
-        @endif
-    </div>
-<!-- Container-fluid starts-->
-<div class="flex flex-col">
+  <div class="flex flex-col">
     <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
       <div
         x-data="{ model: @if($modelKey) '{{$modelKey}}' @else 'initial' @endif }"
@@ -47,7 +26,7 @@
                 <th class="th">Id</th>
                 <th class="th">Name</th>
                 <th class="th"># Roles</th>
-                {{--@if(config('laratrust.panel.assign_permissions_to_user'))<th class="th"># Permissions</th>@endif--}}
+                @if(config('laratrust.panel.assign_permissions_to_user'))<th class="th"># Permissions</th>@endif
                 <th class="th"></th>
               </tr>
             </thead>
@@ -63,14 +42,14 @@
                 <td class="td text-sm leading-5 text-gray-900">
                   {{$user->roles_count}}
                 </td>
-                {{--@if(config('laratrust.panel.assign_permissions_to_user'))--}}
-                {{--<td class="td text-sm leading-5 text-gray-900">--}}
-                  {{--{{$user->permissions_count}}--}}
-                {{--</td>--}}
-                {{--@endif--}}
+                @if(config('laratrust.panel.assign_permissions_to_user'))
+                <td class="td text-sm leading-5 text-gray-900">
+                  {{$user->permissions_count}}
+                </td>
+                @endif
                 <td class="flex justify-end px-6 py-4 whitespace-no-wrap text-right border-b border-gray-200 text-sm leading-5 font-medium">
                   <a
-                    href="{{route('laratrust.roles-assignment.edit', ['roles_assignment' => $user->id, 'model' => $modelKey])}}"
+                    href="{{route('laratrust.roles-assignment.edit', ['roles_assignment' => $user->getKey(), 'model' => $modelKey])}}"
                     class="text-blue-600 hover:text-blue-900"
                   >Edit</a>
                 </td>
@@ -79,26 +58,11 @@
             </tbody>
           </table>
         </div>
-        
-
         @if ($modelKey)
-          <div class="pull-right mt-3">
-            {{ $users->appends(['model' => $modelKey])->links('laratrust::panel.pagination') }}
-          </div>
+          {{ $users->appends(['model' => $modelKey])->links('laratrust::panel.pagination') }}
         @endif
-      </div>
 
-      
+      </div>
     </div>
   </div>
-<!-- Container-fluid Ends-->
-@endsection
-@section('scripts')
-<link href="{{ asset(mix('laratrust.css', 'vendor/laratrust')) }}" rel="stylesheet">
-<style>
-  svg {
-      display: initial;
-  }
-</style>
-<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
 @endsection

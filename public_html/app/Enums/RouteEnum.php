@@ -7,6 +7,9 @@ use BenSampo\Enum\Enum;
 class RouteEnum
 {
     const ROLE_PERMISSION = CommonEnum::ROLE_PERMISSION;
+    const MANAGE_PERMISSION = CommonEnum::MANAGE_PERMISSION;
+    const MANAGE_ROLE = CommonEnum::MANAGE_ROLE;
+    const MANAGE_ROLE_ASSIGNMENT = CommonEnum::MANAGE_ROLE_ASSIGNMENT;
 
     const CHANNELS_SHOW = CommonEnum::CHANNELS_SHOW;
 

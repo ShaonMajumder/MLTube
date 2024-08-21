@@ -79,28 +79,38 @@
 <nav class="sidebar">
     <ul class="nav flex-column">
         @foreach(menu()->getMenus() as $menuKey => $menu)
-            <li class="nav-item {{ !empty($menu['childrens']) ? 'dropdown' : '' }}">
-                <a class="nav-link {{ !empty($menu['childrens']) ? 'dropdown-toggle' : '' }}" 
-                   href="{{ !empty($menu['childrens']) ? '#'.$menuKey.'Submenu' : url($menu['route'] ?? '/') }}" 
-                   {{ !empty($menu['childrens']) ? 'data-toggle=collapse aria-expanded=false' : '' }}>
-                    @if(isset($menu['icon']))
-                        <i class="{{ $menu['icon'] }}"></i>
+            @permission($menu['permissions'])
+                <li class="nav-item {{ !empty($menu['childrens']) ? 'dropdown' : '' }}">
+                    <a class="nav-link {{ !empty($menu['childrens']) ? 'dropdown-toggle' : '' }}" 
+                    href="{{ !empty($menu['childrens']) ? '#'.$menuKey.'Submenu' : ( (!empty($menu['route']) or $menu['route'] != '') ? route($menu['route']) : '' ) }}" 
+                    {{ !empty($menu['childrens']) ? 'data-toggle=collapse aria-expanded=false' : '' }}
+                    >
+                        @if(isset($menu['icon']))
+                            <i class="{{ $menu['icon'] }}"></i>
+                        @endif
+                        <span>{{ $menu['label'] }}</span>
+                    </a>
+                    @if (!empty($menu['childrens']))
+                        <ul class="collapse list-unstyled" id="{{ $menuKey }}Submenu">
+                            @foreach($menu['childrens'] as $childKey => $child)
+                                @permission($child['permissions'])
+                                    <li class="nav-item">
+                                        <a class="nav-link" 
+                                        href="{{ ( !empty($child['route']) or $child['route'] != '' ) ? route($child['route']) : '' }}"
+                                        >
+                                            <i class="{{ $child['icon'] }}"></i>
+                                            <span>{{ $child['label'] }}</span>
+                                        </a>
+                                    </li>
+                                @endpermission
+                            @endforeach
+                        </ul>
                     @endif
-                    <span>{{ $menu['label'] }}</span>
-                </a>
-                @if (!empty($menu['childrens']))
-                    <ul class="collapse list-unstyled" id="{{ $menuKey }}Submenu">
-                        @foreach($menu['childrens'] as $childKey => $child)
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ url($child['route']) }}">
-                                    <i class="{{ $child['icon'] }}"></i>
-                                    <span>{{ $child['label'] }}</span>
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
-                @endif
-            </li>
+                </li>
+            @endpermission
+            
         @endforeach
     </ul>
 </nav>
+
+

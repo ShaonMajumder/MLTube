@@ -102,6 +102,7 @@ if echo "$STATUS_OUTPUT" | grep -q "Migration table not found"; then
     # php artisan laratrust:setup
     # php artisan vendor:publish --tag="laratrust"
     # php artisan vendor:publish --tag=laratrust-assets --force
+    # php artisan vendor:publish --tag=laratrust-assets
     php artisan db:seed
 else
     echo "Migration table found. Skipping migrations."

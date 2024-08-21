@@ -1,7 +1,11 @@
-@extends('laratrust::panel.layout')
+{{-- @extends('laratrust::panel.layout') --}}
+@extends('layouts.app')
 
 @section('title', 'Roles Assignment')
 
+@section('styles')
+<link href="{{ mix('laratrust.css', 'laratrust') }}" rel="stylesheet">
+@endsection
 @section('content')
   <div class="flex flex-col">
     <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">

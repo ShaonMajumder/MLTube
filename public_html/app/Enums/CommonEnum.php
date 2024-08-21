@@ -15,9 +15,12 @@ class CommonEnum extends Enum
 
     // Routes, Permissions
     const ROLE_PERMISSION = 'role-permission';
-    const MANAGE_PERMISSION = 'permissions';
-    const MANAGE_ROLE = 'roles';
-    const MANAGE_ROLE_ASSIGNMENT = 'roles-assignment';
+    // const MANAGE_PERMISSION = 'permissions';
+    // const MANAGE_ROLE = 'roles';
+    // const MANAGE_ROLE_ASSIGNMENT = 'roles-assignment';
+    const MANAGE_PERMISSION = 'laratrust.permissions.index';
+    const MANAGE_ROLE = 'laratrust.roles.index';
+    const MANAGE_ROLE_ASSIGNMENT = 'laratrust.roles-assignment.index';
     
     const CHANNELS_SHOW = 'channels.show';
     

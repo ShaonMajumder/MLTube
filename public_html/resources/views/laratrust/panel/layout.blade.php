@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="shortcut icon" href="/vendor/laratrust/img/logo.png">
   <title>Laratrust - @yield('title')</title>
-  <link href="{{ mix('laratrust.css', 'vendor/laratrust') }}" rel="stylesheet">
+  <link href="{{ mix('laratrust.css', 'laratrust') }}" rel="stylesheet">
   <link href="{{ asset('css/banglatube.css') }}" rel="stylesheet">
   <link href="{{ asset('css/app.css') }}" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>

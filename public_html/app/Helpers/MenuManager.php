@@ -6,10 +6,11 @@ class MenuManager
 {
     protected $menus = [];
 
-    public function addMenu(string $key, string $label, string $icon, array $childrens = [], string $permissions = null)
+    public function addMenu(string $key, string $route, string $permissions = null, string $label, string $icon, array $childrens = [])
     {
         $this->menus[$key] = [
             'label' => __($label),
+            'route' => $route,
             'permissions' => $permissions,
             'icon' => $icon,
             'childrens' => $childrens
@@ -24,8 +25,8 @@ class MenuManager
             $this->menus[$menuKey]['childrens'][$key] = [
                 'label' => __($label),
                 'route' => $route,
-                'icon' => $icon,
                 'permissions' => $permissions,
+                'icon' => $icon,
             ];
         }
 

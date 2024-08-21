@@ -2,6 +2,7 @@
     use Illuminate\Http\Request;
     use App\Http\Requests;
     use Illuminate\Support\Facades\Storage;
+    use App\Helpers\MenuManager;
     
 
     function relativeTime($time) {
@@ -90,5 +91,19 @@
         return false;
     }
 */
-  
+
+
+if (!function_exists('menu')) {
+    function menu()
+    {
+        static $instance = null;
+
+        if ($instance === null) {
+            $instance = new MenuManager();
+        }
+
+        return $instance;
+    }
+}
+
 ?>

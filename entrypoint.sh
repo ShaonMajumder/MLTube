@@ -68,12 +68,18 @@ fi
 
 check_and_set_ownership "bootstrap/cache"
 
-if [ ! -f "/var/www/.npm" ]; then
-    echo ".npm directory not found. Setting permissions and running npm install..."
+# if [ ! -f "/var/www/.npm" ]; then
+if [ ! -d "${WORKING_DIR}/node_modules" ] || [ -z "$(ls -A ${WORKING_DIR}/node_modules | grep -v '.gitignore')" ]; then
+    echo "node_modules directory is missing or empty. Setting permissions and running npm install..."
+    # echo ".npm directory not found. Setting permissions and running npm install..."
+    
+
     check_and_set_ownership "/var/www/.npm"
     check_and_set_ownership "/var/www/.npm/_locks"
     check_and_set_ownership "/var/www/.config"
-    check_and_set_ownership "node_modules/"
+    check_and_set_ownership "${WORKING_DIR}/node_modules/"
+    # chown -R www-data:www-data /var/www/public_html/node_modules/
+    chmod -R 755 "${WORKING_DIR}/node_modules/"
     npm install
     npm run dev
 else

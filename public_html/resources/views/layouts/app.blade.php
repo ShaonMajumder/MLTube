@@ -78,13 +78,6 @@
             transition: color 0.3s ease;
         }
 
-        body.light-theme .theme-toggle-btn i {
-            color: #f39c12;
-        }
-
-        body.dark-theme .theme-toggle-btn i {
-            color: #f1c40f;
-        }
 
 
 
@@ -95,10 +88,8 @@
 
 
 
-        body.dark-theme .navbar {
-           box-shadow: 0 0 10px rgb(73, 73, 73) !important;
-        }
-        
+
+
     </style>
 
     <script>
@@ -155,10 +146,22 @@
                 })
                 .catch(error => console.error('Error:', error));
             });
+
+
+            const toggleElements = document.querySelectorAll('[data-toggle="collapse"]');
+
+            toggleElements.forEach(function(element) {
+                element.addEventListener('click', function() {
+                    const arrowIcon = this.querySelector('.fa-chevron-right');
+                    
+                    if (arrowIcon) {
+                        arrowIcon.classList.toggle('fa-chevron-down');
+                        arrowIcon.classList.toggle('fa-chevron-right');
+                    }
+                });
+            });
         });
 
-
-        
 
 
     </script>

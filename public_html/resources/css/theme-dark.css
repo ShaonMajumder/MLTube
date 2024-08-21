@@ -115,3 +115,11 @@
     
 
     /* navbar section */
+    body.dark-theme .navbar {
+        box-shadow: 0 0 10px rgb(73, 73, 73) !important;
+    }
+
+    /* theme toggle button */
+    body.dark-theme .theme-toggle-btn i {
+        color: #f1c40f;
+    }

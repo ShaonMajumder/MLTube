@@ -12,6 +12,7 @@ return [
     PermissionEnum::CHANNEL_VIDEOS_UPLOAD => 'Upload Videos to Channel',
     PermissionEnum::CHANNEL_SUBSCRIPTIONS_STORE => 'Store Channel Subscriptions',
     PermissionEnum::CHANNEL_SUBSCRIPTIONS_DESTROY => 'Delete Channel Subscriptions',
+    PermissionEnum::CHANNEL_SUBSCRIPTIONS => 'List Subscribers',
 
     PermissionEnum::VIDEOS_UPDATE => 'Update Video Details',
     // PermissionEnum::VIDEOS_GET_OBJECT_TAGS => 'Get Video Object Tags',
@@ -21,7 +22,8 @@ return [
 
 
 
-
+   
+    PermissionEnum::USER_CHANNEL_SUBSCRIBED => 'Subscriptions',
 
 
     // const CHANNELS_UPDATE = self::CAN_PREFIX . CommonEnum::CHANNELS_UPDATE;

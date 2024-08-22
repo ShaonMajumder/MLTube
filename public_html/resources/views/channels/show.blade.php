@@ -39,7 +39,7 @@
                                     </div>
                                 @endif
                                 
-                                <avatar-user :image="'{{ $channel->image() }}'" :href="'{{ route(\App\Enums\RouteEnum::CHANNELS_SHOW, auth()->user()->channel()->first()->id ) }}'" :username="'{{ Auth::user()->name }}'" :size=100 :rounded=true ></avatar-user>
+                                <avatar-user :image="'{{ isset($channel) && $channel->image() }}'" :href="'{{ route(\App\Enums\RouteEnum::CHANNELS_SHOW, auth()->user()->channel()->first()->id ) }}'" :username="'{{ auth()->user()->name }}'" :size=100 :rounded=true ></avatar-user>
                             
                             </div>
                         </div>

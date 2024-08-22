@@ -6,6 +6,8 @@ use BenSampo\Enum\Enum;
 
 class RouteEnum
 {
+    const HOME = CommonEnum::HOME;
+    
     const ROLE_PERMISSION = CommonEnum::ROLE_PERMISSION;
     const MANAGE_PERMISSION = CommonEnum::MANAGE_PERMISSION;
     const MANAGE_ROLE = CommonEnum::MANAGE_ROLE;
@@ -15,12 +17,19 @@ class RouteEnum
 
     const CHANNELS_UPDATE = CommonEnum::CHANNELS_UPDATE;
     const CHANNEL_VIDEOS_UPLOAD = CommonEnum::CHANNEL_VIDEOS_UPLOAD;
+    const VIDEOS_SHOW = CommonEnum::VIDEOS_SHOW;
     const CHANNEL_SUBSCRIPTIONS_STORE = CommonEnum::CHANNEL_SUBSCRIPTIONS_STORE;
     const CHANNEL_SUBSCRIPTIONS_DESTROY = CommonEnum::CHANNEL_SUBSCRIPTIONS_DESTROY;
+    const CHANNEL_SUBSCRIPTIONS = CommonEnum::CHANNEL_SUBSCRIPTIONS;
 
     const VIDEOS_UPDATE = CommonEnum::VIDEOS_UPDATE;
     // const VIDEOS_GET_OBJECT_TAGS = CommonEnum::VIDEOS_GET_OBJECT_TAGS;
     
     const COMMENTS_STORE = CommonEnum::COMMENTS_STORE;
     const VOTES = CommonEnum::VOTES;
+
+    const USER_CHANNEL_SUBSCRIBED = CommonEnum::USER_CHANNEL_SUBSCRIBED;
+
+    const THEME_UPDATE = CommonEnum::THEME_UPDATE;
+    const CACHES_CLEAR = CommonEnum::CACHES_CLEAR;
 }

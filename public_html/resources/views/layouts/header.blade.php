@@ -1,6 +1,3 @@
-@php
-    $theme = 'light';
-@endphp
 <nav class="navbar navbar-expand-md navbar-light shadow-sm">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">
@@ -37,7 +34,7 @@
                     <li class="nav-item dropdown">
                         <div class="row">
                             <div class="px-1" style="width: 3rem;">
-                                <avatar-user :image="'{{ isset($channel) && $channel->image() ?? ''}}'" :href="'{{ route(\App\Enums\RouteEnum::CHANNELS_SHOW, auth()->user()->channel()->first()->id ) }}'" :username="'{{ Auth::user()->name }}'" :size=35 :rounded=true ></avatar-user>
+                                <avatar-user :image="'{{ isset($channel) && $channel->image() ?? ''}}'" :href="'{{ route(\App\Enums\RouteEnum::CHANNELS_SHOW, isset($channel) && $channel->id ) }}'" :username="'{{ auth()->user()->name }}'" :size=35 :rounded=true ></avatar-user>
                             </div>
                             <div class="px-1">
                                 
@@ -47,7 +44,7 @@
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     @auth
-                                        <a class="dropdown-item" href="{{ route(\App\Enums\RouteEnum::CHANNELS_SHOW, auth()->user()->channel()->first()->id ) }}">
+                                        <a class="dropdown-item" href="{{ route(\App\Enums\RouteEnum::CHANNELS_SHOW, $channel ? $channel->id : '1' ) }}">
                                             My Channel
                                         </a>    
                                     @endauth

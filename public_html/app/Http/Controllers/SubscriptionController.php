@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Channel;
 use App\Models\Subscription;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class SubscriptionController extends Controller
@@ -35,4 +36,17 @@ class SubscriptionController extends Controller
         $subscription->delete();
         return response()->json([]);
     }
+
+    public function listSubscriptions(Channel $channel){
+        if( $channel->id != auth()->user()->channel->id ){
+            abort(403);
+        }
+        $subscriptions = $channel->subscriptions()->paginate(10);
+        return view('channels.subscriptions', compact('subscriptions'));
+    }
+
+    public function user(User $user){
+        return view('user', compact('user'));
+    }
+    
 }

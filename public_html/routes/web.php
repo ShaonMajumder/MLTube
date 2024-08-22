@@ -2,6 +2,7 @@
 
 use App\Enums\PermissionEnum;
 use App\Enums\RouteEnum;
+use App\Http\Controllers\CacheController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
@@ -27,7 +28,7 @@ use Illuminate\Routing\PendingResourceRegistration;
 |
 */
 
-Route::get('{slug?}', [HomeController::class, 'index'])->where('slug', '(home|/)')->name('home');
+Route::get('{slug?}', [HomeController::class, 'index'])->where('slug', '(home|/)')->name(RouteEnum::HOME);
 Route::get('search', [HomeController::class, 'search'])->name('search');
 
 Auth::routes();
@@ -69,7 +70,7 @@ Route::resource('channels', ChannelController::class)->names([
     'update' => RouteEnum::CHANNELS_UPDATE
 ]);
     
-Route::get('videos/{video}', [VideoController::class, 'show'])->name('videos.show');
+Route::get('videos/{video}', [VideoController::class, 'show'])->name(RouteEnum::VIDEOS_SHOW);
 Route::put('videos/{video}', [VideoController::class, 'updateViews']);
 Route::get('videos/{video}/comments', [CommentController::class, 'index']);
 Route::get('comments/{comment}/replies', [CommentController::class, 'show']);
@@ -95,12 +96,19 @@ Route::middleware(['verified'])->group( function(){
                     'store' => 'permission:'.PermissionEnum::CHANNEL_SUBSCRIPTIONS_STORE,
                     'destroy' => 'permission:'.PermissionEnum::CHANNEL_SUBSCRIPTIONS_DESTROY
                 ]);
+            Route::get('/{channel}/subscriptions', [SubscriptionController::class, 'listSubscriptions' ])->name(RouteEnum::CHANNEL_SUBSCRIPTIONS)->middleware(['permission:' . PermissionEnum::CHANNEL_SUBSCRIPTIONS]);
         });
+
+        Route::get('/user/{user}', [SubscriptionController::class, 'user' ])->name('user')->middleware(['permission:' . PermissionEnum::CHANNEL_SUBSCRIPTIONS]);
+        /// 
         
         Route::post('comments/{video}', [CommentController::class, 'store'])->name(RouteEnum::COMMENTS_STORE)->middleware(['permission:' . PermissionEnum::COMMENTS_STORE]);
         Route::post('votes/{type}', [VoteController::class, 'vote' ])->name(RouteEnum::VOTES)->middleware(['permission:' . PermissionEnum::VOTES]);
+        
+    
     });
     
 });
 
-Route::post('/update-theme', [ThemeController::class, 'update'])->name('theme.update');
+Route::post('/update-theme', [ThemeController::class, 'update'])->name(RouteEnum::THEME_UPDATE);
+Route::get('/clear-caches', [CacheController::class, 'clearAll'])->name(RouteEnum::CACHES_CLEAR);

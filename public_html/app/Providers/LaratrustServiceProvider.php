@@ -55,7 +55,7 @@ class LaratrustServiceProvider extends OriginalLaratrustServiceProvider
         // $this->registerRoutes();
         // $this->registerPermissionsToGate();
 
-        parent::boot();
+        // parent::boot();
         $this->registerBladeDirectives();
         $this->defineAssetPublishing();
     }

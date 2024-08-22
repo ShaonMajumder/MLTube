@@ -1,9 +1,11 @@
 <?php
-    use Illuminate\Http\Request;
-    use App\Http\Requests;
-    use Illuminate\Support\Facades\Storage;
-    use App\Helpers\MenuManager;
-    
+
+use Illuminate\Http\Request;
+use App\Http\Requests;
+use Illuminate\Support\Facades\Storage;
+use App\Helpers\MenuManager;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
     function relativeTime($time) {
         $time = strtotime($time);
@@ -106,4 +108,95 @@ if (!function_exists('menu')) {
     }
 }
 
+if (!function_exists('isActiveRoute')) {
+    function isActiveRoute($routeName)
+    {
+        return request()->routeIs($routeName);
+    }
+}
+
+if (!function_exists('is_current_route')) {
+    function is_current_route($patterns)
+    {
+        foreach ($patterns as $pattern) {
+            if (request()->is($pattern)) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
+if (!function_exists('has_any_active_child_route')) {
+    function has_any_active_child_route(array $childrens)
+    {
+        $currentRouteName = strtolower(optional(request()->route())->getName() ?? '');
+        foreach ($childrens as $children) {
+            if (isset($children['route']) && ($children['route'] === $currentRouteName)) {
+                return true;
+            }
+
+            if (isset($children['url']) && ($children['url'] === url()->current())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}
+
+if (!function_exists('is_current_route_name')) {
+    function is_current_route_name(string $route)
+    {
+        $currentRouteName = strtolower(optional(request()->route())->getName() ?? '');
+        return $route === $currentRouteName;
+    }
+}
+
+if (!function_exists('canAccessRouteWithMiddleware')) {
+    /**
+     * Check if the current user can access a route considering the middleware.
+     *
+     * @param string $routeName
+     * @param array $middleware
+     * @return bool
+     */
+    function canAccessRouteWithMiddleware($routeName, $middleware, $routeParameters = [])
+    {
+        // Check if the route exists
+        if (!Route::has($routeName)) {
+            return false;
+        }
+
+        // Handle 'auth' middleware specifically
+        if (in_array('auth', $middleware) && !Auth::check()) {
+            return false;
+        }
+
+        // Create a dummy request to simulate access
+        $route = Route::getRoutes()->getByName($routeName);
+        
+        // Apply default parameter values if needed
+        $defaults = $route->defaults;
+        $parameters = array_merge($defaults, $routeParameters);
+
+        $request = Request::create(route($routeName, $parameters), 'GET');
+
+        foreach ($middleware as $m) {
+            $middlewareClass = app('router')->getMiddleware()[$m] ?? null;
+            if ($middlewareClass) {
+                $middlewareInstance = app($middlewareClass);
+                $response = $middlewareInstance->handle($request, function () use ($request) {
+                    return $request;
+                });
+
+                if ($response instanceof \Illuminate\Http\RedirectResponse || $response instanceof \Symfony\Component\HttpFoundation\Response) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+}
 ?>

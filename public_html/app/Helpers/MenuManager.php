@@ -6,18 +6,45 @@ class MenuManager
 {
     protected $menus = [];
 
-    public function addMenu(string $key, string $route, string $permissions = null, string $label, string $icon, array $childrens = [])
+    // public function addMenu(string $key, string $route, string $permissions = null, string $label, string $icon, array $childrens = [])
+    // {
+    //     $this->menus[$key] = [
+    //         'label' => __($label),
+    //         'route' => $route,
+    //         'permissions' => $permissions,
+    //         'icon' => $icon,
+    //         'childrens' => $childrens
+    //     ];
+
+    //     return $this;
+    // }
+    public function addMenu(string $menuKey, array $attributes)
     {
-        $this->menus[$key] = [
-            'label' => __($label),
-            'route' => $route,
-            'permissions' => $permissions,
-            'icon' => $icon,
-            'childrens' => $childrens
+        $defaults = [
+            'route' => '',
+            'route_parameters' => [],
+            'permissions' => null,
+            'label' => '',
+            'icon' => '',
+            'childrens' => [],
+            'middleware' => []
+        ];
+
+        $attributes = array_merge($defaults, $attributes);
+
+        $this->menus[$menuKey] = [
+            'label' => __($attributes['label']),
+            'route' => $attributes['route'],
+            'route_parameters' => $attributes['route_parameters'],
+            'permissions' => $attributes['permissions'],
+            'middleware' => $attributes['middleware'],
+            'icon' => $attributes['icon'],
+            'childrens' => $attributes['childrens'],
         ];
 
         return $this;
     }
+
 
     public function addChild(string $menuKey, string $key, string $label, string $route, string $icon = null, string $permissions = null)
     {

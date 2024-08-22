@@ -17,7 +17,9 @@ class MenuServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        view()->composer('layouts.app', function ($view) {
+            $this->setMenu();
+        });
     }
 
     /**
@@ -26,9 +28,47 @@ class MenuServiceProvider extends ServiceProvider
      * @return void
      */
     public function boot(){
-        menu()->addMenu('dashboard', '', null, 'Dashboard', 'fas fa-tachometer-alt');
-        menu()->addMenu('profile', '', PermissionEnum::ROLE_PERMISSION, 'Profile', 'fas fa-user');
-        menu()->addMenu('role_permissions', '', PermissionEnum::ROLE_PERMISSION, 'Role Permissions', 'fas fa-cog', [], null);
+
+    }
+
+    public function setMenu(){
+        $channel = auth()->check() ? auth()->user()->channel : null;
+        
+        menu()->addMenu('dashboard', [
+            'label' => 'Dashboard',
+            'route' => RouteEnum::HOME,
+            'icon' => 'fas fa-tachometer-alt',
+        ]);
+
+        menu()->addMenu('subscribers', [
+            'label' => 'Subscribers',
+            'route' => RouteEnum::CHANNEL_SUBSCRIPTIONS,
+            'route_parameters' => $channel ?  ['channel' => $channel->id] : ['channel' => 'invalid'] , // $channel ?  ['channel' => $channel->id] : [],
+            'permissions' => PermissionEnum::CHANNEL_SUBSCRIPTIONS,
+            'icon' => 'fas fa-tachometer-alt',
+        ]);
+
+        menu()->addMenu('subscription', [
+            'label' => 'Subscription',
+            'route' => RouteEnum::HOME,
+            'icon' => 'fas fa-tachometer-alt',
+        ]);
+        
+        menu()->addMenu('my_channel', [
+            'label' => 'My Channel',
+            'route' => RouteEnum::CHANNELS_SHOW,
+            'route_parameters' => $channel ?  ['channel' => $channel->id] : ['channel' => 'invalid'] , // $channel ?  ['channel' => $channel->id] : [],
+            'middleware' => ['auth'],
+            'icon' => 'fas fa-cog'
+        ]);
+        
+        menu()->addMenu('role_permissions', [
+            'route' => '',
+            'permissions' => PermissionEnum::ROLE_PERMISSION,
+            'label' => 'Role Permissions',
+            'icon' => 'fas fa-cog'
+        ]);
+        
         menu()->addChilds('role_permissions', [
             [
                 'key' => CommonEnum::MANAGE_PERMISSION, 
@@ -52,6 +92,5 @@ class MenuServiceProvider extends ServiceProvider
                 'icon' => 'fas fa-bell'
             ]
         ]);
-
     }
 }

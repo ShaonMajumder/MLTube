@@ -46,35 +46,62 @@ class MenuManager
     }
 
 
-    public function addChild(string $menuKey, string $key, string $label, string $route, string $icon = null, string $permissions = null)
+    public function addChild( string $menuKey, string $key, string $label, string $route, string $icon = null, string $permissions = null, array $route_parameters = [], array $middleware = [])
     {
         if (isset($this->menus[$menuKey])) {
-            $this->menus[$menuKey]['childrens'][$key] = [
+            $defaultChildAttributes = [
+                'label' => '',
+                'route' => '',
+                'route_parameters' => [],
+                'icon' => null,
+                'permissions' => null,
+                'middleware' => []
+            ];
+
+            $attributes = array_merge($defaultChildAttributes, [
                 'label' => __($label),
                 'route' => $route,
+                'route_parameters' => $route_parameters,
                 'permissions' => $permissions,
                 'icon' => $icon,
-            ];
+                'middleware' => $middleware,
+            ]);
+    
+            $this->menus[$menuKey]['childrens'][$key] = $attributes;
         }
-
+    
         return $this;
     }
 
     public function addChilds(string $menuKey, array $childrens)
     {
         if (isset($this->menus[$menuKey])) {
+            $defaultChildAttributes = [
+                'label' => '',
+                'route' => '',
+                'route_parameters' => [],
+                'icon' => null,
+                'permissions' => null,
+                'middleware' => []
+            ];
+
             foreach ($childrens as $child) {
-                $this->menus[$menuKey]['childrens'][$child['key']] = [
-                    'label' => __($child['label']),
-                    'route' => $child['route'],
-                    'icon' => $child['icon'] ?? null,
-                    'permissions' => $child['permissions'] ?? null,
+                $childAttributes = array_merge($defaultChildAttributes, $child);
+
+                $this->menus[$menuKey]['childrens'][$childAttributes['key']] = [
+                    'label' => __($childAttributes['label']),
+                    'route' => $childAttributes['route'],
+                    'route_parameters' => $childAttributes['route_parameters'],
+                    'icon' => $childAttributes['icon'],
+                    'permissions' => $childAttributes['permissions'],
+                    'middleware' => $childAttributes['middleware'],
                 ];
             }
         }
 
         return $this;
     }
+
 
     public function getMenus()
     {

@@ -13,18 +13,23 @@ class PermissionEnum extends Enum
     const MANAGE_ROLE = self::CAN_PREFIX . CommonEnum::MANAGE_ROLE;
     const MANAGE_ROLE_ASSIGNMENT = self::CAN_PREFIX . CommonEnum::MANAGE_ROLE_ASSIGNMENT;
 
-    const CHANNELS_UPDATE = self::CAN_PREFIX . CommonEnum::CHANNELS_UPDATE;
+    const CHANNEL_OWNED = self::CAN_PREFIX . CommonEnum::CHANNEL_OWNED;
+    const CHANNEL_SUBSCRIBERS = self::CAN_PREFIX . CommonEnum::CHANNEL_SUBSCRIBERS;
+    const CHANNEL_UPDATE = self::CAN_PREFIX . CommonEnum::CHANNEL_UPDATE;
     const CHANNEL_VIDEOS_UPLOAD = self::CAN_PREFIX . CommonEnum::CHANNEL_VIDEOS_UPLOAD;
     const VIDEOS_UPDATE = self::CAN_PREFIX . CommonEnum::VIDEOS_UPDATE;
     // const VIDEOS_GET_OBJECT_TAGS = self::CAN_PREFIX . CommonEnum::VIDEOS_GET_OBJECT_TAGS;
-
+    
     const CHANNEL_SUBSCRIPTIONS_STORE = self::CAN_PREFIX . CommonEnum::CHANNEL_SUBSCRIPTIONS_STORE;
     const CHANNEL_SUBSCRIPTIONS_DESTROY = self::CAN_PREFIX . CommonEnum::CHANNEL_SUBSCRIPTIONS_DESTROY;
-    const CHANNEL_SUBSCRIPTIONS = self::CAN_PREFIX . CommonEnum::CHANNEL_SUBSCRIPTIONS;
     const COMMENTS_STORE = self::CAN_PREFIX . CommonEnum::COMMENTS_STORE;
     const VOTES = self::CAN_PREFIX . CommonEnum::VOTES;
+    const USER_CHANNEL_SUBSCRIPTIONS = self::CAN_PREFIX . CommonEnum::USER_CHANNEL_SUBSCRIPTIONS;
 
-    const USER_CHANNEL_SUBSCRIBED = self::CAN_PREFIX . CommonEnum::USER_CHANNEL_SUBSCRIBED;
+    // const USERS_SHOW = self::CAN_PREFIX . CommonEnum::USERS_SHOW;
+
+    const MYACCOUNT_SHOW = self::CAN_PREFIX . CommonEnum::MYACCOUNT_SHOW;
+    
 
     const ROLE_MANAGEMENT_PERMISSIONS = [
         self::ROLE_PERMISSION,
@@ -34,18 +39,21 @@ class PermissionEnum extends Enum
     ];
 
     const CHANNEL_OWNER_PERMISSIONS = [
-        self::CHANNELS_UPDATE,
+        self::CHANNEL_OWNED,
+        self::CHANNEL_UPDATE,
         self::CHANNEL_VIDEOS_UPLOAD,
         self::VIDEOS_UPDATE,
+        self::CHANNEL_SUBSCRIBERS
         // self::VIDEOS_GET_OBJECT_TAGS,
-        self::CHANNEL_SUBSCRIPTIONS
+        
     ];
 
     const VIEWER_PERMISSIONS = [
+        self::MYACCOUNT_SHOW,
         self::CHANNEL_SUBSCRIPTIONS_STORE,
         self::CHANNEL_SUBSCRIPTIONS_DESTROY,
         self::COMMENTS_STORE,
         self::VOTES,
-        self::USER_CHANNEL_SUBSCRIBED,
+        self::USER_CHANNEL_SUBSCRIPTIONS
     ];
 }

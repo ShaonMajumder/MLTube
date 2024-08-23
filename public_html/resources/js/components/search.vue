@@ -31,7 +31,6 @@ export default {
 <style scoped>
 .search-bar-container {
   max-width: 600px; /* Set a maximum width */
-  margin: 20px 0; /* Margin to space out from other elements */
   padding: 0 15px; /* Padding to keep the search bar inside the container */
 }
 

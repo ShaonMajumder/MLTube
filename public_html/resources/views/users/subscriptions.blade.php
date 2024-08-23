@@ -4,13 +4,13 @@
 @endsection
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Dashboard</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Subscriptions</li>
+    <li class="breadcrumb-item active" aria-current="page">Subscribers</li>
 @endsection
 
 @section('content')
 <div class="container">
-    <h1>Subscriptions</h1>
-    You have been subscribed to these channels.
+    <h1>Subscribers</h1>
+
     <!-- Table for Subscribers -->
     <div class="table-responsive">
         <table class="table table-striped">
@@ -22,15 +22,15 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($subscriptions as $channel)
+                @foreach($subscriptions as $subscription)
                     <tr>
                         <td>
-                            <avatar-user :image="''" :href="'{{ route(App\Enums\RouteEnum::CHANNELS_SHOW, ['channel' => $channel->id]) }}'" :username="'{{ addslashes($channel->name) }}'" :size=35 :rounded=true ></avatar-user>
+                            <avatar-user :image="''" :href="'{{ route(App\Enums\RouteEnum::USERS_SHOW, ['user' => $subscription->subscriber->id]) }}'" :username="'{{ addslashes($subscription->subscriber->name) }}'" :size=35 :rounded=true ></avatar-user>
                         </td>
                         <td>
-                            {{ $channel->name }}
+                            {{ $subscription->subscriber->name }}
                         </td>
-                        <td>{{ $channel->created_at->format('Y-m-d H:i:s') }}</td>
+                        <td>{{ $subscription->created_at->format('Y-m-d H:i:s') }}</td>
                     </tr>
                 @endforeach
             </tbody>

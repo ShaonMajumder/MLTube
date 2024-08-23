@@ -40,32 +40,70 @@ class MenuServiceProvider extends ServiceProvider
             'icon' => 'fas fa-tachometer-alt',
         ]);
 
-        menu()->addMenu('subscribers', [
-            'label' => 'Subscribers',
-            'route' => RouteEnum::CHANNEL_SUBSCRIPTIONS,
-            'route_parameters' => $channel ?  ['channel' => $channel->id] : ['channel' => 'invalid'] , // $channel ?  ['channel' => $channel->id] : [],
-            'permissions' => PermissionEnum::CHANNEL_SUBSCRIPTIONS,
-            'icon' => 'fas fa-tachometer-alt',
+        menu()->addMenu('channel', [
+            'label' => 'Channel',
+            'permissions' => PermissionEnum::CHANNEL_OWNED,
+            'icon' => 'fas fa-tv',
         ]);
 
-        menu()->addMenu('subscription', [
-            'label' => 'Subscription',
-            'route' => RouteEnum::HOME,
-            'icon' => 'fas fa-tachometer-alt',
+        menu()->addChilds('channel', [
+            [
+                'key' => CommonEnum::CHANNEL_OWNED, 
+                'label' => 'My Channel', 
+                'route' => RouteEnum::CHANNELS_SHOW,
+                'route_parameters' => $channel ?  ['channel' => $channel->id] : ['channel' => 'invalid'] , // $channel ?  ['channel' => $channel->id] : [],
+                'permissions' => PermissionEnum::CHANNEL_OWNED,
+                'icon' => 'fas fa-user-circle'
+            ],
+            [
+                'key' => CommonEnum::CHANNEL_SUBSCRIBERS, 
+                'label' => 'Subscribers', 
+                'route' => RouteEnum::CHANNEL_SUBSCRIBERS,
+                'route_parameters' => $channel ?  ['channel' => $channel->id] : ['channel' => 'invalid'] , // $channel ?  ['channel' => $channel->id] : [],
+                'permissions' => PermissionEnum::CHANNEL_SUBSCRIBERS,
+                'icon' => 'fas fa-user',
+            ],
+            [
+                'key' => CommonEnum::USER_CHANNEL_SUBSCRIPTIONS,
+                'label' => 'Subscriptions', 
+                'route' => RouteEnum::USER_CHANNEL_SUBSCRIPTIONS,
+                'route_parameters' => auth()->user() ?  ['user' => auth()->user()->id] : ['user' => 'invalid'] , // $channel ?  ['channel' => $channel->id] : [],
+                'permissions' => PermissionEnum::USER_CHANNEL_SUBSCRIPTIONS,
+                'icon' => 'fas fa-bell',
+            ]
+        ]);
+
+
+        menu()->addMenu('settings', [
+            'label' => 'settings',
+            'permissions' => PermissionEnum::CHANNEL_OWNED,
+            'icon' => 'fas fa-cog',
+        ]);
+
+        menu()->addChilds('settings', [
+            [
+                'key' => CommonEnum::CHANNEL_OWNED, 
+                'label' => 'Cache,PushNotification,Routes', 
+                'route' => RouteEnum::CHANNELS_SHOW,
+                'route_parameters' => $channel ?  ['channel' => $channel->id] : ['channel' => 'invalid'] , // $channel ?  ['channel' => $channel->id] : [],
+                'permissions' => PermissionEnum::CHANNEL_OWNED,
+                'icon' => 'fas fa-user-circle'
+            ],
+            [
+                'key' => CommonEnum::CHANNEL_SUBSCRIBERS, 
+                'label' => 'Routes2', 
+                'route' => RouteEnum::CHANNEL_SUBSCRIBERS,
+                'route_parameters' => $channel ?  ['channel' => $channel->id] : ['channel' => 'invalid'] , // $channel ?  ['channel' => $channel->id] : [],
+                'permissions' => PermissionEnum::CHANNEL_SUBSCRIBERS,
+                'icon' => 'fas fa-user',
+            ],
         ]);
         
-        menu()->addMenu('my_channel', [
-            'label' => 'My Channel',
-            'route' => RouteEnum::CHANNELS_SHOW,
-            'route_parameters' => $channel ?  ['channel' => $channel->id] : ['channel' => 'invalid'] , // $channel ?  ['channel' => $channel->id] : [],
-            'middleware' => ['auth'],
-            'icon' => 'fas fa-cog'
-        ]);
+        
         
         menu()->addMenu('role_permissions', [
-            'route' => '',
-            'permissions' => PermissionEnum::ROLE_PERMISSION,
             'label' => 'Role Permissions',
+            'permissions' => PermissionEnum::ROLE_PERMISSION,
             'icon' => 'fas fa-cog'
         ]);
         

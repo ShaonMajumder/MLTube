@@ -163,12 +163,19 @@ if (!function_exists('canAccessRouteWithMiddleware')) {
      */
     function canAccessRouteWithMiddleware($routeName, $middleware, $routeParameters = [])
     {
+        if(empty($routeName)){
+            throw new Exception('routename can not be empty');
+        }
+
+        if(empty($middleware)){
+            throw new Exception('middleware can not be empty');
+        }
+
         // Check if the route exists
         if (!Route::has($routeName)) {
             return false;
         }
 
-        // Handle 'auth' middleware specifically
         if (in_array('auth', $middleware) && !Auth::check()) {
             return false;
         }

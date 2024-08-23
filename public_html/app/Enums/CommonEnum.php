@@ -9,25 +9,25 @@ use BenSampo\Enum\Enum;
  */
 class CommonEnum extends Enum
 {
-    const HOME = 'home';
     
     // Models
     const VIDEO = 'video';
     const COMMENT = 'comment';
-
+    
     // Routes, Permissions
+    const HOME = 'home';
+    
     const ROLE_PERMISSION = 'role-permission';
-    // const MANAGE_PERMISSION = 'permissions';
-    // const MANAGE_ROLE = 'roles';
-    // const MANAGE_ROLE_ASSIGNMENT = 'roles-assignment';
     const MANAGE_PERMISSION = 'laratrust.permissions.index';
     const MANAGE_ROLE = 'laratrust.roles.index';
     const MANAGE_ROLE_ASSIGNMENT = 'laratrust.roles-assignment.index';
     
     const CHANNELS_SHOW = 'channels.show';
-    
-    const CHANNELS_UPDATE = 'channels.update';
+
+    const CHANNEL_OWNED = 'channel.owned';
+    const CHANNEL_UPDATE = 'channels.update';
     const CHANNEL_VIDEOS_UPLOAD = 'channels.video.upload';
+    const CHANNEL_SUBSCRIBERS = 'channels.subscribers';
     const VIDEOS_UPDATE = 'videos.update';
     const VIDEOS_SHOW = 'videos.show';
     // const VIDEOS_GET_OBJECT_TAGS = 'videos.object_tags';
@@ -35,10 +35,13 @@ class CommonEnum extends Enum
     // viewer user
     const CHANNEL_SUBSCRIPTIONS_STORE = 'channel.subscriptions.store';
     const CHANNEL_SUBSCRIPTIONS_DESTROY = 'channel.subscriptions.destroy';
-    const CHANNEL_SUBSCRIPTIONS = 'channel.subscriptions';
     const COMMENTS_STORE = 'comments.store';
     const VOTES = 'votes.vote';
-    const USER_CHANNEL_SUBSCRIBED = 'user.channel_subscribed';
+    
+    const MYACCOUNT = 'myaccount';
+    const MYACCOUNT_SHOW = "users.myaccount";
+    const USERS_SHOW = "users.show";
+    const USER_CHANNEL_SUBSCRIPTIONS = 'user.channel.subscriptions';
 
     // cache
     const THEME = 'theme';

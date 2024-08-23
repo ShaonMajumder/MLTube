@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Support\Str;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -85,5 +86,18 @@ class User extends Authenticatable implements MustVerifyEmail
                 'user_id' => $this->id
             ]);
         }
+    }
+
+    public function subscriptions(): HasManyThrough
+    {
+        // From User Model File, catch Subscription Model by user_id, catch Channel Model by channel_id, use hasmanythrough
+        return $this->hasManyThrough(
+            Channel::class,      // The final model we want to access (Channel)
+            Subscription::class, // The intermediate model (Subscription)
+            'user_id',           // Foreign key on the Subscription model that refers to the User
+            'id',                // Foreign key on the Channel model (refers to Channel itself, should match primary key)
+            'id',                // Local key on the User model
+            'channel_id'         // Local key on the Subscription model (refers to Channel)
+        );
     }
 }

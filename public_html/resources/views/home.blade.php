@@ -43,7 +43,7 @@
                                     <div class="row "> 
                                         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"> 
                                             <div class="video_card_channel_avatar">
-                                                <avatar-user :image="'{{ $video_channel_link->image() }}'" :href="'/channels/{{$video_channel_link->id}}'" :username="'{{ $video_channel_link->name }}'" :size=35 :rounded=true ></avatar-user>
+                                                <avatar-user :image="'{{ $video_channel_link->image() }}'" :href="'/channels/{{$video_channel_link->id}}'" :username="'{{ addslashes($video_channel_link->name) }}'" :size=35 :rounded=true ></avatar-user>
                                             </div>
                                             
                                         </div>

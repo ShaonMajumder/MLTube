@@ -170,6 +170,7 @@
     
     <div id="app">
         <!-- Header -->
+        <!-- Search -->
         @include('layouts.header')
 
         <div class="container-fullwidth">
@@ -181,6 +182,8 @@
 
                 <!-- Main Content -->
                 <main class="col-md-10 col-lg-10 main-content">
+                    
+
                     <!-- Breadcrumb -->
                     @if(View::hasSection('breadcrumb'))
                         <nav aria-label="breadcrumb">
@@ -197,9 +200,6 @@
                             </ol>
                         </nav>
                     @endif
-
-                    <!-- Search -->
-                    @yield('search')
 
                     <div class="py-4">
                         @yield('content')

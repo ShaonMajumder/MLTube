@@ -123,3 +123,9 @@
     body.dark-theme .theme-toggle-btn i {
         color: #f1c40f;
     }
+
+    /* theme table */
+    body.dark-theme td,
+    body.dark-theme th {
+        color: #fff;
+    }

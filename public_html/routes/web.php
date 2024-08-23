@@ -10,11 +10,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChannelController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\ChannelSubscriptionController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\UploadVideoController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\VoteController;
+use App\Models\Subscription;
 use Illuminate\Routing\PendingResourceRegistration;
 
 /*
@@ -64,12 +66,17 @@ Route::middleware(['auth'])->group( function(){
     })->name('verification.notice');
 });
 
+Route::get('/user/{user}', [ChannelSubscriptionController::class, 'user' ])->name(RouteEnum::USERS_SHOW);
+
 Route::resource('channels',ChannelController::class);    
 Route::resource('channels', ChannelController::class)->names([
     'show' => RouteEnum::CHANNELS_SHOW,
-    'update' => RouteEnum::CHANNELS_UPDATE
+    'update' => RouteEnum::CHANNEL_UPDATE
 ]);
-    
+
+Route::get('users/myaccount', [UserController::class, 'myaccount'])->name(RouteEnum::MYACCOUNT_SHOW);
+
+
 Route::get('videos/{video}', [VideoController::class, 'show'])->name(RouteEnum::VIDEOS_SHOW);
 Route::put('videos/{video}', [VideoController::class, 'updateViews']);
 Route::get('videos/{video}/comments', [CommentController::class, 'index']);
@@ -83,10 +90,15 @@ Route::middleware(['verified'])->group( function(){
 
         Route::prefix('channels')->group(function(){
             Route::get('/{channel}/videos', [UploadVideoController::class, 'index'])->name(RouteEnum::CHANNEL_VIDEOS_UPLOAD)->middleware(['permission:' . PermissionEnum::CHANNEL_VIDEOS_UPLOAD]);
-            Route::post('/{channel}/videos/upload', [UploadVideoController::class, 'store'])->middleware(['permission:' . PermissionEnum::CHANNEL_VIDEOS_UPLOAD]);
-
+            Route::post('/{channel}/videos/upload', [UploadVideoController::class, 'store'])
+                ->name(RouteEnum::CHANNEL_VIDEOS_UPLOAD)
+                ->middleware(['permission:' . PermissionEnum::CHANNEL_VIDEOS_UPLOAD]);
+            Route::get('/{channel}/subscribers', [ChannelSubscriptionController::class, 'listChannelSubscribers'])
+                ->name(RouteEnum::CHANNEL_SUBSCRIBERS)
+                ->middleware(['permission:' . PermissionEnum::CHANNEL_SUBSCRIBERS]);
             
-            Route::resource('{channel}/subscriptions', SubscriptionController::class)
+            
+            Route::resource('{channel}/subscriptions', ChannelSubscriptionController::class)
                 ->only(['store', 'destroy'])
                 ->names([
                     'store' => RouteEnum::CHANNEL_SUBSCRIPTIONS_STORE,
@@ -96,16 +108,15 @@ Route::middleware(['verified'])->group( function(){
                     'store' => 'permission:'.PermissionEnum::CHANNEL_SUBSCRIPTIONS_STORE,
                     'destroy' => 'permission:'.PermissionEnum::CHANNEL_SUBSCRIPTIONS_DESTROY
                 ]);
-            Route::get('/{channel}/subscriptions', [SubscriptionController::class, 'listSubscriptions' ])->name(RouteEnum::CHANNEL_SUBSCRIPTIONS)->middleware(['permission:' . PermissionEnum::CHANNEL_SUBSCRIPTIONS]);
         });
 
-        Route::get('/user/{user}', [SubscriptionController::class, 'user' ])->name('user')->middleware(['permission:' . PermissionEnum::CHANNEL_SUBSCRIPTIONS]);
+        
         /// 
         
         Route::post('comments/{video}', [CommentController::class, 'store'])->name(RouteEnum::COMMENTS_STORE)->middleware(['permission:' . PermissionEnum::COMMENTS_STORE]);
         Route::post('votes/{type}', [VoteController::class, 'vote' ])->name(RouteEnum::VOTES)->middleware(['permission:' . PermissionEnum::VOTES]);
         
-    
+        Route::get('/user/{user}/subscriptions', [ChannelSubscriptionController::class, 'listSubscriptions' ])->name(RouteEnum::USER_CHANNEL_SUBSCRIPTIONS)->middleware(['permission:' . PermissionEnum::USER_CHANNEL_SUBSCRIPTIONS]);
     });
     
 });

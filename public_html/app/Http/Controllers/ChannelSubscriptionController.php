@@ -7,7 +7,7 @@ use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class SubscriptionController extends Controller
+class ChannelSubscriptionController extends Controller
 {
 
     /**
@@ -37,16 +37,20 @@ class SubscriptionController extends Controller
         return response()->json([]);
     }
 
-    public function listSubscriptions(Channel $channel){
-        if( $channel->id != auth()->user()->channel->id ){
-            abort(403);
-        }
-        $subscriptions = $channel->subscriptions()->paginate(10);
-        return view('channels.subscriptions', compact('subscriptions'));
-    }
-
     public function user(User $user){
         return view('user', compact('user'));
     }
-    
+
+    public function listSubscriptions(User $user){
+        $subscriptions = $user->subscriptions()->paginate(10);
+        return view('channels.subscriptions', compact('subscriptions'));
+    }
+
+    public function listChannelSubscribers(Channel $channel){
+        if( $channel->id != auth()->user()->channel->id ){
+            abort(403);
+        }
+        $subscribers = $channel->subscribers()->paginate(10);
+        return view('channels.subscribers', compact('subscribers'));
+    }
 }

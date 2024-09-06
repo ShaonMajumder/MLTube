@@ -71,7 +71,7 @@
     </style>
 @endsection
 
-@section('scripts')
+@section('footer-script')
     <script src="https://vjs.zencdn.net/7.10.2/video.min.js"></script>
     <!-- 7.5.4 and video.js -->
 

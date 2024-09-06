@@ -46,13 +46,13 @@ class LaratrustServiceProvider extends OriginalLaratrustServiceProvider
         // $this->registerCommands();
         parent::register();
         $this->registerResources();
+        $this->registerRoutes();
     }
 
     public function boot()
     {
         // $this->useMorphMapForRelationships();
         // $this->registerMiddlewares();
-        // $this->registerRoutes();
         // $this->registerPermissionsToGate();
 
         // parent::boot();
@@ -84,21 +84,21 @@ class LaratrustServiceProvider extends OriginalLaratrustServiceProvider
         $this->loadViewsFrom(resource_path('views/laratrust'), 'laratrust');
     }
 
-    // protected function registerRoutes()
-    // {
-    //     if (!$this->app['config']->get('laratrust.panel.register')) {
-    //         return;
-    //     }
+    protected function registerRoutes()
+    {
+        if (!$this->app['config']->get('laratrust.panel.register')) {
+            return;
+        }
 
-    //     Route::group([
-    //         'prefix' => config('laratrust.panel.path'),
-    //         'namespace' => 'App\Http\Controllers\Laratrust',
-    //         'middleware' => config('laratrust.panel.middleware', 'web'),
-    //     ], function () {
-    //         Route::redirect('/', '/' . config('laratrust.panel.path') . '/roles-assignment');
-    //         $this->loadRoutesFrom(base_path('routes/laratrust.php'));
-    //     });
-    // }
+        Route::group([
+            'prefix' => config('laratrust.panel.path'),
+            'namespace' => 'App\Http\Controllers\Laratrust',
+            'middleware' => config('laratrust.panel.middleware', 'web'),
+        ], function () {
+            Route::redirect('/', '/' . config('laratrust.panel.path') . '/roles-assignment');
+            $this->loadRoutesFrom(base_path('routes/laratrust.php'));
+        });
+    }
 
     /**
      * Register the assets that are publishable for the admin panel to work.

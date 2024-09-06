@@ -11,18 +11,10 @@ use Laratrust\Http\Controllers\PermissionsController as OrginalController;
 
 class PermissionsController extends OrginalController
 {
-    // public function index()
-    // {
-    //     $dashboardType = app('dashboard_suffix');
-    //     if(isTMAdmin()){
-    //         $permissions = $this->permissionModel::where('name', 'not like', $dashboardType.'.%');
-    //     } elseif(isGamingAdmin()){
-    //         $permissions = $this->permissionModel::where('name', 'like', $dashboardType.'.%');
-    //     } else{
-    //         $permissions = $this->permissionModel::query();
-    //     }
-    //     return View::make('laratrust::panel.permissions.index', [
-    //         'permissions' => $permissions->orderBy('id', 'asc')->paginate(10)
-    //     ]);
-    // }
+    public function index()
+    {
+        return View::make('laratrust::panel.permissions.index', [
+            'permissions' => $this->permissionModel::paginate(10),
+        ]);
+    }
 }

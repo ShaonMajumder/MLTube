@@ -1,9 +1,14 @@
 @extends('layouts.app')
+
+@section('title', 'My Channel')
+
+@include('search_snippet')
+
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Dashboard</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Gaming Dashboard</li>
+    <li class="breadcrumb-item active" aria-current="page">My Channel</li>
 @endsection
-@include('search_snippet')
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">

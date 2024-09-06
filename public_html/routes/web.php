@@ -90,6 +90,9 @@ Route::middleware(['verified'])->group( function(){
 
         Route::prefix('channels')->group(function(){
             Route::get('/{channel}/videos', [UploadVideoController::class, 'index'])->name(RouteEnum::CHANNEL_VIDEOS_UPLOAD)->middleware(['permission:' . PermissionEnum::CHANNEL_VIDEOS_UPLOAD]);
+            Route::get('/{channel}/videos/upload', [UploadVideoController::class, 'index'])
+                ->name(RouteEnum::CHANNEL_VIDEOS_UPLOAD)
+                ->middleware(['permission:' . PermissionEnum::CHANNEL_VIDEOS_UPLOAD]);
             Route::post('/{channel}/videos/upload', [UploadVideoController::class, 'store'])
                 ->name(RouteEnum::CHANNEL_VIDEOS_UPLOAD)
                 ->middleware(['permission:' . PermissionEnum::CHANNEL_VIDEOS_UPLOAD]);

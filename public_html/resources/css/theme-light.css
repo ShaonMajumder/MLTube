@@ -2,6 +2,12 @@
 /* ---input */
 
 /* public/css/sidebar-light.css */
+    /* Light Theme */
+    body.light-theme {
+        background-color: #fff;
+        color: #333;
+    }
+
     body.light-theme .sidebar {
         background-color: #fff;
         color: #333;
@@ -75,3 +81,48 @@
     }
 
     /* theme table */
+    
+    /* breadcrumb */
+
+    /* pagination */
+    body.light-theme .pagination a,
+    body.light-theme .pagination span {
+        color: #007bff; /* Blue text */
+        background-color: #f8f9fa; /* Light grey background */
+        border: 1px solid #ddd; /* Light grey border */
+    }
+
+    body.light-theme .pagination a:hover {
+        background-color: #e9ecef; /* Slightly darker grey on hover */
+        color: #0056b3; /* Darker blue on hover */
+    }
+
+    body.light-theme .pagination .active span {
+        background-color: #007bff; /* Blue background for active page */
+        color: #fff; /* White text for active page */
+        border-color: #007bff; /* Blue border for active page */
+    }
+    /* --- pagination */
+
+    /* channel */
+    body.light-theme .channel-link {
+        color: #333; /* Dark text color for light theme */
+    }
+    
+    body.light-theme .channel-link:hover {
+        color: #007bff; /* Blue color on hover */
+    }
+    /* --- channel */
+
+    /* subscribe-button */
+    body.light-theme .subscribe-button {
+        background-color: #ff3838; /* YouTube red */
+        color: #fff;
+        border: 1px solid #cc0000; /* Darker red border for definition */
+    }
+    
+    body.light-theme .subscribe-button:hover {
+        background-color: #cf2d2d; /* Slightly darker red on hover */
+        border-color: #990000; /* Even darker red on hover for better visibility */
+    }
+    /* --- subscribe-button */

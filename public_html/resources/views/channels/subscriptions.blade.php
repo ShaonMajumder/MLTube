@@ -1,7 +1,9 @@
 @extends('layouts.app')
-@section('search')
-    <search :query="'{{ request()->query('q') ? request()->query('q'):"" }}'" ></search>
-@endsection
+
+@section('title', 'Subscriptions')
+
+@include('search_snippet')
+
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Dashboard</a></li>
     <li class="breadcrumb-item active" aria-current="page">Subscriptions</li>

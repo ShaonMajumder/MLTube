@@ -74,28 +74,44 @@ class MenuServiceProvider extends ServiceProvider
         ]);
 
 
-        menu()->addMenu('settings', [
-            'label' => 'settings',
-            'permissions' => PermissionEnum::CHANNEL_OWNED,
+        menu()->addMenu('manage-site', [
+            'label' => 'Manage Site',
+            // 'permissions' => PermissionEnum::CHANNEL_OWNED,
             'icon' => 'fas fa-cog',
         ]);
 
-        menu()->addChilds('settings', [
+        menu()->addChilds('manage-site', [
             [
-                'key' => CommonEnum::CHANNEL_OWNED, 
-                'label' => 'Cache,PushNotification,Routes', 
-                'route' => RouteEnum::CHANNELS_SHOW,
+                'key' => 'sitemap', 
+                'label' => 'Sitemap', 
+                // 'route' => RouteEnum::CHANNELS_SHOW,
                 'route_parameters' => $channel ?  ['channel' => $channel->id] : ['channel' => 'invalid'] , // $channel ?  ['channel' => $channel->id] : [],
                 'permissions' => PermissionEnum::CHANNEL_OWNED,
                 'icon' => 'fas fa-user-circle'
             ],
             [
-                'key' => CommonEnum::CHANNEL_SUBSCRIBERS, 
-                'label' => 'Routes2', 
-                'route' => RouteEnum::CHANNEL_SUBSCRIBERS,
+                'key' => 'push-notification', 
+                'label' => 'Push Notification', 
+                // 'route' => RouteEnum::CHANNELS_SHOW,
                 'route_parameters' => $channel ?  ['channel' => $channel->id] : ['channel' => 'invalid'] , // $channel ?  ['channel' => $channel->id] : [],
-                'permissions' => PermissionEnum::CHANNEL_SUBSCRIBERS,
-                'icon' => 'fas fa-user',
+                'permissions' => PermissionEnum::CHANNEL_OWNED,
+                'icon' => 'fas fa-user-circle'
+            ],
+            [
+                'key' => 'cache', 
+                'label' => 'Cache', 
+                // 'route' => RouteEnum::CHANNELS_SHOW,
+                'route_parameters' => $channel ?  ['channel' => $channel->id] : ['channel' => 'invalid'] , // $channel ?  ['channel' => $channel->id] : [],
+                'permissions' => PermissionEnum::CHANNEL_OWNED,
+                'icon' => 'fas fa-user-circle'
+            ],
+            [
+                'key' => 'routes', 
+                'label' => 'Routes', 
+                // 'route' => RouteEnum::CHANNELS_SHOW,
+                'route_parameters' => $channel ?  ['channel' => $channel->id] : ['channel' => 'invalid'] , // $channel ?  ['channel' => $channel->id] : [],
+                'permissions' => PermissionEnum::CHANNEL_OWNED,
+                'icon' => 'fas fa-user-circle'
             ],
         ]);
         
@@ -109,8 +125,8 @@ class MenuServiceProvider extends ServiceProvider
         
         menu()->addChilds('role_permissions', [
             [
-                'key' => CommonEnum::MANAGE_PERMISSION, 
-                'label' => 'Permissions', 
+                'key' => CommonEnum::MANAGE_PERMISSION,
+                'label' => 'Permissions',
                 'route' => RouteEnum::MANAGE_PERMISSION,
                 'permissions' => PermissionEnum::MANAGE_PERMISSION,
                 'icon' => 'fas fa-cogs'

@@ -137,7 +137,7 @@
     </script>
     
     <script src="{{ asset('js/app.js') }}"></script>
-    @yield('scripts')
+    @yield('footer-script')
 </body>
 </html>
 

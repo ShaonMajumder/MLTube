@@ -3,14 +3,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="auth-user-data" data-auth-user="{{ json_encode(auth()->user()) }}" style="display: none;">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
-    <!-- Scripts -->
-    
+    <title>@yield('title', config('app.name', 'Laravel') )</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -19,80 +15,67 @@
     <!-- Include Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-
     <!-- Styles -->
     <link href="{{ asset('css/banglatube.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/theme.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/theme.css') }}" rel="stylesheet">
     
     @yield('styles')
-    <style>
-        
 
+</head>
+<body class="{{ isset($theme) && $theme == 'dark' ? 'dark-theme' : 'light-theme' }}" data-theme="{{ $theme }}">
+    
+    <div id="app">
+        <!-- Header -->
+        <!-- Search -->
+        @include('layouts.header')
 
-        /*theme*/
-        #themeSwitcher .active {
-            opacity: 1;
-            color: #FFD700; /* Bright color for active theme */
-        }
+        <div class="container-fullwidth">
+            <div class="row">
+                <!-- Sidebar -->
+                <aside class="col-md-2 col-lg-2 ">
+                    @include('layouts.sidebar')
+                </aside>
 
-        #themeSwitcher .inactive {
-            opacity: 0.5;
-            color: #888888; /* Faded color for inactive theme */
-        }
+                <!-- Main Content -->
+                <main class="col-md-10 col-lg-10 main-content">
+                    
 
+                    <!-- Breadcrumb -->
+                    @if(View::hasSection('breadcrumb'))
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="{{ url('/') }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home">
+                                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                        </svg>
+                                    </a>
+                                </li>
+                                @yield('breadcrumb')
+                            </ol>
+                        </nav>
+                    @endif
 
-        /* Light Theme */
-        body.light-theme {
-            background-color: #fff;
-            color: #333;
-        }
-
-        .sidebar {
-            background-color: #f8f9fa;
-        }
-
-        /* Dark Theme */
-        body.dark-theme {
-            background-color: #1a1a1a;
-            color: #fff;
-        }
-/* 
-        .sidebar {
-            background-color: #333;
-        } */
-
-        /* Theme Toggle Button Styling */
-        .theme-toggle-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 24px;
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            z-index: 1000;
-        }
-
-        .theme-toggle-btn i {
-            transition: color 0.3s ease;
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-    </style>
-
+                    <div class="py-4">
+                        @yield('content')
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+    
     <script>
+        window.AuthUser = '{!! auth()->user() !!}'
+    </script>
+    <script src="{{ mix('js/app.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+            $('.select2').select2();
+        });
+        
         document.addEventListener('DOMContentLoaded', function() {
             let currentTheme = document.body.getAttribute('data-theme');
             let newTheme = currentTheme === 'dark' ? 'light' : 'dark';
@@ -165,72 +148,6 @@
 
 
     </script>
-</head>
-<body class="{{ isset($theme) && $theme == 'dark' ? 'dark-theme' : 'light-theme' }}" data-theme="{{ $theme }}">
-    
-    <div id="app">
-        <!-- Header -->
-        <!-- Search -->
-        @include('layouts.header')
-
-        <div class="container-fullwidth">
-            <div class="row">
-                <!-- Sidebar -->
-                <aside class="col-md-2 col-lg-2 ">
-                    @include('layouts.sidebar')
-                </aside>
-
-                <!-- Main Content -->
-                <main class="col-md-10 col-lg-10 main-content">
-                    
-
-                    <!-- Breadcrumb -->
-                    @if(View::hasSection('breadcrumb'))
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item">
-                                    <a href="{{ url('/') }}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home">
-                                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                                        </svg>
-                                    </a>
-                                </li>
-                                @yield('breadcrumb')
-                            </ol>
-                        </nav>
-                    @endif
-
-                    <div class="py-4">
-                        @yield('content')
-                    </div>
-                </main>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        /*
-        Window.AuthUser = '{!! auth()->user() !!}'
-        Window.__auth = function(){
-            try{
-                return JSON.parse(AuthUser)
-            }catch(error){
-                return null
-            }
-        }
-        */
-        window.AuthUser = '{!! auth()->user() !!}'
-        window.__auth = function () {
-            try {
-                return JSON.parse(AuthUser)
-            } catch (error) {
-                return null
-            }
-        }
-    </script>
-    
-    <script src="{{ asset('js/app.js') }}"></script>
-    @yield('scripts')
+    @yield('footer-script')
 </body>
 </html>

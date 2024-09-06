@@ -12,33 +12,24 @@ use Laratrust\Http\Controllers\RolesAssignmentController as OrginalController;
 
 class RolesAssignmentController extends OrginalController
 {
-    // public function index(Request $request)
-    // {
-    //     // $dashboardType = app('dashboard_suffix');
+    public function index(Request $request)
+    {
+        $modelsKeys = array_keys(Config::get('laratrust.user_models'));
+        $modelKey = $request->get('model') ?? $modelsKeys[0] ?? null;
+        $userModel = Config::get('laratrust.user_models')[$modelKey] ?? null;
+        $userModel = $userModel::query();
 
-    //     $modelsKeys = array_keys(Config::get('laratrust.user_models'));
-    //     $modelKey = $request->get('model') ?? $modelsKeys[0] ?? null;
-    //     $userModel = Config::get('laratrust.user_models')[$modelKey] ?? null;
+        if (!$userModel) {
+            abort(404);
+        }
 
-    //     if(isTMAdmin()){
-    //         $userModel = $userModel::query()->where('type', User::TYPE['tm_admin']);
-    //     } elseif(isGamingAdmin()){
-    //         $userModel = $userModel::query()->where('type', User::TYPE['gaming_admin']);
-    //     } else {
-    //         $userModel = $userModel::query();
-    //     }
-
-    //     if (!$userModel) {
-    //         abort(404);
-    //     }
-
-    //     return View::make('laratrust::panel.roles-assignment.index', [
-    //         'models' => $modelsKeys,
-    //         'modelKey' => $modelKey,
-    //         'users' => $userModel->withCount(['roles', 'permissions'])
-    //             ->paginate(10),
-    //     ]);
-    // }
+        return View::make('laratrust::panel.roles-assignment.index', [
+            'models' => $modelsKeys,
+            'modelKey' => $modelKey,
+            'users' => $userModel->withCount(['roles', 'permissions'])
+                ->paginate(10),
+        ]);
+    }
 
     public function edit(Request $request, $modelId)
     {

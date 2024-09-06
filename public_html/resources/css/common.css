@@ -1,0 +1,115 @@
+/*
+Resolved app.css overflow-x due to line no: 6762 (.row {margin-right: -15px;})
+*/
+.row {
+    margin-right: 0px !important;
+}
+
+/* sidebar */
+.sidebar {
+    background-color: #f8f9fa;
+}
+
+/* switchable theme */
+
+/*theme*/
+#themeSwitcher .active {
+    opacity: 1;
+    color: #FFD700; /* Bright color for active theme */
+}
+
+#themeSwitcher .inactive {
+    opacity: 0.5;
+    color: #888888; /* Faded color for inactive theme */
+}
+
+/* Theme Toggle Button Styling */
+.theme-toggle-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+}
+
+.theme-toggle-btn i {
+    transition: color 0.3s ease;
+}
+/* --- switchable theme */
+
+/* pagination base style */
+.pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+    justify-content: center;
+}
+
+.pagination li {
+    margin: 0 0.5rem;
+}
+
+.pagination a,
+.pagination span {
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.25rem;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+}
+/* --- pagination base style */
+
+/* channel */
+.channel-link {
+    text-decoration: none; /* Remove underline */
+    transition: color 0.3s; /* Smooth color transition */
+}
+
+.channel-link:hover {
+    text-decoration: none; /* Remove underline */
+}
+/* --- channel */
+
+/* subscribe-button */
+.subscription-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.subscribe-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    outline: none;
+    text-transform: uppercase; /* Make text uppercase for a more modern look */
+}
+
+.subscribe-button .subscriber-count {
+    font-size: 0.9em;
+    opacity: 0.9; /* Slightly higher opacity for better visibility */
+}
+
+.bell-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2em;
+    color: #666;
+    transition: color 0.3s;
+}
+
+.bell-button:hover {
+    color: #ff3838; /* Color similar to the subscribe button */
+}
+/* --- subscribe-button */

@@ -51,7 +51,9 @@
                     <img class="rounded-circle" src="https://picsum.photos/id/42/200/200" width="50" height="50" class="mr-3" alt="...">
                     <div class="media-body ml-2">
                         <h5 class="mt-0 mb-0">
-                            {{ $video->channel->name }}
+                            <a :href="`{{ route( \App\Enums\RouteEnum::CHANNELS_SHOW, [ 'channel' => $video->channel->id ] ) }}`"  class="channel-link">
+                                {{ $video->channel->name }}
+                            </a>
                         </h5>
                         <span class="small">Published on {{ $video->created_at->toFormattedDateString() }}</span>
                     </div>

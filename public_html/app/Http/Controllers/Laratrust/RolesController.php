@@ -82,21 +82,13 @@ class RolesController extends OrginalController
     //     ]);
     // }
 
-    // public function index()
-    // {
-    //     if(isTMAdmin()){
-    //         $roles = $this->rolesModel::where('name', 'not like', $this->dashboardType.'%');
-    //     } elseif(isGamingAdmin()){
-    //         $roles = $this->rolesModel::where('name', 'like', $this->dashboardType.'%');
-    //     } else {
-    //         $roles = $this->rolesModel;
-    //     }
-
-    //     return View::make('laratrust::panel.roles.index', [
-    //         'roles' => $roles->withCount('permissions')
-    //             ->paginate(10),
-    //     ]);
-    // }
+    public function index()
+    {
+        return View::make('laratrust::panel.roles.index', [
+            'roles' => $this->rolesModel::withCount('permissions')
+                ->paginate(2),
+        ]);
+    }
     // // check for update and delete
 
     // public function store(Request $request)

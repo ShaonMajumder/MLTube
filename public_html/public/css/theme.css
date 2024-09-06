@@ -1,4 +1,120 @@
 
+/*
+Resolved app.css overflow-x due to line no: 6762 (.row {margin-right: -15px;})
+*/
+.row {
+    margin-right: 0px !important;
+}
+
+/* sidebar */
+.sidebar {
+    background-color: #f8f9fa;
+}
+
+/* switchable theme */
+
+/*theme*/
+#themeSwitcher .active {
+    opacity: 1;
+    color: #FFD700; /* Bright color for active theme */
+}
+
+#themeSwitcher .inactive {
+    opacity: 0.5;
+    color: #888888; /* Faded color for inactive theme */
+}
+
+/* Theme Toggle Button Styling */
+.theme-toggle-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+}
+
+.theme-toggle-btn i {
+    transition: color 0.3s ease;
+}
+/* --- switchable theme */
+
+/* pagination base style */
+.pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+    justify-content: center;
+}
+
+.pagination li {
+    margin: 0 0.5rem;
+}
+
+.pagination a,
+.pagination span {
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.25rem;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+}
+/* --- pagination base style */
+
+/* channel */
+.channel-link {
+    text-decoration: none; /* Remove underline */
+    transition: color 0.3s; /* Smooth color transition */
+}
+
+.channel-link:hover {
+    text-decoration: none; /* Remove underline */
+}
+/* --- channel */
+
+/* subscribe-button */
+.subscription-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.subscribe-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    outline: none;
+    text-transform: uppercase; /* Make text uppercase for a more modern look */
+}
+
+.subscribe-button .subscriber-count {
+    font-size: 0.9em;
+    opacity: 0.9; /* Slightly higher opacity for better visibility */
+}
+
+.bell-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2em;
+    color: #666;
+    transition: color 0.3s;
+}
+
+.bell-button:hover {
+    color: #ff3838; /* Color similar to the subscribe button */
+}
+/* --- subscribe-button */
+
     /* Dark Theme */
     body.dark-theme {
         background-color: #1a1a1a;
@@ -215,3 +331,131 @@
     /* --- subscribe-button */
 
     
+/* input */
+/* ---input */
+
+/* public/css/sidebar-light.css */
+    /* Light Theme */
+    body.light-theme {
+        background-color: #fff;
+        color: #333;
+    }
+
+    body.light-theme .sidebar {
+        background-color: #fff;
+        color: #333;
+        min-width: 250px;
+        max-width: 250px;
+        height: 100vh;
+        padding: 20px;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    body.light-theme .sidebar .nav-link {
+        color: #333;
+        font-size: 16px;
+        font-weight: 500;
+        padding: 10px 15px;
+        transition: color 0.3s ease, background-color 0.3s ease;
+    }
+
+    body.light-theme .sidebar .nav-link:hover {
+        background-color: #f8f9fa;
+        color: #000;
+    }
+
+    body.light-theme .sidebar .nav-link.active {
+        background-color: #f8f9fa;
+        color: #000;
+    }
+
+    body.light-theme .sidebar .nav-link i {
+        margin-right: 10px;
+    }
+    /* public/css/sidebar-light.css */
+
+
+    /* video player */
+
+    /* Light Theme */
+    body.light-theme .card {
+        background-color: #ffffff;
+        color: #333333;
+    }
+
+    /* body.light-theme .vjs-default-skin {
+        background-color: #f8f9fa;
+        color: #333333;
+    } */
+
+    body.light-theme .vjs-control-bar {
+        background-color: #ffffff;
+    }
+
+    body.light-theme .vjs-control-bar .vjs-play-control:hover,
+    body.light-theme .vjs-control-bar .vjs-volume-control:hover,
+    body.light-theme .vjs-control-bar .vjs-fullscreen-control:hover {
+        color: #007bff;
+    }
+
+    body.light-theme .text-muted {
+        color: #6c757d;
+    }
+    /* --- video player */
+
+
+    /* comments section */
+    
+    /* navbar section */
+
+    /* theme toggle button */
+    body.light-theme .theme-toggle-btn i {
+        color: #f39c12;
+    }
+
+    /* theme table */
+    
+    /* breadcrumb */
+
+    /* pagination */
+    body.light-theme .pagination a,
+    body.light-theme .pagination span {
+        color: #007bff; /* Blue text */
+        background-color: #f8f9fa; /* Light grey background */
+        border: 1px solid #ddd; /* Light grey border */
+    }
+
+    body.light-theme .pagination a:hover {
+        background-color: #e9ecef; /* Slightly darker grey on hover */
+        color: #0056b3; /* Darker blue on hover */
+    }
+
+    body.light-theme .pagination .active span {
+        background-color: #007bff; /* Blue background for active page */
+        color: #fff; /* White text for active page */
+        border-color: #007bff; /* Blue border for active page */
+    }
+    /* --- pagination */
+
+    /* channel */
+    body.light-theme .channel-link {
+        color: #333; /* Dark text color for light theme */
+    }
+    
+    body.light-theme .channel-link:hover {
+        color: #007bff; /* Blue color on hover */
+    }
+    /* --- channel */
+
+    /* subscribe-button */
+    body.light-theme .subscribe-button {
+        background-color: #ff3838; /* YouTube red */
+        color: #fff;
+        border: 1px solid #cc0000; /* Darker red border for definition */
+    }
+    
+    body.light-theme .subscribe-button:hover {
+        background-color: #cf2d2d; /* Slightly darker red on hover */
+        border-color: #990000; /* Even darker red on hover for better visibility */
+    }
+    /* --- subscribe-button */

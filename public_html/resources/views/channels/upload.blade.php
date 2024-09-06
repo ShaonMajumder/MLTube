@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title', 'Upload Videos')
+
+@include('search_snippet')
+
 @section('content')
 <div class="container-fluid">
     <div class="row justify-content-center">

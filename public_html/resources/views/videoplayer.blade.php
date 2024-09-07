@@ -59,7 +59,9 @@
                     </div>
                 </div>
 
-                <subscribe-button :channel="{{ $video->channel }}" :initial-subscriptions="{{ $video->channel->subscriptions }}" />
+                @if( !auth()->check() || $video->channel->user->id != auth()->user()->id)
+                    <subscribe-button :channel="{{ $video->channel }}" :initial-subscriptions="{{ $video->channel->subscriptions }}" />
+                @endif
             </div>
         </div>
     @if($video->editable())

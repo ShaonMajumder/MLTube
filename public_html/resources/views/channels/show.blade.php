@@ -57,7 +57,9 @@
                             </p>
 
                             <div class="text-center">
-                                <subscribe-button :channel="{{ $channel }}" :initial-subscriptions="{{ $channel->subscriptions }}" />
+                                @if( $channel->user->id != auth()->user()->id)
+                                    <subscribe-button :channel="{{ $channel }}" :initial-subscriptions="{{ $channel->subscriptions }}" />
+                                @endif
                             </div>
                             
 

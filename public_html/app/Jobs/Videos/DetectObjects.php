@@ -42,13 +42,6 @@ class DetectObjects implements ShouldQueue
     }
 
     public function get_ml_tags($video_path = null){
-        // if($video_path != null){
-        //     $path = $video_path;
-        //     $video_id = Video::where('path', $video_path)->first()->id;
-        // }else{
-        //     $video_id = $this->video->id;//request()->vid_id;
-        //     $path = Video::where('id', $video_id)->first()->path;
-        // }
 
         if ($video_path !== null) {
             $video = Video::where('path', $video_path)->first();
@@ -71,7 +64,6 @@ class DetectObjects implements ShouldQueue
 
         $command = escapeshellcmd("python3 $script_path --input=\"$abs_path\" --input_type=video");
         $output = shell_exec($command);
-        // $output = shell_exec("python3 $script_path --input=\"$abs_path\" --input_type=video");
 
         if ($output === null) {
             throw new \Exception("Error executing the script");

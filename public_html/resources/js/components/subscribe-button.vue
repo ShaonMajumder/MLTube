@@ -60,7 +60,11 @@ export default {
     },
     methods: {
         setThemeColors() {
-            const button = document.querySelector('.subscribe-button');
+            const currentTheme = [...document.body.classList].find(cls => cls.endsWith('-theme'));
+            console.log(currentTheme)
+            if (!currentTheme) return;
+
+            const button = document.querySelector(`body.${currentTheme} .subscribe-button`);
             
             // Get default background color from the button
             const computedStyle = getComputedStyle(button);

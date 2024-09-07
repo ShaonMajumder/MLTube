@@ -47,7 +47,8 @@ class CommonEnum extends Enum
     const THEME = 'theme';
     const THEME_UPDATE = self::THEME . '.update';
     const CACHES_CLEAR = 'caches.clear';
-
+    const ML_TAGS = 'ml.tags';
+    const ML_TAGS_CONFIDENCE = self::ML_TAGS . '.confidence';
 
     const ROUTES = 'routes';
 }

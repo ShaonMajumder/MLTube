@@ -4,12 +4,12 @@
  */
 const metaTag = document.querySelector('meta[name="auth-user-data"]');   
 if (metaTag) {
-    window.authUser = JSON.parse(metaTag.getAttribute('data-auth-user') || '{}');
+    window.authUser = metaTag.getAttribute('data-auth-user') || '{}';
     metaTag.remove();
 }
 window.__auth = function () {
     try {
-        return JSON.parse(AuthUser)
+        return JSON.parse(window.authUser)
     } catch (error) {
         return null
     }

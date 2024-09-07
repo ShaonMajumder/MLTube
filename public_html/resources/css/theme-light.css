@@ -125,4 +125,9 @@
         background-color: #cf2d2d; /* Slightly darker red on hover */
         border-color: #990000; /* Even darker red on hover for better visibility */
     }
+
+    body.light-theme .temp-hover {
+        background-color: #cf2d2d;
+        border-color: #990000;
+    }
     /* --- subscribe-button */

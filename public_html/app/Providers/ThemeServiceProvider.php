@@ -10,6 +10,7 @@ use App\Enums\RouteEnum;
 use App\Enums\SessionEnum;
 use App\Models\Settings;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,7 +23,7 @@ class ThemeServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('theme', function ($app) {
+        $this->app->singleton(SessionEnum::THEME, function ($app) {
             return $this->getTheme();
         });
     }
@@ -58,7 +59,7 @@ class ThemeServiceProvider extends ServiceProvider
                         $result = Settings::updateOrInsert(
                             [
                                 'user_id' => $userId,
-                                'key' => 'theme'
+                                'key' => CacheEnum::THEME
                             ], 
                             [
                                 'value' => $theme,
@@ -70,7 +71,13 @@ class ThemeServiceProvider extends ServiceProvider
                     Redis::set($cacheThemeKey, $theme);
                 }
             } else {
-                $theme = config('theme.default');
+                if (request()->hasCookie('guest_theme')) {
+                    $theme = request()->cookie('guest_theme');
+                } else {
+                    $theme = config('theme.default');
+                    cookie()->queue(cookie()->forever('guest_theme', $theme));
+                }
+
             }
 
             session([$sessionThemeKey => $theme]);

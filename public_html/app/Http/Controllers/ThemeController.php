@@ -33,6 +33,7 @@ class ThemeController extends Controller
             );
         }
 
+        cookie()->queue(cookie()->forever('guest_theme', $theme));
         session(['theme' => $theme]);
 
         return response()->json(['success' => true]);

@@ -180,6 +180,7 @@ return [
         // Laratrust\LaratrustServiceProvider::class,
         App\Providers\LaratrustServiceProvider::class,
         App\Providers\MenuServiceProvider::class,
+        App\Providers\MLServiceProvider::class,
         App\Providers\ThemeServiceProvider::class,
         App\Providers\ViewParamsServiceProvider::class,
     ],

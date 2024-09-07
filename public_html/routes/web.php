@@ -2,6 +2,7 @@
 
 use App\Enums\PermissionEnum;
 use App\Enums\RouteEnum;
+use App\Http\Controllers\AdministritiveController;
 use App\Http\Controllers\CacheController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
@@ -125,4 +126,15 @@ Route::middleware(['verified'])->group( function(){
 });
 
 Route::post('/update-theme', [ThemeController::class, 'update'])->name(RouteEnum::THEME_UPDATE);
-Route::get('/clear-caches', [CacheController::class, 'clearAll'])->name(RouteEnum::CACHES_CLEAR);
+Route::get('/clear-caches', [AdministritiveController::class, 'clearAll'])->name(RouteEnum::CACHES_CLEAR);
+// Clear all caches
+Route::get('/clear-all', [AdministritiveController::class, 'clearAll'])->name('clearAll');
+
+// Clear personal cookies
+Route::get('/clear-personal-cookies', [AdministritiveController::class, 'clearPersonalCookies'])->name('clearPersonalCookies');
+
+// Clear all sessions
+Route::get('/clear-all-sessions', [AdministritiveController::class, 'clearAllSessions'])->name('clearAllSessions');
+
+// Delete personal session
+Route::get('/clear-personal-session', [AdministritiveController::class, 'deletePersonalSession'])->name('deletePersonalSession');

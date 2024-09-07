@@ -80,6 +80,11 @@ if [ ! -d "${WORKING_DIR}/node_modules" ] || [ -z "$(ls -A ${WORKING_DIR}/node_m
     check_and_set_ownership "${WORKING_DIR}/node_modules/"
     # chown -R www-data:www-data /var/www/public_html/node_modules/
     chmod -R 755 "${WORKING_DIR}/node_modules/"
+
+    # chown -R www-data:www-data /var/www/public_html/public
+    # chmod -R 755 /var/www/public_html/public
+
+
     npm install
     npm run dev
 else
@@ -149,6 +154,10 @@ if [ ! -L "${WORKING_DIR}/public/storage" ]; then
 else
     echo "Storage link already exists."
 fi
+
+echo "\nAllowing this application to be accessed within LAN."
+ufw allow 8000/tcp
+ufw allow 3306/tcp
 
 
 echo "\n"

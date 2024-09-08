@@ -15,7 +15,9 @@ mix.js('resources/js/app.js', 'public/js')
     .autoload({
         jquery: ['$', 'jQuery'],
     })
-    .sass('resources/sass/app.scss', 'public/css') // points to app.css
+    // .sass('resources/sass/app.scss', 'public/css') // points to app.css
+    .sass('resources/sass/theme-light.scss', 'public/css')
+    .sass('resources/sass/theme-dark.scss', 'public/css')
     .styles([
         'resources/css/app.css',
         'resources/css/common.css',

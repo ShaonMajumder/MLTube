@@ -7,44 +7,57 @@ $(document).ready(function () {
     $('.select2').select2();
 });
 
-document.addEventListener('DOMContentLoaded', function() {
-    let currentTheme = document.body.getAttribute('data-theme');
-    let newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    var navbar = document.querySelector('.navbar');
+function switchTheme(theme) {
+    const lightIcon = document.getElementById('lightIcon');
+    const darkIcon = document.getElementById('darkIcon');
+    const navbar = document.querySelector('.navbar');
+    const lightThemeStyleSheet = document.getElementById('light-theme');
+    const darkThemeeStyleSheet = document.getElementById('dark-theme');
+
+    // Toggle the class on the navbar
     if (navbar) {
         navbar.classList.remove('navbar-dark', 'navbar-light');
-        navbar.classList.add(currentTheme === 'dark' ? 'navbar-dark' : 'navbar-light');
+        navbar.classList.add(theme === 'dark' ? 'navbar-dark' : 'navbar-light');
     }
+
+    // Toggle the theme classes on the body
+    document.body.classList.remove('light-theme', 'dark-theme');
+    document.body.classList.add(theme === 'dark' ? 'dark-theme' : 'light-theme');
+
+    // Enable/Disable the appropriate stylesheets
+    lightThemeStyleSheet.disabled = theme === 'dark';
+    darkThemeeStyleSheet.disabled = theme === 'light';
+
+
+    if (theme === 'light') {
+        // Show light icon, hide dark icon
+        lightIcon.classList.add('active');
+        lightIcon.classList.remove('inactive');
+        darkIcon.classList.add('inactive');
+        darkIcon.classList.remove('active');
+    } else {
+        // Show dark icon, hide light icon
+        darkIcon.classList.add('active');
+        darkIcon.classList.remove('inactive');
+        lightIcon.classList.add('inactive');
+        lightIcon.classList.remove('active');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    let currentTheme = document.body.getAttribute('data-theme');
+    switchTheme(currentTheme);
 
     const themeSwitcher = document.getElementById('themeSwitcher');
     if(themeSwitcher){
         themeSwitcher.addEventListener('click', function(event) {
-            event.preventDefault(); // Prevent the default action of the link
-    
+            event.preventDefault();
+        
             currentTheme = document.body.getAttribute('data-theme');
-            let newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    
-            navbar = document.querySelector('.navbar');
-            if (navbar) {
-                navbar.classList.remove('navbar-dark', 'navbar-light');
-                navbar.classList.add(newTheme === 'dark' ? 'navbar-dark' : 'navbar-light');
-            }
-    
-            // Toggle the data-theme attribute
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            switchTheme(newTheme);
             document.body.setAttribute('data-theme', newTheme);
-    
-            // Toggle the theme
-            let bodyClassList = document.body.classList;
-            bodyClassList.remove('light-theme', 'dark-theme');
-            bodyClassList.add(newTheme  === 'dark' ? 'dark-theme' : 'light-theme');
-    
-            
-            // Update the icons
-            document.getElementById('lightIcon').classList.toggle('active');
-            document.getElementById('lightIcon').classList.toggle('inactive');
-            document.getElementById('darkIcon').classList.toggle('active');
-            document.getElementById('darkIcon').classList.toggle('inactive');
-    
+
             axios.post('/update-theme', { theme: newTheme })
                 .then(response => {
                     if (!response.data.success) {
@@ -53,22 +66,29 @@ document.addEventListener('DOMContentLoaded', function() {
                 })
                 .catch(error => console.error('Error:', error));
         });
-
-
-        // toggle dropdown or collapsable
-        const toggleElements = document.querySelectorAll('[data-toggle="collapse"]');
-        toggleElements.forEach(function(element) {
-            element.addEventListener('click', function() {
-                const arrowIcon = this.querySelector('.fa-chevron-right');
-                
-                if (arrowIcon) {
-                    arrowIcon.classList.toggle('fa-chevron-down');
-                    arrowIcon.classList.toggle('fa-chevron-right');
-                }
-            });
-        });
     }
 
-
+    // Toggle dropdown, toggle down and right icon
+    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+    dropdownToggles.forEach(function (dropdownToggle) {
+        if (dropdownToggle.classList.contains('active')) {
+            dropdownToggle.classList.add('right');
+        } else {
+            dropdownToggle.classList.remove('right');
+            dropdownToggle.classList.add('collapsed');
+        }
     
+        dropdownToggle.addEventListener('click', function () {
+            if (dropdownToggle.classList.contains('collapsed')) {
+                
+                dropdownToggle.classList.add('right');
+            } else {
+                dropdownToggle.classList.remove('right');
+            }
+        });
+    });
+
+
+
+
 });

@@ -15,6 +15,15 @@ class AdministritiveController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function index(){
+        return view('admin.index');
+    }
+
+    /**
+     * Clear all caches.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function clearAll()
     {
         // Call Artisan commands
@@ -48,9 +57,9 @@ class AdministritiveController extends Controller
                     File::delete($file);
                 }
 
-                return response()->json(['message' => 'All session files deleted successfully.']);
+                return back()->with(['success' => 'All session files deleted successfully.']);
             } else {
-                return response()->json(['message' => 'Session directory does not exist.'], 404);
+                return back()->with(['message' => 'Session directory does not exist.'], 404);
             }
         } catch (\Exception $e) {
             Log::error('Error clearing session files: ' . $e->getMessage());
@@ -58,7 +67,18 @@ class AdministritiveController extends Controller
         }
     }
 
-    public function deletePersonalSession()
+    public function clearAllCaches(){
+        
+        try {
+            Artisan::call('cache:clear');
+            return back()->with(['success' => 'Application caches deleted successfully.']);
+        } catch (\Exception $e) {
+            Log::error('Error clearing session files: ' . $e->getMessage());
+            return back()->with(['error' => 'An error occurred while deleting Application caches.']);
+        }
+    }
+
+    public function clearPersonalSession()
     {
         $sessionId = Session::getId();
         $sessionPath = storage_path('framework/sessions');

@@ -196,13 +196,8 @@
     }
 
     body.dark-theme .subscribe-button:hover {
-        background-color: #a13232; /* #cb3e3ea6 Darker red on hover */
+        background-color: #cb3e3ea6; /* Darker red on hover */
         border-color: #850d1e; /* Even darker red on hover */
-    }
-
-    body.dark-theme .temp-hover {
-        background-color: #a13232;
-        border-color: #850d1e;
     }
 
     body.dark-theme .bell-button {
@@ -213,5 +208,9 @@
         color: #ff3838; /* Matching color on hover */
     }
     /* --- subscribe-button */
-
-    
+/* 
+    body.dark-theme .alert-success {
+        color: #fff;
+        background-color: #6fb16f;
+        border-color: #c3e6cb;
+    } */

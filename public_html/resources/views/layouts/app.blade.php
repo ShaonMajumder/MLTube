@@ -17,7 +17,9 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/banglatube.css') }}" rel="stylesheet">
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    {{-- <link href="{{ mix('css/app.css') }}" rel="stylesheet"> --}}
+    <link id="light-theme" rel="stylesheet" href="{{ mix('css/theme-light.css') }}">
+    <link id="dark-theme" rel="stylesheet" href="{{ mix('css/theme-dark.css') }}" disabled>
     <link href="{{ mix('css/theme.css') }}" rel="stylesheet">
     
     @yield('styles')

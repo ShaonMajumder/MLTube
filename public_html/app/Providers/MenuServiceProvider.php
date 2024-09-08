@@ -82,6 +82,13 @@ class MenuServiceProvider extends ServiceProvider
 
         menu()->addChilds('manage-site', [
             [
+                'key' => 'data', 
+                'label' => 'Data',
+                'route' => RouteEnum::ADMIN_MANAGE_SITE,
+                'permissions' => PermissionEnum::CHANNEL_OWNED,
+                'icon' => 'fas fa-user-circle'
+            ],
+            [
                 'key' => 'sitemap', 
                 'label' => 'Sitemap', 
                 // 'route' => RouteEnum::CHANNELS_SHOW,

@@ -51,4 +51,17 @@ class CommonEnum extends Enum
     const ML_TAGS_CONFIDENCE = self::ML_TAGS . '.confidence';
 
     const ROUTES = 'routes';
+
+    // New Administrative Routes
+    const ADMIN = 'admin';
+    const MANAGE_SITE = 'manage-site';
+    const ADMIN_MANAGE_SITE = self::ADMIN . '.' . self::MANAGE_SITE ;
+    const ADMIN_MANAGE_SITE_CLEAR_ALL = 'admin.site-manage.clear.all';
+    const ADMIN_MANAGE_SITE_CLEAR_ALL_SESSIONS = 'admin.site-manage.clear.all.sessions';
+    const ADMIN_MANAGE_SITE_CLEAR_ALL_COOKIES = 'admin.site-manage.clear.all.cookies';
+    const ADMIN_MANAGE_SITE_CLEAR_ALL_CACHES = 'admin.site-manage.clear.all.caches';
+
+    const ADMIN_MANAGE_SITE_CLEAR_PERSONAL_SESSION = 'admin.site-manage.clear.personal.session';
+    const ADMIN_MANAGE_SITE_CLEAR_PERSONAL_COOKIES = 'admin.site-manage.clear.personal.cookies';
+    const ADMIN_MANAGE_SITE_CLEAR_PERSONAL_CACHE = 'admin.site-manage.clear.personal.cache';
 }

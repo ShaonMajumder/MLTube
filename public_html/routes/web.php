@@ -1,6 +1,8 @@
 <?php
 
+use App\Enums\CommonEnum;
 use App\Enums\PermissionEnum;
+use App\Enums\RoleEnum;
 use App\Enums\RouteEnum;
 use App\Http\Controllers\AdministritiveController;
 use App\Http\Controllers\CacheController;
@@ -126,15 +128,24 @@ Route::middleware(['verified'])->group( function(){
 });
 
 Route::post('/update-theme', [ThemeController::class, 'update'])->name(RouteEnum::THEME_UPDATE);
-Route::get('/clear-caches', [AdministritiveController::class, 'clearAll'])->name(RouteEnum::CACHES_CLEAR);
-// Clear all caches
-Route::get('/clear-all', [AdministritiveController::class, 'clearAll'])->name('clearAll');
 
-// Clear personal cookies
-Route::get('/clear-personal-cookies', [AdministritiveController::class, 'clearPersonalCookies'])->name('clearPersonalCookies');
 
-// Clear all sessions
-Route::get('/clear-all-sessions', [AdministritiveController::class, 'clearAllSessions'])->name('clearAllSessions');
+Route::prefix(CommonEnum::ADMIN)->middleware(['role:' . RoleEnum::ADMIN])->group(function () {
+    
+    Route::prefix(CommonEnum::MANAGE_SITE)->group(function () {
 
-// Delete personal session
-Route::get('/clear-personal-session', [AdministritiveController::class, 'deletePersonalSession'])->name('deletePersonalSession');
+        // Admin site management dashboard
+        Route::get('/', [AdministritiveController::class, 'index'])->name(RouteEnum::ADMIN_MANAGE_SITE);
+
+        // Clear all site-related caches, sessions, cookies
+        Route::get('/clear-all', [AdministritiveController::class, 'clearAll'])->name(RouteEnum::ADMIN_MANAGE_SITE_CLEAR_ALL);
+        Route::get('/clear-all-sessions', [AdministritiveController::class, 'clearAllSessions'])->name(RouteEnum::ADMIN_MANAGE_SITE_CLEAR_ALL_SESSIONS);
+        Route::get('/clear-all-cookies', [AdministritiveController::class, 'clearAllCookies'])->name(RouteEnum::ADMIN_MANAGE_SITE_CLEAR_ALL_COOKIES);
+        Route::get('/clear-all-caches', [AdministritiveController::class, 'clearAllCaches'])->name(RouteEnum::ADMIN_MANAGE_SITE_CLEAR_ALL_CACHES);
+
+        // Clear personal session, cookies, and caches for current user
+        Route::get('/clear-personal-session', [AdministritiveController::class, 'clearPersonalSession'])->name(RouteEnum::ADMIN_MANAGE_SITE_CLEAR_PERSONAL_SESSION);
+        Route::get('/clear-personal-cookies', [AdministritiveController::class, 'clearPersonalCookies'])->name(RouteEnum::ADMIN_MANAGE_SITE_CLEAR_PERSONAL_COOKIES);
+        Route::get('/clear-personal-cache', [AdministritiveController::class, 'clearPersonalCaches'])->name(RouteEnum::ADMIN_MANAGE_SITE_CLEAR_PERSONAL_CACHE);
+    });
+});

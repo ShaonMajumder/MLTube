@@ -26,25 +26,37 @@ class AdministritiveController extends Controller
      */
     public function clearAll()
     {
-        // Call Artisan commands
-        Artisan::call('view:clear');
-        Artisan::call('route:clear');
-        Artisan::call('config:clear');
-        Artisan::call('cache:clear');
-        Artisan::call('event:clear');
-        Artisan::call('optimize:clear');
-
-        return response()->json([
-            'message' => 'All caches have been cleared successfully!',
-        ]);
+        try{
+            Artisan::call('view:clear');
+            Artisan::call('route:clear');
+            Artisan::call('config:clear');
+            Artisan::call('cache:clear');
+            Artisan::call('event:clear');
+            Artisan::call('optimize:clear');
+    
+            return back()->with(['success' => 'All have been cleared successfully.']);
+        } catch (\Exception $e) {
+            return back()->with(['error' => 'An error occurred while deleting all.']);
+        }
+        
     }
 
     public function clearPersonalCookies() {
-        foreach (Cookie::get() as $cookieName => $cookieValue) {
-            Cookie::queue(Cookie::forget($cookieName));
+        $sessionCookieName = config('session.cookie'); // This is the session cookie name, default is 'laravel_session'
+        // dd(Cookie::get() );
+        try {
+            foreach (Cookie::get() as $cookieName => $cookieValue) {
+                // if ($cookieName !== $sessionCookieName) {
+                    // Forget cookies with domain and path
+                    Cookie::queue(Cookie::forget($cookieName, '/', null));
+                // }
+            }
+            // return back()->with(['success' => 'Personal cookies cleared successfully except session cookie.']);
+        } catch (\Exception $e) {
+            return back()->with(['error' => 'An error occurred while deleting personal cookies.']);
         }
-        return response()->json(['message' => 'Personal cookies cleared successfully.']);
     }
+    
 
     public function clearAllSessions()
     {

@@ -29,7 +29,10 @@ class HomeController extends Controller
     
     public function index()
     {
-        return view('home');
+        $videos = Video::Paginate(3);
+        return view('home', [
+            'videos' => $videos
+        ]);
     }
 
     public function search()

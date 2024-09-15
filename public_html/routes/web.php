@@ -15,6 +15,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ChannelSubscriptionController;
 use App\Http\Controllers\ThemeController;
+use App\Http\Controllers\ThumbnailController;
 use App\Http\Controllers\UploadVideoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoController;
@@ -149,3 +150,6 @@ Route::prefix(CommonEnum::ADMIN)->middleware(['role:' . RoleEnum::ADMIN])->group
         Route::get('/clear-personal-cache', [AdministritiveController::class, 'clearPersonalCaches'])->name(RouteEnum::ADMIN_MANAGE_SITE_CLEAR_PERSONAL_CACHE);
     });
 });
+
+// check the security
+Route::get('thumbnails/{filename}', [ThumbnailController::class, 'show'])->name('thumbnails.show');

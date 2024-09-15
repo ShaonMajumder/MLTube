@@ -6,7 +6,9 @@
     }
     
     /* input */
-    body.dark-theme input[type="text"], 
+    body.dark-theme input[type="text"],
+    body.dark-theme input[type="email"],
+    body.dark-theme input[type="password"],
     body.dark-theme textarea {
         background-color: #121212;
         border-color: #818080;

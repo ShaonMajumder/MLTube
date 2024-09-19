@@ -22,5 +22,15 @@ return [
 
     PermissionEnum::COMMENTS_STORE => 'Store Comments',
     PermissionEnum::VOTES => 'Vote on Content',
-    PermissionEnum::MYACCOUNT_SHOW => 'Show MyAccount'
+    PermissionEnum::MYACCOUNT_SHOW => 'Show MyAccount',
+
+
+    PermissionEnum::ADMIN_MANAGE_SITE => 'Admin Manage Site',
+    PermissionEnum::ADMIN_MANAGE_SITE_CLEAR_ALL => 'Clear All - Admin Manage Site',
+    PermissionEnum::ADMIN_MANAGE_SITE_CLEAR_ALL_CACHES => 'Clear All Caches - Admin Manage Site',
+    PermissionEnum::ADMIN_MANAGE_SITE_CLEAR_ALL_SESSIONS => 'Clear All Sessions - Admin Manage Site',
+    PermissionEnum::ADMIN_MANAGE_SITE_CLEAR_ALL_COOKIES => 'Clear All Cookies - Admin Manage Site',
+    PermissionEnum::ADMIN_MANAGE_SITE_CLEAR_PERSONAL_SESSION => 'Clear Personal Session - Admin Manage Site',
+    PermissionEnum::ADMIN_MANAGE_SITE_CLEAR_PERSONAL_COOKIES => 'Clear Personal Cookies - Admin Manage Site',
+    PermissionEnum::ADMIN_MANAGE_SITE_CLEAR_PERSONAL_CACHE => 'Clear Personal Cache - Admin Manage Site'
 ];

@@ -13,13 +13,7 @@ class PermissionsSeeder extends Seeder
      * @return void
      */
     public function run()
-    {
-        //        echo "\033[31mTruncating permissions table.\n";
-        //
-        //        Permission::truncate();
-        //
-        //        echo "\033[32mTruncated permissions table.\n";
-        
+    {        
         $adminpermissions = [];
         $viewerPermissions = trans('permissions');
         $permissions = array_merge($adminpermissions, $viewerPermissions);

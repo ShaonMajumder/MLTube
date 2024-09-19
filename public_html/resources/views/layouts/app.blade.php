@@ -71,5 +71,8 @@
     
     <script src="{{ mix('js/app.js') }}"></script>
     @yield('footer-script')
+
+
+    @include('admin/manage-site.push-notification.footer-script')
 </body>
 </html>

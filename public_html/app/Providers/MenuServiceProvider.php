@@ -89,24 +89,16 @@ class MenuServiceProvider extends ServiceProvider
                 'icon' => 'fas fa-user-circle'
             ],
             [
-                'key' => 'sitemap', 
-                'label' => 'Sitemap', 
-                // 'route' => RouteEnum::CHANNELS_SHOW,
-                'route_parameters' => $channel ?  ['channel' => $channel->id] : ['channel' => 'invalid'] , // $channel ?  ['channel' => $channel->id] : [],
-                'permissions' => PermissionEnum::CHANNEL_OWNED,
-                'icon' => 'fas fa-user-circle'
-            ],
-            [
                 'key' => 'push-notification', 
                 'label' => 'Push Notification', 
-                // 'route' => RouteEnum::CHANNELS_SHOW,
-                'route_parameters' => $channel ?  ['channel' => $channel->id] : ['channel' => 'invalid'] , // $channel ?  ['channel' => $channel->id] : [],
-                'permissions' => PermissionEnum::CHANNEL_OWNED,
+                'route' => RouteEnum::ADMIN_MANAGE_SITE_PUSH_NOTIFICATION,
+                // 'route_parameters' => $channel ?  ['channel' => $channel->id] : ['channel' => 'invalid'] , // $channel ?  ['channel' => $channel->id] : [],
+                // 'permissions' => PermissionEnum::CHANNEL_OWNED,
                 'icon' => 'fas fa-user-circle'
             ],
             [
-                'key' => 'cache', 
-                'label' => 'Cache', 
+                'key' => 'sitemap', 
+                'label' => 'Sitemap', 
                 // 'route' => RouteEnum::CHANNELS_SHOW,
                 'route_parameters' => $channel ?  ['channel' => $channel->id] : ['channel' => 'invalid'] , // $channel ?  ['channel' => $channel->id] : [],
                 'permissions' => PermissionEnum::CHANNEL_OWNED,

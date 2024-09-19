@@ -64,4 +64,6 @@ class CommonEnum extends Enum
     const ADMIN_MANAGE_SITE_CLEAR_PERSONAL_SESSION = self::ADMIN . '.' . self::MANAGE_SITE . '.' . 'clear.personal.session';
     const ADMIN_MANAGE_SITE_CLEAR_PERSONAL_COOKIES = self::ADMIN . '.' . self::MANAGE_SITE . '.' . 'clear.personal.cookies';
     const ADMIN_MANAGE_SITE_CLEAR_PERSONAL_CACHE   = self::ADMIN . '.' . self::MANAGE_SITE . '.' . 'clear.personal.cache';
+
+    const ADMIN_MANAGE_SITE_PUSH_NOTIFICATION = self::ADMIN . '.' . self::MANAGE_SITE . '.' . 'push-notification';
 }

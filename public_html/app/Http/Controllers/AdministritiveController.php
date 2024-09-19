@@ -16,7 +16,7 @@ class AdministritiveController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        return view('admin.index');
+        return view('admin.manage-site.data.index');
     }
 
     /**

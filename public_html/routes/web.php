@@ -14,6 +14,7 @@ use App\Http\Controllers\ChannelController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ChannelSubscriptionController;
+use App\Http\Controllers\PushNotificationController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\ThumbnailController;
 use App\Http\Controllers\UploadVideoController;
@@ -135,21 +136,33 @@ Route::prefix(CommonEnum::ADMIN)->middleware(['role:' . RoleEnum::ADMIN])->group
     
     Route::prefix(CommonEnum::MANAGE_SITE)->group(function () {
 
-        // Admin site management dashboard
-        Route::get('/', [AdministritiveController::class, 'index'])->name(RouteEnum::ADMIN_MANAGE_SITE);
+        Route::prefix('data')->group(function () {
 
-        // Clear all site-related caches, sessions, cookies
-        Route::get('/clear-all', [AdministritiveController::class, 'clearAll'])->name(RouteEnum::ADMIN_MANAGE_SITE_CLEAR_ALL);
-        Route::get('/clear-all-sessions', [AdministritiveController::class, 'clearAllSessions'])->name(RouteEnum::ADMIN_MANAGE_SITE_CLEAR_ALL_SESSIONS);
-        Route::get('/clear-all-cookies', [AdministritiveController::class, 'clearAllCookies'])->name(RouteEnum::ADMIN_MANAGE_SITE_CLEAR_ALL_COOKIES);
-        Route::get('/clear-all-caches', [AdministritiveController::class, 'clearAllCaches'])->name(RouteEnum::ADMIN_MANAGE_SITE_CLEAR_ALL_CACHES);
+            // Admin site management dashboard
+            Route::get('/', [AdministritiveController::class, 'index'])->name(RouteEnum::ADMIN_MANAGE_SITE);
+    
+            // Clear all site-related caches, sessions, cookies
+            Route::get('/clear-all', [AdministritiveController::class, 'clearAll'])->name(RouteEnum::ADMIN_MANAGE_SITE_CLEAR_ALL);
+            Route::get('/clear-all-sessions', [AdministritiveController::class, 'clearAllSessions'])->name(RouteEnum::ADMIN_MANAGE_SITE_CLEAR_ALL_SESSIONS);
+            Route::get('/clear-all-cookies', [AdministritiveController::class, 'clearAllCookies'])->name(RouteEnum::ADMIN_MANAGE_SITE_CLEAR_ALL_COOKIES);
+            Route::get('/clear-all-caches', [AdministritiveController::class, 'clearAllCaches'])->name(RouteEnum::ADMIN_MANAGE_SITE_CLEAR_ALL_CACHES);
+    
+            // Clear personal session, cookies, and caches for current user
+            Route::get('/clear-personal-session', [AdministritiveController::class, 'clearPersonalSession'])->name(RouteEnum::ADMIN_MANAGE_SITE_CLEAR_PERSONAL_SESSION);
+            Route::get('/clear-personal-cookies', [AdministritiveController::class, 'clearPersonalCookies'])->name(RouteEnum::ADMIN_MANAGE_SITE_CLEAR_PERSONAL_COOKIES);
+            Route::get('/clear-personal-cache', [AdministritiveController::class, 'clearPersonalCaches'])->name(RouteEnum::ADMIN_MANAGE_SITE_CLEAR_PERSONAL_CACHE);
+        });
 
-        // Clear personal session, cookies, and caches for current user
-        Route::get('/clear-personal-session', [AdministritiveController::class, 'clearPersonalSession'])->name(RouteEnum::ADMIN_MANAGE_SITE_CLEAR_PERSONAL_SESSION);
-        Route::get('/clear-personal-cookies', [AdministritiveController::class, 'clearPersonalCookies'])->name(RouteEnum::ADMIN_MANAGE_SITE_CLEAR_PERSONAL_COOKIES);
-        Route::get('/clear-personal-cache', [AdministritiveController::class, 'clearPersonalCaches'])->name(RouteEnum::ADMIN_MANAGE_SITE_CLEAR_PERSONAL_CACHE);
+        Route::prefix('push-notification')->group(function () {
+            Route::get('/', [PushNotificationController::class, 'index'])->name(RouteEnum::ADMIN_MANAGE_SITE_PUSH_NOTIFICATION);
+            Route::get('/create', [PushNotificationController::class, 'create'])->name('push-notifications.create');
+            Route::post('/store', [PushNotificationController::class, 'store'])->name('push-notifications.store');
+        });
     });
 });
 
 // check the security
 Route::get('thumbnails/{filename}', [ThumbnailController::class, 'show'])->name('thumbnails.show');
+
+
+Route::post('save-push-notification-sub',[PushNotificationController::class,'saveSubscriptionToTopic']);

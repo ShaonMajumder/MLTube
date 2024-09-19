@@ -23,7 +23,6 @@ class FirebasePushNotification
      * @param string $mode Configuration key to load settings (optional).
      */
     public function __construct(
-        string $serviceAccountKeyFilePath,
         $proxy = true,
         string $mode = 'httpv1'
     )
@@ -33,13 +32,29 @@ class FirebasePushNotification
         }
 
         $this->config = config('firebase');
-
+        $serviceAccountKeyFilePath=base_path() . '/' . env('GOOGLE_APPLICATION_CREDENTIALS');
         // Check if the file exists and is readable
         if (!file_exists($serviceAccountKeyFilePath) || !is_readable($serviceAccountKeyFilePath)) {
             throw new Exception("The service account key file does not exist or is not readable: " . $serviceAccountKeyFilePath);
         }
 
         $this->serviceAccountKeyFilePath = $serviceAccountKeyFilePath;
+    }
+
+    /**
+     * @return string
+     */
+    protected function baseUrl(): string
+    {
+        return "https://oauth2.googleapis.com";
+    }
+
+    /**
+     * @return string
+     */
+    private function tokenUrl(): string
+    {
+        return $this->baseUrl() . '/token';
     }
 
     public function authenticate(){
@@ -169,7 +184,7 @@ class FirebasePushNotification
 
         // Use the makeCurlRequest method to get the response
          // Exchange JWT for an access token
-        $responseData = $this->makeCurlRequest($headers, $url, $payloadString);
+        $responseData = $this->makeCurlRequest($headers, $this->tokenUrl(), $payloadString);
         $accessToken = $responseData['access_token'] ?? null;
     
         if (!$accessToken) {
@@ -234,6 +249,7 @@ class FirebasePushNotification
                 ['subscribed' => $subscribe ? true : false];
         }
 
+        $results['token'] = $this->accessToken;
         return $results;
     }
 

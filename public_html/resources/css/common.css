@@ -118,3 +118,42 @@ Resolved app.css overflow-x due to line no: 6762 (.row {margin-right: -15px;})
 .dropdown-toggle.right::after {
     transform: rotate(-90deg);
 }
+
+
+
+/*notificatio*/
+.notify-alert-box{
+    width: 400px;
+    position: fixed;
+    left: 50%;
+    margin-left: -200px;
+    top: -100%;
+    padding: 20px;
+    z-index: 1000000;
+    background: #fff;
+    color: #333;
+    transition: all 0.3s ease-in-out;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  }
+  .notify-alert-box img{
+    width: 70px;
+    float: left;
+    margin-right: 10px;
+  }
+  .notify-alert-box .buttons{
+    text-align: right;
+  }
+  
+  .notify-alert-box .buttons button{
+    color: #fff;
+    border: 0;
+    padding: 8px 15px;
+    font-size: 16px;
+  }
+  #notify-cancel-btn{
+    background: #fff;
+    color: #000;
+  }
+  #notify-allow-btn{
+    background: #0d6efd;
+  }

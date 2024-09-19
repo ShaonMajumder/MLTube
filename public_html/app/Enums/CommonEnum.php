@@ -55,13 +55,13 @@ class CommonEnum extends Enum
     // New Administrative Routes
     const ADMIN = 'admin';
     const MANAGE_SITE = 'manage-site';
-    const ADMIN_MANAGE_SITE = self::ADMIN . '.' . self::MANAGE_SITE ;
-    const ADMIN_MANAGE_SITE_CLEAR_ALL = 'admin.site-manage.clear.all';
-    const ADMIN_MANAGE_SITE_CLEAR_ALL_SESSIONS = 'admin.site-manage.clear.all.sessions';
-    const ADMIN_MANAGE_SITE_CLEAR_ALL_COOKIES = 'admin.site-manage.clear.all.cookies';
-    const ADMIN_MANAGE_SITE_CLEAR_ALL_CACHES = 'admin.site-manage.clear.all.caches';
+    const ADMIN_MANAGE_SITE                        = self::ADMIN . '.' . self::MANAGE_SITE ;
+    const ADMIN_MANAGE_SITE_CLEAR_ALL              = self::ADMIN . '.' . self::MANAGE_SITE . '.' . 'clear.all';
+    const ADMIN_MANAGE_SITE_CLEAR_ALL_CACHES       = self::ADMIN . '.' . self::MANAGE_SITE . '.' . 'clear.all.caches';
+    const ADMIN_MANAGE_SITE_CLEAR_ALL_SESSIONS     = self::ADMIN . '.' . self::MANAGE_SITE . '.' . 'clear.all.sessions';
+    const ADMIN_MANAGE_SITE_CLEAR_ALL_COOKIES      = self::ADMIN . '.' . self::MANAGE_SITE . '.' . 'clear.all.cookies';
 
-    const ADMIN_MANAGE_SITE_CLEAR_PERSONAL_SESSION = 'admin.site-manage.clear.personal.session';
-    const ADMIN_MANAGE_SITE_CLEAR_PERSONAL_COOKIES = 'admin.site-manage.clear.personal.cookies';
-    const ADMIN_MANAGE_SITE_CLEAR_PERSONAL_CACHE = 'admin.site-manage.clear.personal.cache';
+    const ADMIN_MANAGE_SITE_CLEAR_PERSONAL_SESSION = self::ADMIN . '.' . self::MANAGE_SITE . '.' . 'clear.personal.session';
+    const ADMIN_MANAGE_SITE_CLEAR_PERSONAL_COOKIES = self::ADMIN . '.' . self::MANAGE_SITE . '.' . 'clear.personal.cookies';
+    const ADMIN_MANAGE_SITE_CLEAR_PERSONAL_CACHE   = self::ADMIN . '.' . self::MANAGE_SITE . '.' . 'clear.personal.cache';
 }

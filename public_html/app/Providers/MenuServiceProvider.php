@@ -76,7 +76,7 @@ class MenuServiceProvider extends ServiceProvider
 
         menu()->addMenu('manage-site', [
             'label' => 'Manage Site',
-            // 'permissions' => PermissionEnum::CHANNEL_OWNED,
+            'permissions' => PermissionEnum::ADMIN_MANAGE_SITE,
             'icon' => 'fas fa-cog',
         ]);
 

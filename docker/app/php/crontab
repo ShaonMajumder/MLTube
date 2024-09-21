@@ -1,1 +1,1 @@
-* * * * * /usr/local/bin/php /var/www/public_html/artisan send:pushnoti >> /var/log/cron.log 2>&1
+* * * * * /usr/local/bin/php /var/www/public_html/artisan schedule:run >> /var/www/public_html/storage/logs/cron/cron-$(date +\%Y-\%m-\%d).log 2>&1

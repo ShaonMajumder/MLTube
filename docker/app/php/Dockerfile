@@ -81,15 +81,16 @@ RUN mkdir -p /var/log/supervisor \
 # Supervisor configuration files
 COPY docker/app/php/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Cron job for Laravel scheduler
-COPY docker/app/php/crontab /etc/cron.d/laravel-cron
-RUN chmod 0644 /etc/cron.d/laravel-cron \
-    && crontab /etc/cron.d/laravel-cron
+
 
 # Create and ensure permissions for run directories
 RUN mkdir -p /var/run/supervisor \
     && chown -R www-data:www-data /var/run/supervisor \
     && chmod -R 755 /var/run/supervisor
+
+RUN mkdir -p public_html/storage/logs/cron \
+    && chown -R www-data:www-data public_html/storage/logs/cron \
+    && chmod -R 755 public_html/storage/logs/cron
 
 # Ensure /var/run exists and has correct permissions for cron
 RUN mkdir -p /var/run/ \
@@ -99,6 +100,11 @@ RUN mkdir -p /var/run/ \
 RUN chmod gu+rw /var/run
 RUN chmod gu+s /usr/sbin/cron
 
+# Cron job for Laravel scheduler
+COPY docker/app/php/crontab /etc/cron.d/laravel-cron
+RUN chmod 0644 /etc/cron.d/laravel-cron \
+    && crontab /etc/cron.d/laravel-cron
+    
 USER www-data
 
 # Expose port 9000 and start php-fpm server

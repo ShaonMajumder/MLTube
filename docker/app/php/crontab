@@ -1,0 +1,1 @@
+* * * * * /usr/local/bin/php /var/www/public_html/artisan send:pushnoti >> /var/log/cron.log 2>&1

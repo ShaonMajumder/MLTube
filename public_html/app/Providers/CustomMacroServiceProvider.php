@@ -32,7 +32,6 @@ class CustomMacroServiceProvider extends ServiceProvider
     {
         Log::info('mapResourcePermissions macro registered.');
         PendingResourceRegistration::macro('mapResourcePermissions', function (array $permissions) {
-            Log::info('mapResourcePermissions macro registered. 2');
             // Register the resource routes
             $this->register();
 

@@ -38,7 +38,8 @@ RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/public_html/
-COPY public_html/ /var/www/public_html/
+# COPY public_html/ /var/www/public_html/ -- commented 20-0924
+
 # currently not working because mounted volume get ownership of hosted system.
 # these lines need to run in entrypoint.sh again
 # RUN chown -R www-data:www-data /var/www/public_html
@@ -49,27 +50,28 @@ RUN mkdir -p storage/framework/cache/data/
 RUN mkdir -p vendor/
 RUN mkdir -p var/www/.composer
 RUN chown -R www-data:www-data vendor/
-# USER www-data
-# RUN composer install
-# USER root
+# USER www-data  -- commented 20-0924
+# RUN composer install  -- commented 20-0924
+# USER root  -- commented 20-0924
 
 RUN chown -R www-data:www-data /var/www/public_html/storage/
 RUN chmod -R 755 /var/www/public_html/storage/
 
-RUN php artisan storage:link
+# RUN php artisan storage:link  -- commented 20-0924
 #---- currently not working because mounted volume get ownership of hosted system.
-# RUN npm install
-# RUN npm run dev
+# RUN npm install  -- commented 20-0924
+# RUN npm run dev  -- commented 20-0924
 
 
-# installing python modules
-# WORKDIR /var/www/Object-Detection-YoloV4
-# COPY Object-Detection-YoloV4/ /var/www/Object-Detection-YoloV4/
-# COPY Object-Detection-YoloV4/requirements.txt /var/www/Object-Detection-YoloV4/requirements.txt
-# RUN mkdir -p /var/www/Object-Detection-YoloV4/io/
-# RUN chown -R www-data:www-data /var/www/Object-Detection-YoloV4/io/
-# RUN pip3 install -r requirements.txt
+# Install Python modules
+WORKDIR /var/www/Object-Detection-YoloV4
+COPY Object-Detection-YoloV4/requirements.txt /var/www/Object-Detection-YoloV4/requirements.txt
+RUN pip3 install -r requirements.txt
 
+# Copy the rest of your application files
+COPY Object-Detection-YoloV4/ /var/www/Object-Detection-YoloV4/
+RUN mkdir -p /var/www/Object-Detection-YoloV4/io/ \
+    && chown -R www-data:www-data /var/www/Object-Detection-YoloV4/io/
 
 # Create supervisor log directory with proper permissions
 RUN mkdir -p /var/log/supervisor \
@@ -80,12 +82,22 @@ RUN mkdir -p /var/log/supervisor \
 COPY docker/app/php/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Cron job for Laravel scheduler
-COPY cron/crontab /etc/cron.d/laravel-cron
-RUN chmod 0644 /etc/cron.d/laravel-cron && crontab /etc/cron.d/laravel-cron
+COPY docker/app/php/crontab /etc/cron.d/laravel-cron
+RUN chmod 0644 /etc/cron.d/laravel-cron \
+    && crontab /etc/cron.d/laravel-cron
 
-RUN mkdir -p /var/run/supervisor && chown -R www-data:www-data /var/run/supervisor
-# Ensure /var/run exists and has correct permissions
-RUN mkdir -p /var/run && chown www-data:www-data /var/run && chmod 755 /var/run
+# Create and ensure permissions for run directories
+RUN mkdir -p /var/run/supervisor \
+    && chown -R www-data:www-data /var/run/supervisor \
+    && chmod -R 755 /var/run/supervisor
+
+# Ensure /var/run exists and has correct permissions for cron
+RUN mkdir -p /var/run/ \
+    && chown -R www-data:www-data /var/run/ \
+    && chmod 755 /var/run/
+
+RUN chmod gu+rw /var/run
+RUN chmod gu+s /usr/sbin/cron
 
 USER www-data
 

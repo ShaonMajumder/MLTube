@@ -62,7 +62,6 @@ RUN chmod -R 755 /var/www/public_html/storage/
 # RUN npm install  -- commented 20-0924
 # RUN npm run dev  -- commented 20-0924
 
-
 # Install Python modules
 WORKDIR /var/www/Object-Detection-YoloV4
 COPY Object-Detection-YoloV4/requirements.txt /var/www/Object-Detection-YoloV4/requirements.txt
@@ -73,6 +72,10 @@ COPY Object-Detection-YoloV4/ /var/www/Object-Detection-YoloV4/
 RUN mkdir -p /var/www/Object-Detection-YoloV4/io/ \
     && chown -R www-data:www-data /var/www/Object-Detection-YoloV4/io/
 
+
+
+
+    
 # Create supervisor log directory with proper permissions
 RUN mkdir -p /var/log/supervisor \
     && chown -R www-data:www-data /var/log/supervisor \
@@ -81,30 +84,28 @@ RUN mkdir -p /var/log/supervisor \
 # Supervisor configuration files
 COPY docker/app/php/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-
-
 # Create and ensure permissions for run directories
 RUN mkdir -p /var/run/supervisor \
     && chown -R www-data:www-data /var/run/supervisor \
     && chmod -R 755 /var/run/supervisor
 
-RUN mkdir -p public_html/storage/logs/cron \
-    && chown -R www-data:www-data public_html/storage/logs/cron \
-    && chmod -R 755 public_html/storage/logs/cron
-
-# Ensure /var/run exists and has correct permissions for cron
+# giving permission to cron
 RUN mkdir -p /var/run/ \
     && chown -R www-data:www-data /var/run/ \
-    && chmod 755 /var/run/
-
-RUN chmod gu+rw /var/run
-RUN chmod gu+s /usr/sbin/cron
+    && chmod gu+rw /var/run \
+    && chmod 755 /var/run/ \
+    && chmod gu+s /usr/sbin/cron
 
 # Cron job for Laravel scheduler
 COPY docker/app/php/crontab /etc/cron.d/laravel-cron
 RUN chmod 0644 /etc/cron.d/laravel-cron \
     && crontab /etc/cron.d/laravel-cron
-    
+
+# Log File For Cron
+RUN mkdir -p public_html/storage/logs/cron \
+    && chown -R www-data:www-data public_html/storage/logs/cron \
+    && chmod -R 755 public_html/storage/logs/cron
+
 USER www-data
 
 # Expose port 9000 and start php-fpm server

@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Dhaka',
 
     /*
     |--------------------------------------------------------------------------
@@ -177,6 +177,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         //other
         
+        App\Providers\RepositoryServiceProvider::class,
         // Laratrust\LaratrustServiceProvider::class,
         App\Providers\LaratrustServiceProvider::class,
         App\Providers\MenuServiceProvider::class,

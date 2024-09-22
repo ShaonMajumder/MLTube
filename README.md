@@ -37,6 +37,8 @@ The platform employs **Containerization and Virtualization** techniques to ensur
 
 ## Design Patterns
 
+- **Repository Pattern:** 
+- Facade Pattern: 
 - **Singleton Pattern**: Ensures that a class has only one instance and provides a global point of access to it.
 - **Factory Pattern**: Used for creating objects without specifying the exact class of the object that will be created.
 - **Observer Pattern**: Implements a subscription mechanism to allow multiple objects to listen and react to events.

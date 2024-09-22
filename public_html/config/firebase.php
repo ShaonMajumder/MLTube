@@ -20,6 +20,8 @@ return [
         'vapid'=>env('FIREBASE_VAPID'),
         'logEventName' => env('APP_NAME') . '_push_notification_received',
         'propertyId' => env('FIREBASE_ANALYTICS_PROPERTY_ID')
+    ],
+    'auth' => [
+        'scope' => 'https://www.googleapis.com/auth/cloud-platform'
     ]
-
 ];

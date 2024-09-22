@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Session;
 
 class AdministritiveController extends Controller
@@ -83,6 +84,8 @@ class AdministritiveController extends Controller
         
         try {
             Artisan::call('cache:clear');
+            Redis::flushdb();
+            // Redis::flushall();
             return back()->with(['success' => 'Application caches deleted successfully.']);
         } catch (\Exception $e) {
             Log::error('Error clearing session files: ' . $e->getMessage());

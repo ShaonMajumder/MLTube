@@ -7,42 +7,58 @@ use App\Helpers\FirebasePushNotification;
 use App\Models\PushNotification;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
+
 
 class PushNotificationController extends Controller
 {
+
     /**
-     * Clear all caches.
+     * Retrieve a paginated list of push notifications and display them in the admin panel.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function index(){
         $pushNotifications = PushNotification::paginate(10);
         return view('admin.manage-site.push-notification.index' , compact('pushNotifications'));
     }
 
+    /**
+     * Display the view for creating a new push notification.
+     */
     public function create(){
         return view('admin.manage-site.push-notification.create');
     }
 
+    /**
+     * Saves a device's subscription to a specific topic in Firebase.
+     *
+     * @param Request $request The HTTP request containing the device token.
+     * @return \Illuminate\Http\JsonResponse JSON response indicating the subscription status.
+     */
     public function saveSubscriptionToTopic(Request $request){
         $topic=config('firebase.key')['topic'];
         try{
             $deviceToken = $request->device_token;
-            $deviceTokens[]=$deviceToken;
+            if (empty($deviceToken)) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Device token is required.',
+                ]);
+            }
+            $deviceTokensArray[]=$deviceToken;
             $firebaseAdmin = new FirebasePushNotification();
-            $results = $firebaseAdmin->subscribeToTopic($topic,$deviceTokens);
+            $results = $firebaseAdmin->subscribeToTopic($topic,$deviceTokensArray);
             return response()->json([
                 'status' => true,
                 'message' => 'subscribed to topic successfully.',
                 'results' => $results
             ]);
         } catch(\Exception $e){
-            return $e->getMessage();
+            return response()->json([
+                'status' => false,
+                'message' => 'Error subscribing to topic.',
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
 

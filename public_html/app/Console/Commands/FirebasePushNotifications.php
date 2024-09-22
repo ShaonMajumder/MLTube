@@ -46,10 +46,10 @@ class FirebasePushNotifications extends Command
      */
     public function handle()
     {
-
-        $pushNotifications = PushNotification::all();
-        foreach ($pushNotifications as $pushNotification) {
-            try {
+        DB::beginTransaction();
+        try {
+            $pushNotifications = PushNotification::all();
+            foreach ($pushNotifications as $pushNotification) {
                 $topic=config('firebase.key')['topic'];
                 $response =$this->firebasePushNotification->send(
                     [
@@ -58,36 +58,33 @@ class FirebasePushNotifications extends Command
                             "data" => [
                                 'id' => (string) $pushNotification->id,
                                 'title' => $pushNotification->title,
-                                'body' => $pushNotification->message,
-                                // 'link' => $pushNotification->url,
-                                // 'image' => web_asset_url($pushNotification->notification_thumbnail_desktop),
-                                // 'cta_text' => $pushNotification->cta_text ?? '',
-                                // 'cta_link' => $pushNotification->cta_link ?? ''
+                                'body' => $pushNotification->message
                             ]
                         ]
                     ]
                 );
 
-                
                 $pushNotification->total_sent += 1;
                 $pushNotification->save();
-
-                DB::commit();
-            } catch (\Exception $e) {
-                DB::rollBack();
-                // Extract raw response from the exception message
-                $message = $e->getMessage();
-                $errorData = $this->extractErrorData($message);
-
-                return [
-                    'success' => false,
-                    'error' => [
-                        'message' => 'Error making cURL request: ' . $errorData['message'],
-                        'details' => $errorData['details']
-                    ]
-                ];
             }
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            // Extract raw response from the exception message
+            $message = $e->getMessage();
+            $errorData = $this->extractErrorData($message);
+
+            return [
+                'success' => false,
+                'error' => [
+                    'message' => 'Error making cURL request: ' . $errorData['message'],
+                    'details' => $errorData['details']
+                ]
+            ];
         }
+
+        
         $this->info('Push notificaton send: ' . now());
     }
 

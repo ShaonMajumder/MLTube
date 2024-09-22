@@ -22,6 +22,14 @@ return [
         'propertyId' => env('FIREBASE_ANALYTICS_PROPERTY_ID')
     ],
     'auth' => [
-        'scope' => 'https://www.googleapis.com/auth/cloud-platform'
+        'exchanging_jwt' => [
+            'scope' => 'https://www.googleapis.com/auth/cloud-platform',
+            'expiration_time_in_seconds' => 3600
+        ],
+        'payload' => [
+            'query_param' => [
+                'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer'
+            ]
+        ]
     ]
 ];

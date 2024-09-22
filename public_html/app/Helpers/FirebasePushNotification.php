@@ -13,9 +13,8 @@ use Kreait\Firebase\Factory;
 
 class FirebasePushNotification
 {
-    private $headers;
+
     private $config;
-    private $accessToken;
 
     private $proxy;
     private $tokenExpirationTimeInSec = 3600;
@@ -133,8 +132,11 @@ class FirebasePushNotification
         return $this->serviceAccountConfig['client_email'];
     }
 
+    
     /**
-     * @return string
+     * Returns the base URL required for Firebase authentication.
+     *
+     * @return string the base URL for Firebase authentication
      */
     protected function baseUrl(): string
     {
@@ -142,7 +144,9 @@ class FirebasePushNotification
     }
 
     /**
-     * @return string
+     * Retrieves the token URL required for Firebase authentication.
+     *
+     * @return string The token URL from the service account configuration.
      */
     private function tokenUrl(): string
     {
@@ -151,27 +155,41 @@ class FirebasePushNotification
     }
 
     /**
-     * @return bool
+     * Retrieves the authentication parameters required for Firebase authentication.
+     *
+     * @return array An array containing the private key, client email, authentication scope, token URL, and authentication grant type.
      */
-    public function authenticate(): bool
+    protected function getAuthParam(){
+        return [
+            $this->getPrivateKey(),
+            $this->getClientEmail(),
+            config('firebase.auth.exchanging_jwt.scope'),
+            $this->tokenUrl(),
+            config('firebase.auth.payload.query_param.grant_type'),
+            config('firebase.auth.exchanging_jwt.expiration_time_in_seconds')
+        ];
+    }
+    
+    /**
+     * Retrieves the authenticated headers required for Firebase Push Notification.
+     *
+     * @throws Exception If the access token for Firebase Push Notification is not found.
+     * @return array An array containing the authenticated headers.
+     */
+    public function authenticatedHeaders(): array
     {
-        $this->accessToken = $this->getAccessToken();
-        if(!$this->accessToken){
-            return false;
+        [ $privateKey, $clientEmail, $authScope, $tokenUrl, $authGrantType, $tokenExpirationTimeInSec ] = $this->getAuthParam();
+        $accessToken = $this->getAccessToken($privateKey, $clientEmail, $authScope, $tokenUrl, $authGrantType, $tokenExpirationTimeInSec);
+        
+        if (!$accessToken) {
+            throw new Exception("Access token for Firebase Push Notification is not found.");
         }
         
-        $this->headers = [
-            'Authorization: Bearer ' . $this->accessToken,
+        return [
+            'Authorization: Bearer ' . $accessToken,
             'Content-Type: application/json',
             'access_token_auth: true'
         ];
-        
-        return true;
-    }
-
-    public function setAccessToken(string $accessToken): void
-    {
-        $this->accessToken = $accessToken;
     }
 
     /**
@@ -213,7 +231,8 @@ class FirebasePushNotification
         string $authScope,
         string $tokenUrl,
         string $clientEmail,
-        string $privateKey
+        string $privateKey,
+        int $tokenExpirationTimeInSec
     ): string {
         // Create JWT header
         $jwtHeader = json_encode([
@@ -266,34 +285,40 @@ class FirebasePushNotification
      * @throws Exception if the access token is not found in the response.
      * @return string the access token
      */
-    public function getAccessToken(): string
+    public function getAccessToken(
+        $privateKey,
+        $clientEmail,
+        $authScope,
+        $tokenUrl,
+        $authGrantType,
+        $tokenExpirationTimeInSec
+    ): string
     {
         $cachedToken = Redis::get(CacheEnum::PUSHNOTIFICATION_ACCESS_TOKEN);
         if($cachedToken){
             return $cachedToken;
         }
 
-        $privateKey = $this->getPrivateKey();
-        $clientEmail = $this->getClientEmail();
-        $authScope = config('firebase.auth.scope');
-        $tokenUrl = $this->tokenUrl();
+        $bufferSeconds = 10;
+        
+
         $jwt = $this->createJwt(
             $authScope,
             $tokenUrl,
             $clientEmail,
-            $privateKey
+            $privateKey,
+            $tokenExpirationTimeInSec
         );
         $headers = [
             'Content-Type: application/x-www-form-urlencoded'
         ];
-        $payloadString = http_build_query([
-            'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+        $queryPayloadString = http_build_query([
+            'grant_type' => $authGrantType,
             'assertion' => $jwt
         ]);
 
-        // Use the makeCurlRequest method to get the response
         // Exchange JWT for an access token
-        $responseData = $this->makeCurlRequest($headers, $this->tokenUrl(), $payloadString);
+        $responseData = $this->makeCurlRequest($headers, $this->tokenUrl(), $queryPayloadString);
         $accessToken = $responseData['access_token'] ?? null;
         $tokenType = $responseData['token_type'] ?? null;
         $expiresIn = $responseData['expires_in'] ?? null;
@@ -302,7 +327,7 @@ class FirebasePushNotification
             throw new Exception("Access token, token type, or expires_in not found in response.");
         }
 
-        $bufferSeconds = 10;
+        
         Redis::setex(CacheEnum::PUSHNOTIFICATION_ACCESS_TOKEN, $expiresIn - $bufferSeconds, $accessToken);
         Log::info('access toekn'. $accessToken);
         return $accessToken;
@@ -311,19 +336,18 @@ class FirebasePushNotification
     /**
      * Send a push notification using Firebase Cloud Messaging.
      *
-     * @param string $deviceToken The recipient's device token.
+     * @param string $deviceToken The recipient's device token(s).
      * @param string $title The title of the notification.
      * @param string $body The body of the notification.
      * @param array $additionalData Optional additional data to send with the notification.
      * @return array The response from Firebase.
      * @throws Exception
      */
-    public function send(array $payload = []): array
+    public function send(array $payload): array
     {
-        $this->authenticate();
-        
+        $authHeaders = $this->authenticatedHeaders();
         $url = sprintf($this->config['urls']['send_message'], $this->getProjectId());
-        $response = $this->makeCurlRequest($this->headers, $url, $payload);
+        $response = $this->makeCurlRequest($authHeaders, $url, $payload);
         if (isset($response['name'])) {
             // Extract project_id and message_id from the response
             preg_match('/projects\/([^\/]+)\/messages\/(\d+)/', $response['name'], $matches);
@@ -349,10 +373,8 @@ class FirebasePushNotification
      */
     public function subscribeToTopic(string $topic, array $registrationTokenOrTokens, bool $subscribe = true): array
     {
-        if (!$this->accessToken) {
-            $this->authenticate();
-        }
-
+        $authHeaders = $this->authenticatedHeaders();
+        
         $url = $subscribe ? $this->config['urls']['subscribe'] : $this->config['urls']['unsubscribe'];
 
         $payload = [
@@ -360,7 +382,7 @@ class FirebasePushNotification
             'registration_tokens' => $registrationTokenOrTokens 
         ];
 
-        $response = $this->makeCurlRequest($this->headers, $url, $payload);
+        $response = $this->makeCurlRequest($authHeaders, $url, $payload);
 
         $results = [];
         foreach ($registrationTokenOrTokens as $index => $token) {
@@ -369,7 +391,6 @@ class FirebasePushNotification
                 ['subscribed' => $subscribe ? true : false];
         }
 
-        $results['token'] = $this->accessToken;
         return $results;
     }
 

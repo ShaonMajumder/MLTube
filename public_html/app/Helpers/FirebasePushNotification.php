@@ -423,11 +423,15 @@ class FirebasePushNotification
         }
 
         $response = curl_exec($ch);
+        if (curl_errno($ch)) {
+            throw new Exception("Error making cURL request: " . curl_error($ch));
+        }
+        
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
         if ($httpCode !== 200) {
-            throw new Exception("Error making cURL request: " . $response);
+            throw new Exception("Error making cURL request: HTTP CODE $httpCode");
         }
 
         $responseData = json_decode($response, true);
@@ -436,6 +440,5 @@ class FirebasePushNotification
         }
 
         return $responseData;
-    }
-}
+    }}
 

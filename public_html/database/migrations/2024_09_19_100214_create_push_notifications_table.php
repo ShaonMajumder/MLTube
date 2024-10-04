@@ -24,6 +24,8 @@ class CreatePushNotificationsTable extends Migration
             $table->timestamp('activate_at')->nullable(); //->default(now());
             $table->timestamp('inactivate_at')->nullable();
             $table->time('schedule_time')->nullable();
+            $table->unsignedBigInteger('total_sent')->default(0);
+            $table->unsignedBigInteger('total_received')->default(0);
             $table->unsignedBigInteger('total_viewed')->default(0);
             $table->timestamps();
         });

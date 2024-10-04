@@ -20,7 +20,7 @@ class FirebasePushNotifications extends Command
      *
      * @var string
      */
-    protected $signature = 'send:pushnoti';
+    protected $signature = 'pushnoti:send';
 
     /**
      * The console command description.

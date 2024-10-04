@@ -25,6 +25,8 @@
                     <th>Title</th>
                     <th>Message</th>
                     <th>Url</th>
+                    <th>Total Sent</th>
+                    <th>Total Received</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,6 +41,12 @@
                         </td>
                         <td>
                             {{ $pushNotification->url }}
+                        </td>
+                        <td>
+                            {{ $pushNotification->total_sent }}
+                        </td>
+                        <td>
+                            {{ $pushNotification->total_received }}
                         </td>
                     </tr>
                 @endforeach

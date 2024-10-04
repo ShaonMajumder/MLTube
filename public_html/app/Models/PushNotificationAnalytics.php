@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class PushNotificationAnalytics extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'push_notification_id',
+        'report_date',
+        'total_received',
+        'unique_users'
+    ];
 }

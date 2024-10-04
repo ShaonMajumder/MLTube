@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Carbon\Carbon;
 use Exception;
 use App\Models\PushNotification;
-use App\Models\PushNotificationImpression as PushNotificationImpressionModel;
+use App\Models\PushNotificationAnalytics;
 use Google\Analytics\Data\V1beta\BetaAnalyticsDataClient;
 use Google\Analytics\Data\V1beta\DateRange;
 use Google\Analytics\Data\V1beta\Dimension;
@@ -16,170 +16,191 @@ use Google\Analytics\Data\V1beta\Filter\StringFilter;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
-class FirebaseAnalyticsDateRangeConstants
-{
-    const TODAY = 'today';
-    const YESTERDAY = 'yesterday';
-    const SEVEN_DAYS_AGO = '7daysAgo';
-    const THIRTY_DAYS_AGO = '30daysAgo';
-    const LAST_SEVEN_DAYS = 'last7Days';
-    const LAST_THIRTY_DAYS = 'last30Days';
-    const THIS_MONTH = 'thisMonth';
-    const LAST_MONTH = 'lastMonth';
-    const THIS_YEAR = 'thisYear';
-    const LAST_YEAR = 'lastYear';
-}
-
 class FirebasePushNotificationAnalytics extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'pushnoti:analytics';
+    protected $signature = 'pushnoti:analytics {--days=3 : The number of days to get analytics for} {--proxy : Use the proxy defined in the environment}';
+    protected $description = 'Retrieve push notification impressions from Google Analytics';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Command to retrieve push notification impressions from Google Analytics';
+    private $client;
+    private $propertyId;
+    private $eventName;
 
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->propertyId = config('firebase.key.propertyId');
+        $this->eventName = config('firebase.key.logEventName');
+    }
+
     public function handle()
     {
-        $propertyId = config('firebase.key.propertyId');
-        $eventName = config('firebase.key.logEventName');
+        $this->initializeAnalyticsClient();
 
-        // Get event count for the last 3 days, As google analytics take 24-48 hours to update their report
-        for ($i = 1; $i <= 3; $i++) {
-            $reportDate = Carbon::now()->subDays($i)->toDateString();
-            $this->updateImpressionsPushNotificationFirebaseLogEvent($propertyId, $eventName, $reportDate);
+        $days = (int)$this->option('days');
+        if ($days <= 0) {
+            $this->error('The number of days must be greater than zero.');
+            return 1;
         }
-       
-        $this->info("Push notification impressions have been updated for previous 3 days.");
+
+        $datesToFetch = $this->getDatesForLastDays($days);
+
+        foreach ($datesToFetch as $reportDate) {
+            $this->updateImpressions($reportDate);
+        }
+
+        $this->info("Push notification impressions have been updated for the last {$days} days.");
         return 0;
     }
 
-    private function updateImpressionsPushNotificationFirebaseLogEvent($propertyId, $eventName, $reportDate) {
-        $keyFilePath = base_path(  env('GOOGLE_APPLICATION_CREDENTIALS') );
+    private function getDatesForLastDays($days)
+    {
+        return collect(range(0, $days - 1))->map(function ($i) {
+            return Carbon::now()->subDays($i)->toDateString();
+        })->toArray();
+    }
 
-        // $client = new BetaAnalyticsDataClient([
-        //     'credentials' => $keyFilePath,
-        // ]);
-
-        $proxy = env('HTTP_PROXY_HOST', 'http://10.84.93.39:8008');
-
-        $client = new BetaAnalyticsDataClient([
+    private function initializeAnalyticsClient()
+    {
+        $keyFilePath = base_path(env('GOOGLE_APPLICATION_CREDENTIALS'));
+        $options = [
             'credentials' => $keyFilePath,
-            'transport' => 'rest', // Specify REST transport to configure HTTP proxy
-            'httpClientOptions' => [
+        ];
+        
+        $useProxy = $this->option('proxy');
+        if ($useProxy) {
+            $proxy = $useProxy ? env('HTTP_PROXY_HOST', 'http://10.84.93.39:8008') : null;
+            $options['transport'] = 'rest';
+            $options['httpClientOptions'] = [
                 'proxy' => $proxy,
-                'verify' => false, // Optional: disable SSL cert validation, use with caution
-            ]
-        ]);
-    
+                'verify' => false,
+            ];
+        }
+
+        $this->client = new BetaAnalyticsDataClient($options);
+    }
+
+    private function updateImpressions($reportDate)
+    {
+        $request = $this->buildAnalyticsRequest($reportDate);
+
+        try {
+            DB::transaction(function () use ($request, $reportDate) {
+                $response = $this->client->runReport($request);
+                $this->processAnalyticsResponse($response, $reportDate);
+            }, 3);
+            return true;
+        } catch (Exception $e) {
+            $this->error('Error: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    private function buildAnalyticsRequest($reportDate)
+    {
         $dateRange = new DateRange([
             'start_date' => $reportDate,
             'end_date' => $reportDate,
         ]);
-    
-        $eventCountMetric = new Metric(['name' => 'eventCount']);
-        $totalUsersMetric = new Metric(['name' => 'totalUsers']);
-        $eventCountPerActiveUserMetric = new Metric(['name' => 'eventCountPerUser']);
-        $eventsPerSessionMetric = new Metric(['name' => 'eventsPerSession']);
 
-        $dimensionEventName = new Dimension(['name' => 'eventName']);
-        $dimensionCountry = new Dimension(['name' => 'country']);
-        $dimensionCity = new Dimension(['name' => 'city']);
+        $metrics = [
+            new Metric(['name' => 'eventCount']),
+            new Metric(['name' => 'totalUsers']),
+            new Metric(['name' => 'eventCountPerUser']),
+            new Metric(['name' => 'eventsPerSession']),
+        ];
 
-        $dimensionTitle = new Dimension(['name' => 'customEvent:notification_title']);
-        $dimensionNotificationId = new Dimension(['name' => 'customEvent:notification_id']);
-        
-        $stringFilter = new StringFilter();
-        $stringFilter->setValue($eventName);
-        $stringFilter->setMatchType(StringFilter\MatchType::EXACT);
+        $dimensions = [
+            new Dimension(['name' => 'eventName']),
+            new Dimension(['name' => 'country']),
+            new Dimension(['name' => 'city']),
+            new Dimension(['name' => 'customEvent:notification_title']),
+            new Dimension(['name' => 'customEvent:notification_id']),
+        ];
 
-        $filter = new Filter();
-        $filter->setFieldName('eventName');
-        $filter->setStringFilter($stringFilter);
-    
-        $filterExpression = new FilterExpression();
-        $filterExpression->setFilter($filter);
+        $filterExpression = $this->createEventNameFilter();
 
-        $request = [
-            'property' => "properties/{$propertyId}",
+        return [
+            'property' => "properties/{$this->propertyId}",
             'dateRanges' => [$dateRange],
-            'metrics' => [$eventCountMetric, $totalUsersMetric, $eventCountPerActiveUserMetric, $eventsPerSessionMetric],
-            'dimensions' => [$dimensionEventName, $dimensionCountry, $dimensionCity, $dimensionTitle, $dimensionNotificationId],
+            'metrics' => $metrics,
+            'dimensions' => $dimensions,
             'dimensionFilter' => $filterExpression,
         ];
-    
-        DB::beginTransaction();
+    }
 
-        try {
-            $response = $client->runReport($request);
-    
-            foreach ($response->getRows() as $row) {
-                $eventName = $row->getDimensionValues()[0]->getValue();
-                $eventCountByCountry = $row->getDimensionValues()[1]->getValue();
-                $eventCountByCity = $row->getDimensionValues()[2]->getValue();
-                $eventParameterTitle = $row->getDimensionValues()[3]->getValue();
-                $eventParameterNotificationId = $row->getDimensionValues()[4]->getValue();
+    private function createEventNameFilter()
+    {
+        $stringFilter = new StringFilter([
+            'value' => $this->eventName,
+            'match_type' => StringFilter\MatchType::EXACT,
+        ]);
 
-                $eventCount = $row->getMetricValues()[0]->getValue();
-                $totalUsers = $row->getMetricValues()[1]->getValue();
-                $eventCountPerActiveUser = $row->getMetricValues()[2]->getValue();
-                $eventsPerSession = $row->getMetricValues()[3]->getValue();
+        $filter = new Filter([
+            'field_name' => 'eventName',
+            'string_filter' => $stringFilter,
+        ]);
 
-                $data = [
-                    'eventName' => $eventName,
-                    'notificationId' => $eventParameterNotificationId,
-                    'reportDate' => $reportDate,
-                    'notificationTitle' => $eventParameterTitle,
-                    'eventCount' => $eventCount,
-                    'totalUsers' => $totalUsers,
-                    'eventCountPerActiveUser' => $eventCountPerActiveUser,
-                    'eventCountByCountry' => $eventCountByCountry,
-                    'eventCountByCity' => $eventCountByCity,
-                    'eventsPerSession' => $eventsPerSession
-                ];
-                echo json_encode($data, JSON_PRETTY_PRINT) . "\n";
+        return new FilterExpression(['filter' => $filter]);
+    }
 
-                $pushNotification = PushNotification::find((int) $eventParameterNotificationId);
-                if($pushNotification){
-                    PushNotificationImpressionModel::updateOrCreate(
-                        [
-                            'push_notification_id' => $pushNotification->id,
-                            'report_date' => $reportDate,
-                        ],
-                        [
-                            'total_viewed' => (int) $eventCount,
-                            'total_users' => (int) $totalUsers
-                        ]
-                    );                    
-                }
-
-                $totalImpressions = PushNotificationImpressionModel::where('push_notification_id', $pushNotification->id)
-                                                                    ->sum('total_viewed');
-
-                $pushNotification->update([
-                    'impressions' => $totalImpressions,
-                ]);
-
-                DB::commit();
-            }
-            return true;
-        } catch (Exception $e) {
-            DB::rollBack();
-            echo 'Error: ' . $e->getMessage();
-            return false;
+    private function processAnalyticsResponse($response, $reportDate)
+    {
+        foreach ($response->getRows() as $row) {
+            $data = $this->extractDataFromRow($row, $reportDate);
+            $this->updateDatabase($data);
         }
     }
-    
+
+    private function extractDataFromRow($row, $reportDate)
+    {
+        $dimensionValues = $row->getDimensionValues();
+        $metricValues = $row->getMetricValues();
+
+        return [
+            'eventName' => $dimensionValues[0]->getValue(),
+            'eventCountByCountry' => $dimensionValues[1]->getValue(),
+            'eventCountByCity' => $dimensionValues[2]->getValue(),
+            'eventParameterTitle' => $dimensionValues[3]->getValue(),
+            'eventParameterNotificationId' => $dimensionValues[4]->getValue(),
+            'eventCount' => $metricValues[0]->getValue(),
+            'totalUsers' => $metricValues[1]->getValue(),
+            'eventCountPerActiveUser' => $metricValues[2]->getValue(),
+            'eventsPerSession' => $metricValues[3]->getValue(),
+            'reportDate' => $reportDate,
+        ];
+    }
+
+    private function updateDatabase($data)
+    {
+        try {
+            DB::transaction(function () use ($data) {
+                $pushNotification = PushNotification::find((int) $data['eventParameterNotificationId']);
+                if (!$pushNotification) {
+                    $this->error('Push notification not found for ID: ' . $data['eventParameterNotificationId']);
+                    return; // Early return if not found
+                }
+
+                PushNotificationAnalytics::updateOrCreate(
+                    [
+                        'push_notification_id' => $pushNotification->id,
+                        'report_date' => $data['reportDate'],
+                    ],
+                    [
+                        'total_received' => (int) $data['eventCount'],
+                        'unique_users' => (int) $data['totalUsers']
+                    ]
+                );
+
+                $totalImpressions = PushNotificationAnalytics::where('push_notification_id', $pushNotification->id)
+                                                            ->sum('total_received');
+
+                $pushNotification->update(['total_received' => $totalImpressions]);
+            });
+        } catch (Exception $e) {
+            print_r($data);
+            $this->error('Failed to update database: ' . $e->getMessage());
+        }
+    }
+
+
 }

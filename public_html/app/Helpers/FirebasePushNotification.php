@@ -362,6 +362,7 @@ class FirebasePushNotification
         throw new Exception("Error sending push notification: " . json_encode($response));
     }
 
+    // Add proper Error handling
     /**
      * Subscribe to a topic.
      *

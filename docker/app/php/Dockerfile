@@ -20,6 +20,7 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     supervisor \
     cron \
+    speedtest-cli \
     netcat
 
 # netcat is necessary to test mysql in entrypoint.sh 

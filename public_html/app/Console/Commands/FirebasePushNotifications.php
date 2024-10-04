@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Console\Command;
 use App\Helpers\FirebasePushNotification;
 use App\Models\PushNotification;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 class FirebasePushNotifications extends Command
@@ -46,31 +47,12 @@ class FirebasePushNotifications extends Command
      */
     public function handle()
     {
-        DB::beginTransaction();
         try {
-            $pushNotifications = PushNotification::all();
-            foreach ($pushNotifications as $pushNotification) {
-                $topic=config('firebase.key')['topic'];
-                $response =$this->firebasePushNotification->send(
-                    [
-                        "message" => [
-                            "topic" => "$topic",
-                            "data" => [
-                                'id' => (string) $pushNotification->id,
-                                'title' => $pushNotification->title,
-                                'body' => $pushNotification->message
-                            ]
-                        ]
-                    ]
-                );
+            DB::transaction(function () {
+                $this->processPushNotifications();
+            });
 
-                $pushNotification->total_sent += 1;
-                $pushNotification->save();
-            }
-
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
+        } catch (Exception $e) {
             // Extract raw response from the exception message
             $message = $e->getMessage();
             $errorData = $this->extractErrorData($message);
@@ -86,6 +68,36 @@ class FirebasePushNotifications extends Command
 
         
         $this->info('Push notificaton send: ' . now());
+    }
+
+    private function processPushNotifications()
+    {
+        $pushNotifications = PushNotification::all();
+        $topic = config('firebase.key')['topic'];
+
+        foreach ($pushNotifications as $pushNotification) {
+            $this->sendNotification($pushNotification, $topic);
+            $this->updateNotificationCount($pushNotification);
+        }
+    }
+
+    private function sendNotification(PushNotification $pushNotification, string $topic)
+    {
+        $this->firebasePushNotification->send([
+            "message" => [
+                "topic" => $topic,
+                "data" => [
+                    'id' => (string) $pushNotification->id,
+                    'title' => $pushNotification->title,
+                    'body' => $pushNotification->message
+                ]
+            ]
+        ]);
+    }
+
+    private function updateNotificationCount(PushNotification $pushNotification)
+    {
+        $pushNotification->increment('total_sent');
     }
 
 

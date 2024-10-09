@@ -15,6 +15,7 @@ use Google\Analytics\Data\V1beta\Filter;
 use Google\Analytics\Data\V1beta\Filter\StringFilter;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class FirebasePushNotificationAnalytics extends Command
 {
@@ -34,6 +35,7 @@ class FirebasePushNotificationAnalytics extends Command
 
     public function handle()
     {
+        $allProcessedData = [];
         $this->initializeAnalyticsClient();
 
         $days = (int)$this->option('days');
@@ -45,21 +47,34 @@ class FirebasePushNotificationAnalytics extends Command
         $datesToFetch = $this->getDatesForLastDays($days);
 
         foreach ($datesToFetch as $reportDate) {
-            $this->updateImpressions($reportDate);
+            $allProcessedData[] = $this->updateAnalytics($reportDate);
         }
+        
+        Log::channel('push-notification-analytics')->info('All processed analytics data:', $allProcessedData);
 
-        $this->info("Push notification impressions have been updated for the last {$days} days.");
+        $this->info("Push notification analytics have been updated for the last {$days} days.");
         return 0;
     }
 
-    private function getDatesForLastDays($days)
+    /**
+     * Get the dates for the last n days.
+     *
+     * @param int $days The number of days to get dates for.
+     * @return array An array of dates in the format 'Y-m-d'.
+     */
+    private function getDatesForLastDays($days): array
     {
         return collect(range(0, $days - 1))->map(function ($i) {
             return Carbon::now()->subDays($i)->toDateString();
         })->toArray();
     }
 
-    private function initializeAnalyticsClient()
+    /**
+     * Initialize the Analytics Report client.
+     *
+     * @return void
+     */
+    private function initializeAnalyticsClient(): void
     {
         $keyFilePath = base_path(env('GOOGLE_APPLICATION_CREDENTIALS'));
         $options = [
@@ -79,23 +94,35 @@ class FirebasePushNotificationAnalytics extends Command
         $this->client = new BetaAnalyticsDataClient($options);
     }
 
-    private function updateImpressions($reportDate)
+    /**
+     * Update the analytics for a specific date.
+     *
+     * @param $reportDate
+     * @return array
+     */
+    private function updateAnalytics($reportDate): array
     {
+        $allProcessedData = [];
         $request = $this->buildAnalyticsRequest($reportDate);
-
         try {
-            DB::transaction(function () use ($request, $reportDate) {
+            DB::transaction(function () use ($request, $reportDate, &$allProcessedData) {
                 $response = $this->client->runReport($request);
-                $this->processAnalyticsResponse($response, $reportDate);
+                $allProcessedData = $this->processAnalyticsResponse($response, $reportDate);
             }, 3);
-            return true;
+            
         } catch (Exception $e) {
             $this->error('Error: ' . $e->getMessage());
-            return false;
         }
+        return $allProcessedData;
     }
 
-    private function buildAnalyticsRequest($reportDate)
+    /**
+     * Build the analytics request for a specific date.
+     *
+     * @param $reportDate
+     * @return array
+     */
+    private function buildAnalyticsRequest($reportDate): array
     {
         $dateRange = new DateRange([
             'start_date' => $reportDate,
@@ -143,15 +170,31 @@ class FirebasePushNotificationAnalytics extends Command
         return new FilterExpression(['filter' => $filter]);
     }
 
-    private function processAnalyticsResponse($response, $reportDate)
+    /**
+     * Process the response from Google Analytics and update the database
+     *
+     * @param $response
+     * @param $reportDate
+     * @return array
+     */
+    private function processAnalyticsResponse($response, $reportDate): array
     {
+        $data = [];
         foreach ($response->getRows() as $row) {
-            $data = $this->extractDataFromRow($row, $reportDate);
-            $this->updateDatabase($data);
+            $data[] = $data_row = $this->extractDataFromRow($row, $reportDate);
+            $this->updateDatabase($data_row);
         }
+        return $data;
     }
 
-    private function extractDataFromRow($row, $reportDate)
+    /**
+     * Extract relevant data from a row returned by Google Analytics
+     *
+     * @param $row
+     * @param $reportDate
+     * @return array
+     */
+    private function extractDataFromRow($row, $reportDate): array
     {
         $dimensionValues = $row->getDimensionValues();
         $metricValues = $row->getMetricValues();
@@ -170,7 +213,12 @@ class FirebasePushNotificationAnalytics extends Command
         ];
     }
 
-    private function updateDatabase($data)
+    /**
+     * Update the database with the extracted data
+     *
+     * @param $data
+     */
+    private function updateDatabase($data): void
     {
         try {
             DB::transaction(function () use ($data) {

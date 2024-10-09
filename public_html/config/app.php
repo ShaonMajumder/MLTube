@@ -183,6 +183,7 @@ return [
         App\Providers\MenuServiceProvider::class,
         App\Providers\MLServiceProvider::class,
         App\Providers\ThemeServiceProvider::class,
+        App\Providers\LoggingServiceProvider::class,
         App\Providers\ViewParamsServiceProvider::class,
 
         // Image Resizing

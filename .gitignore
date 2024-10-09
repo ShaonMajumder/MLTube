@@ -14,3 +14,6 @@
 
 /public_html/vendor/*
 /public_html/node_modules/*
+
+
+/data/redis/dump.rdb

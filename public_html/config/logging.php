@@ -54,6 +54,13 @@ return [
             'days' => 14,
         ],
 
+        'monthly' => [
+            'driver' => 'custom',
+            'via' => App\Logging\MonthlyLogger::class,
+            'level' => env('LOG_LEVEL', 'debug'), //'info',
+            'filename' => 'laravel',  // Default filename prefix
+        ],
+
         'slack' => [
             'driver' => 'slack',
             'url' => env('LOG_SLACK_WEBHOOK_URL'),
@@ -98,6 +105,13 @@ return [
 
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
+        ],
+
+        'push-notification-analytics' => [
+            'driver' => 'monthly',
+            'level' => env('LOG_LEVEL', 'info'),
+            'filename' => env('PUSH_NOTIFICATION_FILENAME', 'push-notification-analytics'),
+            'directory' => env('PUSH_NOTIFICATION_DIRECTORY', 'push-notification-analytics'),
         ],
     ],
 

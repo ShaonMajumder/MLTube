@@ -113,6 +113,20 @@ return [
             'filename' => env('PUSH_NOTIFICATION_FILENAME', 'push-notification-analytics'),
             'directory' => env('PUSH_NOTIFICATION_DIRECTORY', 'push-notification-analytics'),
         ],
+
+        'elasticsearch' => [
+            'driver' => 'monolog',
+            'handler' => \Monolog\Handler\ElasticsearchHandler::class,
+            'formatter' => \Monolog\Formatter\ElasticsearchFormatter::class,
+            'with' => [
+                'client' => [
+                    'hosts' => [
+                        'localhost:9200',
+                    ],
+                ],
+                'index' => env('ELASTICSEARCH_INDEX', 'laravel-logs'),
+            ],
+        ],
     ],
 
 ];

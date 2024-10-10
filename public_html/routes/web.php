@@ -23,6 +23,7 @@ use App\Http\Controllers\VideoController;
 use App\Http\Controllers\VoteController;
 use App\Models\Subscription;
 use Illuminate\Routing\PendingResourceRegistration;
+use Illuminate\Support\Facades\Log;
 
 /*
 |--------------------------------------------------------------------------
@@ -166,3 +167,9 @@ Route::get('thumbnails/{filename}', [ThumbnailController::class, 'show'])->name(
 
 
 Route::post('save-push-notification-sub',[PushNotificationController::class,'saveSubscriptionToTopic']);
+
+// In your routes/web.php
+Route::get('/log-test', function () {
+    Log::channel('elasticsearch')->info('Test log from Laravel!');
+    return 'Log sent to Elasticsearch!';
+});

@@ -9,4 +9,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Settings extends Model
 {
     use HasFactory,SoftDeletes;
+
+    public function togglePushNotifications(){
+        $pushNotificationSettings = Settings::where('key', 'push_notifications')->first();
+        if(!$pushNotificationSettings){
+            Settings::create(['key'=>'push_notifications','value'=>true]);
+        }
+        $pushNotificationSettings->update(['value'=> !$pushNotificationSettings->value]);
+    }
 }

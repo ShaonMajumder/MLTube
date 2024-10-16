@@ -67,6 +67,7 @@ else
 fi
 
 check_and_set_ownership "bootstrap/cache"
+check_and_set_ownership "${WORKING_DIR}/.phpunit.result.cache"
 
 # if [ ! -f "/var/www/.npm" ]; then
 if [ ! -d "${WORKING_DIR}/node_modules" ] || [ -z "$(ls -A ${WORKING_DIR}/node_modules | grep -v '.gitignore')" ]; then

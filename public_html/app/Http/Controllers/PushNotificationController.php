@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 use App\Enums\RouteEnum;
 use App\Helpers\FirebasePushNotification;
 use App\Models\PushNotification;
+use App\Models\Settings;
 use Exception;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Log;
 
 class PushNotificationController extends Controller
 {
-
+    protected $firebasePushNotification;
+    
     /**
      * Retrieve a paginated list of push notifications and display them in the admin panel.
      *
@@ -126,5 +128,34 @@ class PushNotificationController extends Controller
         } catch(Exception $e){
             dd($e->getMessage());
         }
+    }
+
+    public function send(PushNotification $pushNotification)
+    {
+        $topic = config('firebase.key')['topic'];
+        $data = [
+            "message" => [
+                "topic" => $topic,
+                "data" => [
+                    'id' => (string) $pushNotification->id,
+                    'title' => $pushNotification->title,
+                    'body' => $pushNotification->message
+                ]
+            ]
+        ];
+        $firebaseAdmin = new FirebasePushNotification();
+        $response = $firebaseAdmin->send($data);
+        
+        Log::channel('elasticsearch')->info('Sending Push Notification by button', [
+            'index' =>  config('elasticsearch.indices.push_notifications'),
+            'notification' => $data,
+            'response' => $response,
+        ]);
+
+        return redirect()->back();
+    }
+
+    public function togglePushNotifications(){
+        Settings::class
     }
 }

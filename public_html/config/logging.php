@@ -114,17 +114,26 @@ return [
             'directory' => env('PUSH_NOTIFICATION_DIRECTORY', 'push-notification-analytics'),
         ],
 
+    
+
         'elasticsearch' => [
             'driver' => 'monolog',
-            'handler' => \Monolog\Handler\ElasticsearchHandler::class,
-            'formatter' => \Monolog\Formatter\ElasticsearchFormatter::class,
-            'with' => [
-                'client' => [
-                    'hosts' => [
-                        'localhost:9200',
-                    ],
+            'level' => env('LOG_LEVEL', 'debug'),
+            'handler' => \App\Logging\CustomElasticsearchHandler::class, # \Monolog\Handler\ElasticsearchHandler::class,
+            'handler_with' => [
+                'client' => Elastic\Elasticsearch\ClientBuilder::create()
+                    ->setHosts(['elasticsearch:9200'])
+                    ->build(),
+                'options' => [
+                    'index' => env('ELASTICSEARCH_INDEX', 'laravel-logs'),
+                    'type' => '_doc',
                 ],
-                'index' => env('ELASTICSEARCH_INDEX', 'laravel-logs'),
+            ],
+            // Include the correct formatter here
+            'formatter' => \Monolog\Formatter\ElasticsearchFormatter::class,
+            'formatter_with' => [
+                'index' => env('ELASTICSEARCH_INDEX', 'laravel-logs'), // Elasticsearch index name
+                'type' => '_doc', // Elasticsearch type, optional in recent versions
             ],
         ],
     ],

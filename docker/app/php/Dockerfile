@@ -45,6 +45,7 @@ RUN mkdir -p storage/framework/sessions/ \
     # for composer
     vendor/ \
     var/www/.composer \
+    /var/www/.config/psysh \
     && chown -R www-data:www-data vendor/ \
     # for laravel storages directory permissions
     && chown -R www-data:www-data /var/www/public_html/storage/ \

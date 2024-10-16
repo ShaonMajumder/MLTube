@@ -13,7 +13,14 @@
 <div class="container">
     <h1>Push Notifications</h1>
     Push Notifications to send regularly.
-    <!-- Table for Subscribers -->
+
+    <form action="{{ route('push-notifications.toggle') }}" method="POST" class="mb-3">
+        @csrf
+        <label for="pushToggle" class="mr-2">Enable/Disable Push Notifications:</label>
+        <input type="checkbox" id="pushToggle" name="push_enabled" class="toggle-switch" 
+               onchange="this.form.submit()"
+               @if($pushNotificationsEnabled) checked @endif>
+    </form>
     <a href="{{ route('push-notifications.create') }}" class="btn-modern float-right mb-3">
         Create Push Notification
     </a>
@@ -27,6 +34,7 @@
                     <th>Url</th>
                     <th>Total Sent</th>
                     <th>Total Received</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -47,6 +55,12 @@
                         </td>
                         <td>
                             {{ $pushNotification->total_received }}
+                        </td>
+                        <td>
+                            <form action="{{ route('push-notifications.send', $pushNotification->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                <button type="submit" class="btn btn-primary btn-sm">Send</button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach

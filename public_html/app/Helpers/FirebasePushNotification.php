@@ -27,7 +27,7 @@ class FirebasePushNotification
      * @param string $mode Configuration key to load settings (optional).
      */
     public function __construct(
-        $proxy = true,
+        $proxy = false,
         string $mode = 'httpv1'
     )
     {
@@ -37,7 +37,6 @@ class FirebasePushNotification
 
         $this->config = config('firebase');
         $serviceAccountKeyFilePath=base_path() . '/' . env('GOOGLE_APPLICATION_CREDENTIALS');
-        // Check if the file exists and is readable
         if (!file_exists($serviceAccountKeyFilePath) || !is_readable($serviceAccountKeyFilePath)) {
             throw new Exception("The service account key file does not exist or is not readable: " . $serviceAccountKeyFilePath);
         }

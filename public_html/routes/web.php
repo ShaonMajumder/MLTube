@@ -4,6 +4,7 @@ use App\Enums\CommonEnum;
 use App\Enums\PermissionEnum;
 use App\Enums\RoleEnum;
 use App\Enums\RouteEnum;
+use App\Helpers\Elasticsearch;
 use App\Http\Controllers\AdministritiveController;
 use App\Http\Controllers\CacheController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -158,6 +159,9 @@ Route::prefix(CommonEnum::ADMIN)->middleware(['role:' . RoleEnum::ADMIN])->group
             Route::get('/', [PushNotificationController::class, 'index'])->name(RouteEnum::ADMIN_MANAGE_SITE_PUSH_NOTIFICATION);
             Route::get('/create', [PushNotificationController::class, 'create'])->name('push-notifications.create');
             Route::post('/store', [PushNotificationController::class, 'store'])->name('push-notifications.store');
+            Route::post('/send/{pushNotification}', [PushNotificationController::class, 'send'])->name('push-notifications.send');
+            Route::post('/toggle', [PushNotificationController::class, 'togglePushNotifications'])->name('push-notifications.toggle');
+
         });
     });
 });
@@ -170,6 +174,31 @@ Route::post('save-push-notification-sub',[PushNotificationController::class,'sav
 
 // In your routes/web.php
 Route::get('/log-test', function () {
-    Log::channel('elasticsearch')->info('Test log from Laravel!');
+    // Log::channel('elasticsearch')->info('Test log from Laravel!');
+    // Log::channel('elasticsearch')->info('Sending Push Notification', [
+    //     'index' =>  config('elasticsearch.indices.push_notifications'),
+    //     'notification' => [],
+    //     'response' => [],
+    // ]);
+    
+    $indexPattern = config('elasticsearch.indices.push_notifications') . '-*';
+    $patternId = config('elasticsearch.indices.push_notifications') . '-pattern';
+    (new Elasticsearch())->createKibanaIndexPattern($indexPattern, $patternId); // ok
+
+    
+    // $today = now()->format('Y-m-d');
+    // $indexName = 'push-notification-logs-2024-10-12';
+
+    // dd((new Elasticsearch())->isClusterHealthy());
+    // (new Elasticsearch())->createLogsIndex($indexName);
+
     return 'Log sent to Elasticsearch!';
+});
+
+Route::get('/test-elasticsearch', function () {
+    $client = \Elastic\Elasticsearch\ClientBuilder::create()
+        ->setHosts([env('ELASTICSEARCH_HOST', 'elasticsearch:9200')])
+        ->build();
+
+    return $client->info();
 });

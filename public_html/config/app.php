@@ -184,10 +184,18 @@ return [
         App\Providers\MLServiceProvider::class,
         App\Providers\ThemeServiceProvider::class,
         App\Providers\LoggingServiceProvider::class,
+        App\Providers\ElasticsearchServiceProvider::class,
         App\Providers\ViewParamsServiceProvider::class,
 
         // Image Resizing
         Intervention\Image\ImageServiceProvider::class,
+        // Elastic\Elasticsearch\ClientServiceProvider::class,
+        // EloquentElasticsearchServiceProvider::class,
+        // // Elasticsearch\ElasticsearchServiceProvider::class,
+        // // Elasticsearch\Providers\ElasticsearchServiceProvider::class,
+        // // Elasticsearch\Providers\ElasticsearchServiceProvider::class,
+        // Elasticsearch\Providers\ElasticsearchServiceProvider::class,
+        // Elasticsearch\ClientServiceProvider::class
     ],
 
     /*
@@ -241,7 +249,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'Image' => Intervention\Image\Facades\Image::class,
-
+        'Elasticsearch' => Elastic\Elasticsearch\ClientBuilder::class,
+        
     ],
 
 ];

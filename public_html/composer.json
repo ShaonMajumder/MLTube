@@ -23,7 +23,8 @@
         "league/glide": "^1.7",
         "pbmedia/laravel-ffmpeg": "^7.4",
         "santigarcor/laratrust": "^7.2",
-        "spatie/laravel-medialibrary": "^7.19"
+        "spatie/laravel-medialibrary": "^7.19",
+        "symfony/psr-http-message-bridge": "^2.3"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

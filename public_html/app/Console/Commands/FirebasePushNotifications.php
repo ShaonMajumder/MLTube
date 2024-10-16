@@ -10,6 +10,7 @@ use App\Helpers\FirebasePushNotification;
 use App\Models\PushNotification;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class FirebasePushNotifications extends Command
 {
@@ -83,7 +84,7 @@ class FirebasePushNotifications extends Command
 
     private function sendNotification(PushNotification $pushNotification, string $topic)
     {
-        $this->firebasePushNotification->send([
+        $data = [
             "message" => [
                 "topic" => $topic,
                 "data" => [
@@ -92,6 +93,13 @@ class FirebasePushNotifications extends Command
                     'body' => $pushNotification->message
                 ]
             ]
+        ];
+        $response = $this->firebasePushNotification->send($data);
+        
+        Log::channel('elasticsearch')->info('Sending Push Notification', [
+            'index' =>  config('elasticsearch.indices.push_notifications'),
+            'notification' => $data,
+            'response' => $response,
         ]);
     }
 

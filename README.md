@@ -55,3 +55,23 @@ The platform employs **Containerization and Virtualization** techniques to ensur
    ```bash
    git clone https://github.com/your-repository/natok-ott-platform.git
    cd natok-ott-platform
+   ```
+
+---
+
+## <a id="credit"></a>👨‍💻 Built & Maintained By
+
+👔 Actively exploring CTO-track, Staff/Principal Engineer, System Architect, and Engineering Leadership roles  
+📨 Let’s connect for high-impact backend, AI, platform, or architecture-led positions
+
+**Shaon Majumder**  
+Senior Software Engineer / Engineering Manager → CTO-Track | AI & Scalability  
+Open source contributor | Laravel ecosystem expert | System design & architecture advocate
+
+-   Email: `smazoomder@gmail.com`
+-   Portfolio: https://shaonresume.netlify.app
+-   LinkedIn: https://linkedin.com/in/shaonmajumder
+-   Medium: https://medium.com/@shaonmajumder
+-   GitHub: https://github.com/ShaonMajumder
+
+Specialized in scalable APIs, distributed systems, and AI integration (OpenAI, Gemini, MCP), with a track record of leading engineering teams and shipping high-impact platforms across healthcare, fintech, telecom, logistics, garments, and e-commerce.

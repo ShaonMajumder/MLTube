@@ -28,6 +28,19 @@ The platform employs **Containerization and Virtualization** techniques to ensur
 - **Docker**: (**Virtualization**) Used for containerizing applications, ensuring consistency across different environments.
 - **RabbitMQ**: (**Queue Management**) Employed as a message broker to handle asynchronous tasks and inter-service communication.
 
+## <a id="tech-stack"></a>🧰 Tech Stack
+
+| Area             | Technologies Used                                                     |
+| ---------------- | --------------------------------------------------------------------- |
+| **Frontend**     | Blade, Vue.js, JavaScript, Axios, Bootstrap, Video.js                 |
+| **Backend**      | Laravel (PHP), RESTful APIs, Sanctum, Laratrust, Spatie Media Library |
+| **Streaming**    | HLS (m3u8), FFmpeg, pbmedia/laravel-ffmpeg                            |
+| **Queue System** | Laravel Queue, Redis                                                  |
+| **Database**     | MySQL                                                                 |
+| **Caching**      | Redis                                                                 |
+| **Testing**      | PHPUnit                                                               |
+| **Deployment**   | Docker, Nginx, PHP-FPM                                                |
+
 ## Techniques
 
 - **Push Notification**: Integrated to provide real-time notifications to users.
@@ -68,10 +81,10 @@ The platform employs **Containerization and Virtualization** techniques to ensur
 Senior Software Engineer / Engineering Manager → CTO-Track | AI & Scalability  
 Open source contributor | Laravel ecosystem expert | System design & architecture advocate
 
--   Email: `smazoomder@gmail.com`
--   Portfolio: https://shaonresume.netlify.app
--   LinkedIn: https://linkedin.com/in/shaonmajumder
--   Medium: https://medium.com/@shaonmajumder
--   GitHub: https://github.com/ShaonMajumder
+- Email: `smazoomder@gmail.com`
+- Portfolio: https://shaonresume.netlify.app
+- LinkedIn: https://linkedin.com/in/shaonmajumder
+- Medium: https://medium.com/@shaonmajumder
+- GitHub: https://github.com/ShaonMajumder
 
 Specialized in scalable APIs, distributed systems, and AI integration (OpenAI, Gemini, MCP), with a track record of leading engineering teams and shipping high-impact platforms across healthcare, fintech, telecom, logistics, garments, and e-commerce.
